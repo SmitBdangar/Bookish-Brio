@@ -1,0 +1,17 @@
+@model IEnumerable<MovieNest.Models.Movie>
+
+@{
+    ViewBag.Title = "Movies - MovieNest";
+}
+
+<h2>Available Movies</h2>
+
+<ul>
+    @foreach (var movie in Model)
+    {
+        <li>
+            <b>@movie.Title</b> - @movie.Genre
+            <a href="@Url.Action("Details", "Movie", new { id = movie.Id })">View</a>
+        </li>
+    }
+</ul>

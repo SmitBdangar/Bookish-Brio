@@ -1,0 +1,12 @@
+@model MovieNest.Models.Movie
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<h2>@Model.Title</h2>
+<p><b>Genre:</b> @Model.Genre</p>
+<p>@Model.Description</p>
+
+<a href="@Model.VideoUrl" class="btn btn-success">Watch</a>
+<a href="@Model.VideoUrl" download class="btn btn-info">Download</a>

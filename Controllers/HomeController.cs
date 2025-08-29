@@ -13,11 +13,11 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index()
+    public ActionResult Index()
     {
+        ViewBag.Message = "Welcome to MovieNest 🎬";
         return View();
     }
-
     public IActionResult Privacy()
     {
         return View();
@@ -28,4 +28,23 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+    
+    public IActionResult Details(int? id)
+{
+    if (id == null || id <= 0)
+    {
+        return NotFound();
+    }
+
+    var movie = new Movie
+    {
+        Id = id.Value,
+        Title = "Inception",
+        Genre = "Sci-Fi",
+        Description = "A mind-bending thriller",
+        VideoUrl = string.Empty 
+    };
+
+    return View(movie);
+}
 }

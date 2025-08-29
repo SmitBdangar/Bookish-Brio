@@ -1,8 +1,8 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewBag.Title = "Home - MovieNest";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>@ViewBag.Message</h2>
+<p>Browse the latest movies and enjoy watching or downloading!</p>
+
+<a href="@Url.Action("Index", "Movie")" class="btn btn-primary">Browse Movies</a>
