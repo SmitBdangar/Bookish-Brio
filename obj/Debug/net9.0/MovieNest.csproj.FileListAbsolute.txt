@@ -33,7 +33,6 @@ C:\Users\Admin\CodeVault\MovieNest\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
 C:\Users\Admin\CodeVault\MovieNest\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\Admin\CodeVault\MovieNest\obj\Debug\net9.0\scopedcss\bundle\MovieNest.styles.css
 C:\Users\Admin\CodeVault\MovieNest\obj\Debug\net9.0\scopedcss\projectbundle\MovieNest.bundle.scp.css
-C:\Users\Admin\CodeVault\MovieNest\obj\Debug\net9.0\compressed\ubrlhqybau-b9sayid5wm.gz
 C:\Users\Admin\CodeVault\MovieNest\obj\Debug\net9.0\compressed\nh5m020m4n-61n19gt1b8.gz
 C:\Users\Admin\CodeVault\MovieNest\obj\Debug\net9.0\compressed\nlfv495457-xtxxf3hu2r.gz
 C:\Users\Admin\CodeVault\MovieNest\obj\Debug\net9.0\compressed\tymiv9ulno-bqjiyaj88i.gz
@@ -107,3 +106,4 @@ C:\Users\Admin\CodeVault\MovieNest\obj\Debug\net9.0\refint\MovieNest.dll
 C:\Users\Admin\CodeVault\MovieNest\obj\Debug\net9.0\MovieNest.pdb
 C:\Users\Admin\CodeVault\MovieNest\obj\Debug\net9.0\MovieNest.genruntimeconfig.cache
 C:\Users\Admin\CodeVault\MovieNest\obj\Debug\net9.0\ref\MovieNest.dll
+C:\Users\Admin\CodeVault\MovieNest\obj\Debug\net9.0\compressed\ubrlhqybau-byldunec84.gz

@@ -19,6 +19,11 @@ html {
 
 body {
   margin-bottom: 60px;
+  background: linear-gradient(#f8f9fa, #fff);
+}
+
+header {
+  background-image: linear-gradient(90deg, rgba(37,140,251,0.12), rgba(255,107,107,0.06));
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -28,4 +33,27 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+.card-img-top {
+  object-fit: cover;
+  height: 225px;
+}
+
+.card .ratio {
+  background: #000;
+}
+
+.movie-card img {
+  height: 225px;
+  object-fit: cover;
+}
+
+.text-truncate {
+  max-height: 3.6rem;
+  overflow: hidden;
+}
+
+.card {
+  border-radius: .5rem;
 }
