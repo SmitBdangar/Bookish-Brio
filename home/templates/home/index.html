@@ -12,7 +12,7 @@
         </a>
     </p>
 
-    {% for post in posts %}
+    {% for post in page_obj %}
         <div>
             <h2>{{ post.title }}</h2>
             <p>{{ post.content }}</p>
@@ -22,5 +22,14 @@
     {% empty %}
         <p>No posts yet. Be the first to chat!</p>
     {% endfor %}
+
+    <div style="text-align:center; margin-top:20px;">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}"><button>Previous</button></a>
+        {% endif %}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}"><button>Next</button></a>
+        {% endif %}
+    </div>
 </body>
 </html>
