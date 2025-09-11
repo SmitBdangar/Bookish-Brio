@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChatterBox</title>
+</head>
+<body>
+    <h1>ChatterBox </h1>
+
+    <p>
+        <a href="{% url 'add_post' %}">
+            <button>Add New Post</button>
+        </a>
+    </p>
+
+    {% for post in posts %}
+        <div>
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.content }}</p>
+            <small>Posted on {{ post.created_at }}</small>
+        </div>
+        <hr>
+    {% empty %}
+        <p>No posts yet. Be the first to chat!</p>
+    {% endfor %}
+</body>
+</html>
