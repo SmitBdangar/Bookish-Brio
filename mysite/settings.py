@@ -19,7 +19,12 @@ SECRET_KEY = os.environ.get(
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 # Hosts allowed to access this site
-ALLOWED_HOSTS = ['your-app-name.railway.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'chatbox-production-7df9.up.railway.app',  # Your railway domain
+    'localhost',
+    '127.0.0.1',
+    '.railway.app'  # Allows all railway subdomains
+]
 
 # Application definition
 INSTALLED_APPS = [
