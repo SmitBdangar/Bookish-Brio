@@ -26,6 +26,10 @@ ALLOWED_HOSTS = [
     '.railway.app'  # Allows all railway subdomains
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://chatbox.up.railway.app",
+]
+
 # Application definition
 INSTALLED_APPS = [
     "django.contrib.admin",
