@@ -21,14 +21,15 @@ DEBUG = True
 
 
 ALLOWED_HOSTS = [
-    "chatbox.up.railway.app",
+    ".up.railway.app",   # allow all Railway subdomains
     "localhost",
     "127.0.0.1",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://chatbox.up.railway.app",
+    "https://*.up.railway.app",
 ]
+
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
