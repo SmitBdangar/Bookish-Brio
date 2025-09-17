@@ -16,19 +16,24 @@ SECRET_KEY = os.environ.get(
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+#DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = True
 
-# Hosts allowed to access this site
+
 ALLOWED_HOSTS = [
-    'chatbox-production-7df9.up.railway.app',  # Your railway domain
-    'localhost',
-    '127.0.0.1',
-    '.railway.app'  # Allows all railway subdomains
+    "chatbox.up.railway.app",
+    "localhost",
+    "127.0.0.1",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://chatbox.up.railway.app",
 ]
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = "Lax"
+
 
 # Application definition
 INSTALLED_APPS = [
