@@ -1,20 +1,38 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Add Post</title>
 </head>
+<body style="font-family: 'Times New Roman', serif; background-color: #f4ecd8; margin: 0; padding: 0; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh;">
 
-<body>
-    <h1>Add a New Post</h1>
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="title" placeholder="Title">
-        <textarea name="content" placeholder="Write your post..."></textarea>
-        <button type="submit">Add Post</button>
-    </form>
+    <div style="margin-top: 50px; background: #fff8e7; padding: 25px 35px; border: 2px solid #3b2f2f; border-radius: 6px; width: 600px; box-shadow: 2px 2px 10px rgba(0,0,0,0.3);">
+        
+        <h1 style="text-align: center; margin-bottom: 20px; font-family: Georgia, serif; font-size: 28px; color: #3b2f2f; text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid #3b2f2f; padding-bottom: 10px;">
+            🖋 Add a New Post
+        </h1>
 
-    <a href="{% url 'index' %}">Back to Home</a>
+        <form method="post" style="display: flex; flex-direction: column;">
+            {% csrf_token %}
+            
+            <label style="font-weight: bold; margin-bottom: 5px; font-size: 16px; color: #2c1c1c;">Title</label>
+            <input type="text" name="title" placeholder="Enter your title..." required 
+                style="padding: 10px; margin-bottom: 15px; border: 1px solid #3b2f2f; border-radius: 4px; font-size: 15px; background-color: #fdfaf3; font-family: 'Times New Roman', serif;">
+
+            <label style="font-weight: bold; margin-bottom: 5px; font-size: 16px; color: #2c1c1c;">Content</label>
+            <textarea name="content" placeholder="Write your story..." required
+                style="padding: 10px; margin-bottom: 15px; border: 1px solid #3b2f2f; border-radius: 4px; font-size: 15px; background-color: #fdfaf3; min-height: 150px; font-family: 'Times New Roman', serif;"></textarea>
+
+            <button type="submit"
+                style="background-color: #3b2f2f; color: #fdfaf3; padding: 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-family: Georgia, serif; letter-spacing: 1px;">
+                Publish Post
+            </button>
+        </form>
+
+        <a href="{% url 'index' %}" 
+           style="display: inline-block; margin-top: 20px; text-decoration: none; color: #3b2f2f; font-style: italic; font-size: 15px;">
+            ← Return
+        </a>
+    </div>
+
 </body>
-
 </html>

@@ -1,35 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ChatBox</title>
+    <title>ChatBox Gazette</title>
 </head>
-<body>
-    <h1>ChatBox </h1>
+<body style="font-family: 'Times New Roman', serif; background-color: #f4ecd8; margin: 0; padding: 30px;">
 
-    <p>
-        <a href="{% url 'add_post' %}">
-            <button>Add New Post</button>
-        </a>
-    </p>
+    <div style="max-width: 800px; margin: auto; background: #fff8e7; border: 2px solid #3b2f2f; padding: 25px; box-shadow: 2px 2px 10px rgba(0,0,0,0.3);">
 
-    {% for post in page_obj %}
-        <div>
-            <h2>{{ post.title }}</h2>
-            <p>{{ post.content }}</p>
-            <small>Posted on {{ post.created_at }}</small>
+        <h1 style="text-align: center; font-size: 36px; text-transform: uppercase; letter-spacing: 2px; font-family: Georgia, serif; border-bottom: 2px solid #3b2f2f; padding-bottom: 10px; margin-bottom: 25px; color: #3b2f2f;">
+            ChatBox
+        </h1>
+
+        <p style="text-align: center; margin-bottom: 25px;">
+            <a href="{% url 'add_post' %}" style="text-decoration: none;">
+                <button style="background-color: #3b2f2f; color: #fdfaf3; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-family: Georgia, serif; font-size: 15px; letter-spacing: 1px;">
+                    Add New Post
+                </button>
+            </a>
+        </p>
+
+        {% for post in page_obj %}
+            <div style="margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px dashed #3b2f2f;">
+                <h2 style="margin: 0 0 10px; font-size: 22px; font-family: Georgia, serif; color: #2c1c1c;">
+                    {{ post.title }}
+                </h2>
+                <p style="margin: 0 0 10px; line-height: 1.6; font-size: 15px; color: #333;">
+                    {{ post.content }}
+                </p>
+                <small style="color: #5a4636; font-style: italic;">
+                    🕰 Posted on {{ post.created_at }}
+                </small>
+            </div>
+        {% empty %}
+            <p style="text-align: center; font-style: italic; color: #5a4636;">No posts yet. Be the first to chat!</p>
+        {% endfor %}
+
+        <div style="text-align: center; margin-top: 30px;">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">
+                    <button style="background-color: #3b2f2f; color: #fdfaf3; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-family: Georgia, serif; font-size: 14px;">
+                        ← Previous
+                    </button>
+                </a>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">
+                    <button style="background-color: #3b2f2f; color: #fdfaf3; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-family: Georgia, serif; font-size: 14px;">
+                        Next →
+                    </button>
+                </a>
+            {% endif %}
         </div>
-        <hr>
-    {% empty %}
-        <p>No posts yet. Be the first to chat!</p>
-    {% endfor %}
 
-    <div style="text-align:center; margin-top:20px;">
-        {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}"><button>Previous</button></a>
-        {% endif %}
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}"><button>Next</button></a>
-        {% endif %}
     </div>
 </body>
 </html>
