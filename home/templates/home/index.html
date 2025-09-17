@@ -1,61 +1,114 @@
-
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChatBox</title>
     <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
+    <!-- Google Fonts for nicer typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4ecd8;
+            margin: 0;
+            padding: 30px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff8e7;
+            border: 2px solid #3b2f2f;
+            padding: 30px;
+            box-shadow: 2px 2px 12px rgba(0,0,0,0.25);
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            font-family: 'Georgia', serif;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #3b2f2f;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            color: #3b2f2f;
+        }
+        .btn {
+            background-color: #3b2f2f;
+            color: #fdfaf3;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            font-size: 15px;
+            letter-spacing: 1px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background-color: #2a2320;
+        }
+        .post-card {
+            padding: 20px;
+            margin-bottom: 25px;
+            background-color: #fffdf5;
+            border-left: 5px solid #3b2f2f;
+            border-radius: 6px;
+            box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+        }
+        .post-card h2 {
+            margin: 0 0 10px;
+            font-family: 'Georgia', serif;
+            color: #2c1c1c;
+        }
+        .post-card p {
+            margin: 0 0 10px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .post-card small {
+            color: #5a4636;
+            font-style: italic;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .pagination a {
+            text-decoration: none;
+            margin: 0 5px;
+        }
+    </style>
 </head>
+<body>
 
-<body style="font-family: 'Times New Roman', serif; background-color: #f4ecd8; margin: 0; padding: 30px;">
+    <div class="container">
+        <h1>ChatBox</h1>
 
-    <div style="max-width: 800px; margin: auto; background: #fff8e7; border: 2px solid #3b2f2f; padding: 25px; box-shadow: 2px 2px 10px rgba(0,0,0,0.3);">
-
-        <h1 style="text-align: center; font-size: 36px; text-transform: uppercase; letter-spacing: 2px; font-family: Georgia, serif; border-bottom: 2px solid #3b2f2f; padding-bottom: 10px; margin-bottom: 25px; color: #3b2f2f;">
-            ChatBox
-        </h1>
-
-        <p style="text-align: center; margin-bottom: 25px;">
-            <a href="{% url 'add_post' %}" style="text-decoration: none;">
-                <button style="background-color: #3b2f2f; color: #fdfaf3; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-family: Georgia, serif; font-size: 15px; letter-spacing: 1px;">
-                    Add New Post
-                </button>
-            </a>
-        </p>
+        <div style="text-align:center; margin-bottom:30px;">
+            <a href="{% url 'add_post' %}" class="btn">Add New Post</a>
+        </div>
 
         {% for post in page_obj %}
-            <div style="margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px dashed #3b2f2f;">
-                <h2 style="margin: 0 0 10px; font-size: 22px; font-family: Georgia, serif; color: #2c1c1c;">
-                    {{ post.title }}
-                </h2>
-                <p style="margin: 0 0 10px; line-height: 1.6; font-size: 15px; color: #333;">
-                    {{ post.content }}
-                </p>
-                <small style="color: #5a4636; font-style: italic;">
-                    🕰 Posted on {{ post.created_at }}
-                </small>
+            <div class="post-card">
+                <h2>{{ post.title }}</h2>
+                <p>{{ post.content }}</p>
+                <small>🕰 Posted on {{ post.created_at }}</small>
             </div>
         {% empty %}
             <p style="text-align: center; font-style: italic; color: #5a4636;">No posts yet. Be the first to chat!</p>
         {% endfor %}
 
-        <div style="text-align: center; margin-top: 30px;">
+        <div class="pagination">
             {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}">
-                    <button style="background-color: #3b2f2f; color: #fdfaf3; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-family: Georgia, serif; font-size: 14px;">
-                        ← Previous
-                    </button>
-                </a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn">← Previous</a>
             {% endif %}
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">
-                    <button style="background-color: #3b2f2f; color: #fdfaf3; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-family: Georgia, serif; font-size: 14px;">
-                        Next →
-                    </button>
-                </a>
+                <a href="?page={{ page_obj.next_page_number }}" class="btn">Next →</a>
             {% endif %}
         </div>
-
     </div>
+
 </body>
 </html>
