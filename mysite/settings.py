@@ -15,6 +15,8 @@ SECRET_KEY = os.environ.get(
     "django-insecure-ces8i$+@x%-hl37cvr4^d3fxfcq3t#n6*33w)!ywnc=jqr$(ho",  # fallback for local dev
 )
 
+STATIC_URL = '/static/'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = os.environ.get("DEBUG", "False") == "True"
 DEBUG = True
