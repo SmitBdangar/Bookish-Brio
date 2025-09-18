@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -102,3 +102,14 @@ def profile_view(request):
         'user': request.user,
         'user_posts': user_posts
     })
+
+@login_required
+def delete_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.user == post.author:
+        post.delete()
+        messages.success(request, 'Post deleted successfully!')
+    else:
+        messages.error(request, "You don't have permission to delete this post.")
+    
+    return redirect('index')

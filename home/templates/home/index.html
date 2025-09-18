@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChatBox</title>
     <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
-    <!-- Google Fonts for nicer typography -->
     <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Roboto&display=swap" rel="stylesheet">
     <style>
         body {
@@ -206,7 +205,6 @@
             {% endif %}
         </div>
 
-        <!-- Display messages -->
         {% if messages %}
             <div class="messages">
                 {% for message in messages %}
@@ -233,9 +231,14 @@
             <p>{{ post.content }}</p>
             <div class="post-meta">
                 <small>🕰 Posted on {{ post.created_at }}</small>
-                {% if post.author %}
-                    <small>👤 By <span class="post-author">{{ post.author.username }}</span></small>
-                {% endif %}
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    {% if post.author %}
+                        <small>👤 By <span class="post-author">{{ post.author.username }}</span></small>
+                    {% endif %}
+                    {% if post.author == user %}
+                        <a href="{% url 'delete_post' post.pk %}" class="btn btn-small" style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f;">Delete</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
         {% empty %}
