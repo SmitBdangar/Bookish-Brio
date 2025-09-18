@@ -6,6 +6,7 @@ Production-ready version.
 from pathlib import Path
 import os
 import dj_database_url
+from django.contrib.messages import constants as messages
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -37,6 +38,19 @@ CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = "Lax"
 
+# Login/Logout redirect URLs
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
+
+# Message framework configuration
+MESSAGE_TAGS = {
+    messages.DEBUG: 'debug',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'error',
+}
 
 # Application definition
 INSTALLED_APPS = [
@@ -81,8 +95,8 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 # Database
 # Default to SQLite, but use DATABASE_URL if provided (Render/Railway provide this)
 DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+    'default': dj_database_url.config(
+        default='postgresql://localhost/chatbox',
         conn_max_age=600,
     )
 }
