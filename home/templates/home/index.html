@@ -30,15 +30,41 @@
             border-radius: 10px;
         }
 
-        h1 {
-            text-align: center;
-            font-size: 36px;
-            font-family: 'Georgia', serif;
-            letter-spacing: 2px;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             border-bottom: 2px solid #3b2f2f;
             padding-bottom: 15px;
             margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 36px;
+            font-family: 'Georgia', serif;
+            letter-spacing: 2px;
             color: #3b2f2f;
+            margin: 0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-family: 'Georgia', serif;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #3b2f2f;
+            color: #fdfaf3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
         }
 
         .btn {
@@ -52,10 +78,17 @@
             font-size: 15px;
             letter-spacing: 1px;
             transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .btn:hover {
             background-color: #2a2320;
+        }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 13px;
         }
 
         .post-card {
@@ -79,9 +112,18 @@
             color: #333;
         }
 
-        .post-card small {
+        .post-meta {
             color: #5a4636;
             font-style: italic;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .post-author {
+            font-weight: bold;
+            color: #3b2f2f;
         }
 
         .pagination {
@@ -93,26 +135,118 @@
             text-decoration: none;
             margin: 0 5px;
         }
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .alert {
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-family: 'Georgia', serif;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .user-info {
+                justify-content: center;
+            }
+
+            .auth-buttons {
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 
 <body>
 
     <div class="container">
-        <h1>ChatBox</h1>
+        <div class="header">
+            <h1>ChatBox</h1>
+            
+            {% if user.is_authenticated %}
+                <div class="user-info">
+                    <div class="user-avatar">{{ user.username|first|upper }}</div>
+                    <span>Welcome, {{ user.username }}!</span>
+                    <div class="auth-buttons">
+                        <a href="{% url 'profile' %}" class="btn btn-small">Profile</a>
+                        <a href="{% url 'logout' %}" class="btn btn-small">Logout</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="auth-buttons">
+                    <a href="{% url 'login' %}" class="btn btn-small">Login</a>
+                    <a href="{% url 'signup' %}" class="btn btn-small">Sign Up</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Display messages -->
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
         <div style="text-align:center; margin-bottom:30px;">
-            <a href="{% url 'add_post' %}" class="btn">Add New Post</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'add_post' %}" class="btn">Add New Post</a>
+            {% else %}
+                <p style="font-family: 'Georgia', serif; color: #5a4636; font-style: italic;">
+                    Please <a href="{% url 'login' %}" style="color: #3b2f2f;">login</a> to add new posts
+                </p>
+            {% endif %}
         </div>
 
         {% for post in page_obj %}
         <div class="post-card">
             <h2>{{ post.title }}</h2>
             <p>{{ post.content }}</p>
-            <small>🕰 Posted on {{ post.created_at }}</small>
+            <div class="post-meta">
+                <small>🕰 Posted on {{ post.created_at }}</small>
+                {% if post.author %}
+                    <small>👤 By <span class="post-author">{{ post.author.username }}</span></small>
+                {% endif %}
+            </div>
         </div>
         {% empty %}
-        <p style="text-align: center; font-style: italic; color: #5a4636;">No posts yet. Be the first to chat!</p>
+        <p style="text-align: center; font-style: italic; color: #5a4636;">
+            No posts yet. 
+            {% if user.is_authenticated %}
+                <a href="{% url 'add_post' %}" style="color: #3b2f2f;">Be the first to chat!</a>
+            {% else %}
+                <a href="{% url 'signup' %}" style="color: #3b2f2f;">Sign up</a> to be the first to chat!
+            {% endif %}
+        </p>
         {% endfor %}
 
         <div class="pagination">
