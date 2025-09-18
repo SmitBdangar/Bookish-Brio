@@ -5,11 +5,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Post
 from .forms import PostForm
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 def index(request):
     from django.core.paginator import Paginator
     post_list = Post.objects.all().order_by('-created_at')
-    paginator = Paginator(post_list, 50)  # 50 posts per page
+    paginator = Paginator(post_list, 50)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'home/index.html', {'page_obj': page_obj})
@@ -20,10 +22,10 @@ def add_post(request):
         form = PostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = request.user  # Add author to the post
+            post.author = request.user
             post.save()
             messages.success(request, 'Post created successfully!')
-            return redirect('index')  # go back to homepage
+            return redirect('index')
     else:
         form = PostForm()
     return render(request, 'home/add_post.html', {'form': form})
@@ -38,7 +40,6 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, f'Welcome back, {user.username}!')
-                # Redirect to next page or home
                 next_page = request.GET.get('next', 'index')
                 return redirect(next_page)
             else:
@@ -55,7 +56,6 @@ def signup_view(request):
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
         
-        # Validation
         if not all([username, email, password, confirm_password]):
             messages.error(request, 'Please fill in all fields.')
             return render(request, 'home/signup.html')
@@ -76,7 +76,6 @@ def signup_view(request):
             messages.error(request, 'Email already exists.')
             return render(request, 'home/signup.html')
         
-        # Create user
         try:
             user = User.objects.create_user(
                 username=username,
@@ -113,3 +112,21 @@ def delete_post(request, pk):
         messages.error(request, "You don't have permission to delete this post.")
     
     return redirect('index')
+
+@login_required
+def like_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.user.is_authenticated:
+        if request.user in post.likes.all():
+            post.likes.remove(request.user)
+            messages.success(request, 'Post unliked.')
+        else:
+            post.likes.add(request.user)
+            messages.success(request, 'Post liked!')
+    else:
+        messages.error(request, 'You must be logged in to like posts.')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    return render(request, 'home/post_detail.html', {'post': post})

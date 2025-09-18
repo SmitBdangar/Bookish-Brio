@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatBox</title>
+    <title>{{ post.title }} - ChatBox</title>
     <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
     <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -23,7 +23,7 @@
             background: #fff8e7;
             border: 2px solid #3b2f2f;
             padding: 25px;
-            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.25);
+            box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.25);
             border-radius: 10px;
         }
 
@@ -44,26 +44,6 @@
             margin: 0;
         }
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-family: 'Georgia', serif;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #3b2f2f;
-            color: #fdfaf3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
         .btn {
             background-color: #3b2f2f;
             color: #fdfaf3;
@@ -81,11 +61,6 @@
 
         .btn:hover {
             background-color: #2a2320;
-        }
-
-        .btn-small {
-            padding: 8px 15px;
-            font-size: 13px;
         }
 
         .post-card {
@@ -112,9 +87,6 @@
         .post-meta {
             color: #5a4636;
             font-style: italic;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             margin-top: 10px;
         }
 
@@ -123,45 +95,11 @@
             color: #3b2f2f;
         }
 
-        .pagination {
-            text-align: center;
-            margin-top: 30px;
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 13px;
         }
 
-        .pagination a {
-            text-decoration: none;
-            margin: 0 5px;
-        }
-
-        .messages {
-            margin-bottom: 20px;
-        }
-
-        .alert {
-            padding: 12px 20px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            font-family: 'Georgia', serif;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .auth-buttons {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
         .btn-like-dislike {
             transition: transform 0.2s ease-in-out;
         }
@@ -170,22 +108,6 @@
             transform: scale(1.2);
             color: #f75d59 !important;
         }
-
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-
-            .user-info {
-                justify-content: center;
-            }
-
-            .auth-buttons {
-                justify-content: center;
-            }
-        }
     </style>
 </head>
 
@@ -193,55 +115,12 @@
     <div class="container">
         <div class="header">
             <h1>ChatBox</h1>
-            
-            {% if user.is_authenticated %}
-                <div class="user-info">
-                    <div class="user-avatar">{{ user.username|first|upper }}</div>
-                    <span>Welcome, {{ user.username }}!</span>
-                    <div class="auth-buttons">
-                        <a href="{% url 'profile' %}" class="btn btn-small">Profile</a>
-                        <a href="{% url 'logout' %}" class="btn btn-small">Logout</a>
-                    </div>
-                </div>
-            {% else %}
-                <div class="auth-buttons">
-                    <a href="{% url 'login' %}" class="btn btn-small">Login</a>
-                    <a href="{% url 'signup' %}" class="btn btn-small">Sign Up</a>
-                </div>
-            {% endif %}
+            <a href="{% url 'index' %}" class="btn btn-small">← Back to Posts</a>
         </div>
-
-        {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-
-        <div style="text-align:center; margin-bottom:30px;">
-            {% if user.is_authenticated %}
-                <a href="{% url 'add_post' %}" class="btn">Add New Post</a>
-            {% else %}
-                <p style="font-family: 'Georgia', serif; color: #5a4636; font-style: italic;">
-                    Please <a href="{% url 'login' %}" style="color: #3b2f2f;">login</a> to add new posts
-                </p>
-            {% endif %}
-        </div>
-
-        {% for post in page_obj %}
+        
         <div class="post-card">
             <h2>{{ post.title }}</h2>
-            <p>{{ post.content|truncatewords:40|linebreaksbr }}</p>
-
-            {% if post.content|wordcount > 40 %}
-            <a href="{% url 'post_detail' post.pk %}" class="btn btn-small"
-               style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f; margin-left: auto;">
-               Read More
-            </a>
-            {% endif %}
+            <p>{{ post.content|linebreaksbr }}</p>
 
             <div class="post-meta" style="display: block; margin-top: 10px;">
                 <div class="post-meta-details">
@@ -277,27 +156,6 @@
                 </div>
             </div>
         </div>
-        {% empty %}
-        <p style="text-align: center; font-style: italic; color: #5a4636;">
-            No posts yet. 
-            {% if user.is_authenticated %}
-                <a href="{% url 'add_post' %}" style="color: #3b2f2f;">Be the first to chat!</a>
-            {% else %}
-                <a href="{% url 'signup' %}" style="color: #3b2f2f;">Sign up</a> to be the first to chat!
-            {% endif %}
-        </p>
-        {% endfor %}
-
-        <div class="pagination">
-            {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}" class="btn">← Previous</a>
-            {% endif %}
-            {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}" class="btn">Next →</a>
-            {% endif %}
-        </div>
     </div>
-
 </body>
-
 </html>
