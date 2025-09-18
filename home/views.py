@@ -3,8 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Post
-from .forms import PostForm
+from .models import Post, Comment
+from .forms import PostForm, CommentForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
@@ -129,4 +129,25 @@ def like_post(request, pk):
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    return render(request, 'home/post_detail.html', {'post': post})
+    comments = post.comments.all()  # Fetch all comments for the post
+    comment_form = CommentForm()  # Create an instance of the comment form
+    return render(request, 'home/post_detail.html', {
+        'post': post,
+        'comments': comments,
+        'comment_form': comment_form
+    })
+
+@login_required
+def add_comment(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.author = request.user
+            comment.save()
+            messages.success(request, 'Comment added successfully!')
+    else:
+        messages.error(request, 'Invalid request.')
+    return redirect('post_detail', pk=post.pk)
