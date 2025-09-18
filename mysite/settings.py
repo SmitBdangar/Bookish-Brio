@@ -95,8 +95,8 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 # Database
 # Default to SQLite, but use DATABASE_URL if provided (Render/Railway provide this)
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://localhost/chatbox',
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=600,
     )
 }
