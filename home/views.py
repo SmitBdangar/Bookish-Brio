@@ -7,6 +7,7 @@ from .models import Post, Comment
 from .forms import PostForm, CommentForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.utils import timezone
 
 def index(request):
     from django.core.paginator import Paginator
@@ -129,8 +130,8 @@ def like_post(request, pk):
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    comments = post.comments.all()  # Fetch all comments for the post
-    comment_form = CommentForm()  # Create an instance of the comment form
+    comments = post.comments.all()
+    comment_form = CommentForm()
     return render(request, 'home/post_detail.html', {
         'post': post,
         'comments': comments,
@@ -150,4 +151,18 @@ def add_comment(request, pk):
             messages.success(request, 'Comment added successfully!')
     else:
         messages.error(request, 'Invalid request.')
+    return redirect('post_detail', pk=post.pk)
+
+@login_required
+def delete_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    post = comment.post # Get the post associated with the comment
+    
+    # Check if the current user is either the comment author or the post author
+    if request.user == comment.author or request.user == post.author:
+        comment.delete()
+        messages.success(request, 'Comment deleted successfully!')
+    else:
+        messages.error(request, "You don't have permission to delete this comment.")
+    
     return redirect('post_detail', pk=post.pk)

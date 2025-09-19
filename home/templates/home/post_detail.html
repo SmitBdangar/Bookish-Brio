@@ -114,15 +114,16 @@
             border-top: 2px solid #3b2f2f;
             padding-top: 20px;
         }
-        
+
         .comment {
             background-color: #fdfaf3;
             padding: 15px;
             border-radius: 6px;
             margin-bottom: 15px;
             border-left: 3px solid #5a4636;
+            border-bottom: 1px solid #ddd;
         }
-        
+
         .comment-author {
             font-weight: bold;
             color: #3b2f2f;
@@ -134,14 +135,28 @@
             color: #5a4636;
         }
 
-        .comment-form textarea {
-            width: 100%;
+        .comment-form {
             border: 1px solid #3b2f2f;
             border-radius: 6px;
-            padding: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .comment-form h4 {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            border: none;
+            resize: vertical;
+            padding: 0;
             box-sizing: border-box;
             font-family: inherit;
         }
+
         .comment-form button {
             margin-top: 10px;
         }
@@ -154,15 +169,15 @@
             <h1>ChatBox</h1>
             <a href="{% url 'index' %}" class="btn btn-small">← Back to Posts</a>
         </div>
-        
+
         {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
             </div>
+            {% endfor %}
+        </div>
         {% endif %}
 
         <div class="post-card">
@@ -172,33 +187,35 @@
             <div class="post-meta" style="display: block; margin-top: 10px;">
                 <div class="post-meta-details">
                     {% if post.author %}
-                        <small>👤 By <span class="post-author">{{ post.author.username }}</span></small>
+                    <small>👤 By <span class="post-author">{{ post.author.username }}</span></small>
                     {% endif %}
                     <small>🕰 Posted on {{ post.created_at }}</small>
                 </div>
-                
-                <div class="post-actions" style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+
+                <div class="post-actions"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
                     <div class="like-container" style="display: flex; align-items: center; gap: 5px;">
                         {% if user.is_authenticated %}
-                            <form action="{% url 'like_post' post.pk %}" method="POST" style="display: inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn-like-dislike" style="color: #3b2f2f; border: none; background: none; cursor: pointer; font-size: 1.2rem;">
-                                    {% if user in post.likes.all %}
-                                        <i class="fas fa-heart"></i>
-                                    {% else %}
-                                        <i class="far fa-heart"></i>
-                                    {% endif %}
-                                </button>
-                            </form>
-                            <span class="like-count" style="color: #3b2f2f; font-weight: bold; font-size: 1.1rem;">
-                                {{ post.total_likes }}
-                            </span>
+                        <form action="{% url 'like_post' post.pk %}" method="POST" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-like-dislike"
+                                style="color: #3b2f2f; border: none; background: none; cursor: pointer; font-size: 1.2rem;">
+                                {% if user in post.likes.all %}
+                                <i class="fas fa-heart"></i>
+                                {% else %}
+                                <i class="far fa-heart"></i>
+                                {% endif %}
+                            </button>
+                        </form>
+                        <span class="like-count" style="color: #3b2f2f; font-weight: bold; font-size: 1.1rem;">
+                            {{ post.total_likes }}
+                        </span>
                         {% endif %}
                     </div>
-                    
+
                     {% if post.author == user %}
-                        <a href="{% url 'delete_post' post.pk %}" class="btn btn-small"
-                           style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f;">Delete</a>
+                    <a href="{% url 'delete_post' post.pk %}" class="btn btn-small"
+                        style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f;">Delete</a>
                     {% endif %}
                 </div>
             </div>
@@ -206,19 +223,7 @@
 
         <div class="comments-section">
             <h3 style="font-family: 'Georgia', serif; color: #3b2f2f;">Comments ({{ comments.count }})</h3>
-            
-            {% for comment in comments %}
-                <div class="comment">
-                    <p class="comment-author">
-                        {{ comment.author.username }}
-                        <span class="comment-date"> - {{ comment.created_at|date:"F j, Y" }}</span>
-                    </p>
-                    <p>{{ comment.content|linebreaksbr }}</p>
-                </div>
-            {% empty %}
-                <p style="font-style: italic; color: #5a4636;">No comments yet.</p>
-            {% endfor %}
-            
+
             {% if user.is_authenticated %}
             <div class="comment-form">
                 <h4 style="font-family: 'Georgia', serif; color: #3b2f2f;">Add a Comment</h4>
@@ -229,11 +234,33 @@
                 </form>
             </div>
             {% else %}
-                <p style="font-style: italic; color: #5a4636;">
-                    Please <a href="{% url 'login' %}?next={{ request.path }}" style="color: #3b2f2f;">log in</a> to comment.
-                </p>
+            <p style="font-style: italic; color: #5a4636;">
+                Please <a href="{% url 'login' %}?next={{ request.path }}" style="color: #3b2f2f;">log in</a> to
+                comment.
+            </p>
             {% endif %}
+
+            {% for comment in comments %}
+            <div class="comment">
+                <p class="comment-author">
+                    {{ comment.author.username }}
+                    <span class="comment-date"> - {{ comment.created_at|date:"F j, Y" }}</span>
+                </p>
+                <p>{{ comment.content|linebreaksbr }}</p>
+
+                {% if user.is_authenticated and comment.author.id == user.id or post.author.id == user.id %}
+                <div style="text-align: right; margin-top: 10px;">
+                    <a href="{% url 'delete_comment' comment.pk %}" class="btn btn-small"
+                        style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f;">Delete</a>
+                </div>
+                {% endif %}
+            </div>
+            {% empty %}
+            <p style="font-style: italic; color: #5a4636;">No comments yet.</p>
+            {% endfor %}
+
         </div>
     </div>
 </body>
+
 </html>
