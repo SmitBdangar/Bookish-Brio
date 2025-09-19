@@ -8,10 +8,14 @@ from .forms import PostForm, CommentForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
+from django.db.models import Count
 
 def index(request):
     from django.core.paginator import Paginator
-    post_list = Post.objects.all().order_by('-created_at')
+    # Add annotation for comment count
+    post_list = Post.objects.annotate(
+        comment_count=Count('comments')
+    ).order_by('-created_at')
     paginator = Paginator(post_list, 50)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)

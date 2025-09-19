@@ -171,6 +171,32 @@
             color: #f75d59 !important;
         }
 
+        .engagement-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .engagement-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .comment-link {
+            color: #3b2f2f;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .comment-link:hover {
+            transform: scale(1.1);
+            color: #2a2320;
+        }
+
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
@@ -184,6 +210,10 @@
 
             .auth-buttons {
                 justify-content: center;
+            }
+
+            .engagement-section {
+                gap: 15px;
             }
         }
     </style>
@@ -252,22 +282,38 @@
                 </div>
                 
                 <div class="post-actions" style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-                    <div class="like-container" style="display: flex; align-items: center; gap: 5px;">
-                        {% if user.is_authenticated %}
-                            <form action="{% url 'like_post' post.pk %}" method="POST" style="display: inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn-like-dislike" style="color: #3b2f2f; border: none; background: none; cursor: pointer; font-size: 1.2rem;">
-                                    {% if user in post.likes.all %}
-                                        <i class="fas fa-heart"></i>
-                                    {% else %}
-                                        <i class="far fa-heart"></i>
-                                    {% endif %}
-                                </button>
-                            </form>
-                            <span class="like-count" style="color: #3b2f2f; font-weight: bold; font-size: 1.1rem;">
-                                {{ post.total_likes }}
-                            </span>
-                        {% endif %}
+                    <div class="engagement-section">
+                        <!-- Like Section -->
+                        <div class="engagement-item">
+                            {% if user.is_authenticated %}
+                                <form action="{% url 'like_post' post.pk %}" method="POST" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-like-dislike" style="color: #3b2f2f; border: none; background: none; cursor: pointer; font-size: 1.2rem;">
+                                        {% if user in post.likes.all %}
+                                            <i class="fas fa-heart"></i>
+                                        {% else %}
+                                            <i class="far fa-heart"></i>
+                                        {% endif %}
+                                    </button>
+                                </form>
+                                <span class="like-count" style="color: #3b2f2f; font-weight: bold; font-size: 1.1rem;">
+                                    {{ post.total_likes }}
+                                </span>
+                            {% else %}
+                                <i class="far fa-heart" style="color: #3b2f2f; font-size: 1.2rem;"></i>
+                                <span style="color: #3b2f2f; font-weight: bold; font-size: 1.1rem;">
+                                    {{ post.total_likes }}
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Comment Section -->
+                        <div class="engagement-item">
+                            <a href="{% url 'post_detail' post.pk %}" class="comment-link">
+                                <i class="far fa-comment" style="font-size: 1.2rem;"></i>
+                                <span style="font-weight: bold; font-size: 1.1rem;">{{ post.comment_count }}</span>
+                            </a>
+                        </div>
                     </div>
                     
                     {% if post.author == user %}
