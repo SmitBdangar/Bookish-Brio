@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,15 +15,18 @@
             margin: 0;
             padding: 20px;
         }
+
         .container {
-            max-width: 1200px; /* wider, full layout feel */
+            max-width: 1200px;
+            /* wider, full layout feel */
             margin: 50px auto;
             background: #fff8e7;
             padding: 35px 45px;
             border: 2px solid #3b2f2f;
             border-radius: 10px;
-            box-shadow: 2px 2px 15px rgba(0,0,0,0.25);
+            box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.25);
         }
+
         h1 {
             text-align: center;
             font-family: 'Georgia', serif;
@@ -34,17 +38,21 @@
             padding-bottom: 12px;
             margin-bottom: 25px;
         }
+
         form {
             display: flex;
             flex-direction: column;
         }
+
         label {
             font-weight: bold;
             margin-bottom: 5px;
             font-size: 16px;
             color: #2c1c1c;
         }
-        input, textarea {
+
+        input,
+        textarea {
             padding: 12px;
             margin-bottom: 20px;
             border: 1px solid #3b2f2f;
@@ -53,9 +61,11 @@
             background-color: #fdfaf3;
             font-family: 'Times New Roman', serif;
         }
+
         textarea {
             min-height: 200px;
         }
+
         button {
             background-color: #3b2f2f;
             color: #fdfaf3;
@@ -68,9 +78,11 @@
             letter-spacing: 1px;
             transition: background 0.3s;
         }
+
         button:hover {
             background-color: #2a2320;
         }
+
         .return-link {
             display: inline-block;
             margin-top: 25px;
@@ -81,16 +93,24 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
         <h1>🖋 Add a New Post</h1>
 
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            
+
             <label for="title">Title</label>
             <input type="text" name="title" id="title" placeholder="Enter your title..." required>
+
+            <label for="image">Add Photo (Optional)</label>
+            <input type="file" name="image" id="image" accept="image/*">
+            <div id="imagePreview" style="display: none; text-align: center; margin: 10px 0;">
+                <img id="previewImg" src="" alt="Image Preview"
+                    style="max-width: 100%; max-height: 300px; border: 1px solid #3b2f2f; border-radius: 6px;">
+            </div>
 
             <label for="content">Content</label>
             <textarea name="content" id="content" placeholder="Write your story..." required></textarea>
@@ -101,5 +121,25 @@
         <a href="{% url 'index' %}" class="return-link">← Return</a>
     </div>
 
+    <script>
+        document.getElementById('image').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('imagePreview');
+            const previewImg = document.getElementById('previewImg');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImg.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.style.display = 'none';
+            }
+        });
+    </script>
+
 </body>
+
 </html>
