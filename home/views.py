@@ -9,17 +9,38 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 from django.db.models import Count
+from django.utils.text import Truncator
+
+
+
+from django.utils.text import Truncator
 
 def index(request):
     from django.core.paginator import Paginator
-    # Add annotation for comment count
+
     post_list = Post.objects.annotate(
         comment_count=Count('comments')
     ).order_by('-created_at')
-    paginator = Paginator(post_list, 50)
-    page_number = request.GET.get('page')
+
+    updated_posts = []
+    for post in post_list:
+        truncated = Truncator(post.content).words(3000, truncate=' ...')
+        if truncated != post.content:
+            post.preview_content = truncated
+            post.show_read_more = True
+        else:
+            post.preview_content = post.content
+            post.show_read_more = False
+        updated_posts.append(post)
+
+    paginator = Paginator(updated_posts, 50)
+    page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    return render(request, 'home/index.html', {'page_obj': page_obj})
+
+    return render(request, "home/index.html", {"page_obj": page_obj})
+
+
+
 
 @login_required
 def add_post(request):
