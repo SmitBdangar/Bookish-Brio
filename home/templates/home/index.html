@@ -161,7 +161,7 @@
             gap: 10px;
             align-items: center;
         }
-        
+
         .btn-like-dislike {
             transition: transform 0.2s ease-in-out;
         }
@@ -255,94 +255,100 @@
     <div class="container">
         <div class="header">
             <h1>ChatBox</h1>
-            
+
             {% if user.is_authenticated %}
-                <div class="user-info">
-                    <div class="user-avatar">{{ user.username|first|upper }}</div>
-                    <span>Welcome, {{ user.username }}!</span>
-                    <div class="auth-buttons">
-                        <a href="{% url 'profile' %}" class="btn btn-small">Profile</a>
-                        <a href="{% url 'logout' %}" class="btn btn-small">Logout</a>
-                    </div>
-                </div>
-            {% else %}
+            <div class="user-info">
+                <div class="user-avatar">{{ user.username|first|upper }}</div>
+                <span>Welcome, {{ user.username }}!</span>
                 <div class="auth-buttons">
-                    <a href="{% url 'login' %}" class="btn btn-small">Login</a>
-                    <a href="{% url 'signup' %}" class="btn btn-small">Sign Up</a>
+                    <a href="{% url 'profile' %}" class="btn btn-small">Profile</a>
+                    <a href="{% url 'logout' %}" class="btn btn-small">Logout</a>
                 </div>
+            </div>
+            {% else %}
+            <div class="auth-buttons">
+                <a href="{% url 'login' %}" class="btn btn-small">Login</a>
+                <a href="{% url 'signup' %}" class="btn btn-small">Sign Up</a>
+            </div>
             {% endif %}
         </div>
 
         {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
             </div>
+            {% endfor %}
+        </div>
         {% endif %}
 
         <div style="text-align:center; margin-bottom:30px;">
             {% if user.is_authenticated %}
-                <a href="{% url 'add_post' %}" class="btn">Add New Post</a>
+            <a href="{% url 'add_post' %}" class="btn">Add New Post</a>
             {% else %}
-                <p style="font-family: 'Georgia', serif; color: #5a4636; font-style: italic;">
-                    Please <a href="{% url 'login' %}" style="color: #3b2f2f;">login</a> to add new posts
-                </p>
+            <p style="font-family: 'Georgia', serif; color: #5a4636; font-style: italic;">
+                Please <a href="{% url 'login' %}" style="color: #3b2f2f;">login</a> to add new posts
+            </p>
             {% endif %}
         </div>
 
         {% for post in page_obj %}
         <div class="post-card">
             <h2>{{ post.title }}</h2>
-            {% if post.image %}
-            <div style="text-align: center; margin: 15px 0;">
-                <img src="{{ post.image.url }}" alt="{{ post.title }}" 
-                     style="max-width: 100%; max-height: 400px; border-radius: 6px; box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1); cursor: pointer;"
-                     onclick="openImageModal('{{ post.image.url }}')">
-            </div>
-            {% endif %}
-            <p>{{ post.content|truncatewords:40|linebreaksbr }}</p>
 
-            {% if post.content|wordcount > 40 %}
-            <a href="{% url 'post_detail' post.pk %}" class="btn btn-small"
-               style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f; margin-left: auto;">
-               Read More
-            </a>
-            {% endif %}
+            <div style="margin: 15px 0; overflow: hidden;">
+                {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title }}"
+                    style="float: right; max-width: 250px; margin-left: 20px; margin-bottom: 10px; border-radius: 6px; box-shadow: 0px 2px 6px rgba(0,0,0,0.1); cursor: pointer;"
+                    onclick="openImageModal('{{ post.image.url }}')">
+                {% endif %}
+                <p style="text-align: justify;">
+                    {{ post.content|truncatewords:40|linebreaksbr }}
+                </p>
+
+                {% if post.content|wordcount > 40 %}
+                <a href="{% url 'post_detail' post.pk %}" class="btn btn-small"
+                    style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f; margin-top: 10px; display: inline-block;">
+                    Read More
+                </a>
+                {% endif %}
+            </div>
+
 
             <div class="post-meta" style="display: block; margin-top: 10px;">
                 <div class="post-meta-details">
                     {% if post.author %}
-                        <small>👤 By <span class="post-author">{{ post.author.username }}</span></small>
+                    <small>👤 By <span class="post-author">{{ post.author.username }}</span></small>
                     {% endif %}
                     <small>🕰 Posted on {{ post.created_at }}</small>
                 </div>
-                
-                <div class="post-actions" style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+
+                <div class="post-actions"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
                     <div class="engagement-section">
                         <!-- Like Section -->
                         <div class="engagement-item">
                             {% if user.is_authenticated %}
-                                <form action="{% url 'like_post' post.pk %}" method="POST" style="display: inline;">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn-like-dislike" style="color: #3b2f2f; border: none; background: none; cursor: pointer; font-size: 1.2rem;">
-                                        {% if user in post.likes.all %}
-                                            <i class="fas fa-heart"></i>
-                                        {% else %}
-                                            <i class="far fa-heart"></i>
-                                        {% endif %}
-                                    </button>
-                                </form>
-                                <span class="like-count" style="color: #3b2f2f; font-weight: bold; font-size: 1.1rem;">
-                                    {{ post.total_likes }}
-                                </span>
+                            <form action="{% url 'like_post' post.pk %}" method="POST" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-like-dislike"
+                                    style="color: #3b2f2f; border: none; background: none; cursor: pointer; font-size: 1.2rem;">
+                                    {% if user in post.likes.all %}
+                                    <i class="fas fa-heart"></i>
+                                    {% else %}
+                                    <i class="far fa-heart"></i>
+                                    {% endif %}
+                                </button>
+                            </form>
+                            <span class="like-count" style="color: #3b2f2f; font-weight: bold; font-size: 1.1rem;">
+                                {{ post.total_likes }}
+                            </span>
                             {% else %}
-                                <i class="far fa-heart" style="color: #3b2f2f; font-size: 1.2rem;"></i>
-                                <span style="color: #3b2f2f; font-weight: bold; font-size: 1.1rem;">
-                                    {{ post.total_likes }}
-                                </span>
+                            <i class="far fa-heart" style="color: #3b2f2f; font-size: 1.2rem;"></i>
+                            <span style="color: #3b2f2f; font-weight: bold; font-size: 1.1rem;">
+                                {{ post.total_likes }}
+                            </span>
                             {% endif %}
                         </div>
 
@@ -354,21 +360,21 @@
                             </a>
                         </div>
                     </div>
-                    
+
                     {% if post.author == user %}
-                        <a href="{% url 'delete_post' post.pk %}" class="btn btn-small"
-                           style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f;">Delete</a>
+                    <a href="{% url 'delete_post' post.pk %}" class="btn btn-small"
+                        style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f;">Delete</a>
                     {% endif %}
                 </div>
             </div>
         </div>
         {% empty %}
         <p style="text-align: center; font-style: italic; color: #5a4636;">
-            No posts yet. 
+            No posts yet.
             {% if user.is_authenticated %}
-                <a href="{% url 'add_post' %}" style="color: #3b2f2f;">Be the first to chat!</a>
+            <a href="{% url 'add_post' %}" style="color: #3b2f2f;">Be the first to chat!</a>
             {% else %}
-                <a href="{% url 'signup' %}" style="color: #3b2f2f;">Sign up</a> to be the first to chat!
+            <a href="{% url 'signup' %}" style="color: #3b2f2f;">Sign up</a> to be the first to chat!
             {% endif %}
         </p>
         {% endfor %}
@@ -402,7 +408,7 @@
         }
 
         // Close modal when pressing Escape key
-        document.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape') {
                 closeImageModal();
             }
