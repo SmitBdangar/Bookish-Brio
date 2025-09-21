@@ -1,72 +1,141 @@
-<!-- home/templates/home/add_post.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Add New Post</title>
+    <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Roboto:wght@400;700&display=swap"
+        rel="stylesheet">
     <style>
-        body {
-            font-family: 'Georgia', serif;
-            background-color: #fdfaf3;
-            margin: 0;
-            padding: 0;
+        /* --- General Theming & Resets --- */
+        :root {
+            --color-primary: #3b2f2f;
+            --color-secondary: #fffdf5;
+            --color-accent: #f75d59;
+            --color-background: #fdfaf3;
+            --color-text: #2c1c1c;
+            --border-radius-card: 12px;
+            --box-shadow-card: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --transition-speed: 0.25s;
         }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--color-background);
+            margin: 0;
+            padding: 20px;
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
         .container {
             max-width: 700px;
-            margin: 50px auto;
-            padding: 30px;
+            margin: 40px auto;
+            padding: 35px 30px;
             background-color: #fffdf7;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid #e0d9d2;
+            border-radius: var(--border-radius-card);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
         }
+
         h1 {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-family: 'Georgia', serif;
+            letter-spacing: 1.5px;
+            color: var(--color-primary);
         }
-        input[type="text"], textarea {
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--color-primary);
+            font-family: 'Georgia', serif;
+        }
+
+        input[type="text"],
+        textarea,
+        input[type="file"] {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             margin-bottom: 20px;
-            border: 1px solid #3b2f2f;
-            border-radius: 6px;
+            border: 1px solid #e0d9d2;
+            border-radius: 8px;
             font-size: 16px;
-            background-color: #fdfaf3;
+            background-color: var(--color-secondary);
+            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+            box-sizing: border-box; /* Important for padding and border calculation */
         }
+        
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 5px rgba(59, 47, 47, 0.3);
+        }
+
         input[type="file"] {
             display: block;
             margin-top: 10px;
             margin-bottom: 20px;
         }
-        button {
+
+        .btn {
             display: block;
             width: 100%;
-            padding: 12px;
-            background-color: #3b2f2f;
-            color: #fff;
+            padding: 14px;
+            background-color: var(--color-primary);
+            color: var(--color-background);
             font-size: 18px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color var(--transition-speed), transform 0.2s;
+            font-family: 'Georgia', serif;
+            letter-spacing: 1px;
         }
-        button:hover {
+
+        .btn:hover {
             background-color: #5a4949;
+            transform: translateY(-2px);
         }
+
+        /* --- Image Preview --- */
         .image-preview {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 20px;
         }
+
         .image-preview img {
             width: 100px;
             height: 100px;
             object-fit: cover;
-            border-radius: 6px;
+            border-radius: 8px;
             border: 1px solid #ccc;
+            transition: transform 0.3s;
         }
-        label {
-            font-weight: bold;
+
+        .image-preview img:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 25px 20px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .btn {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -76,22 +145,18 @@
 
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <!-- Title -->
             <label for="{{ form.title.id_for_label }}">Title</label>
             {{ form.title }}
 
-            <!-- Content -->
             <label for="{{ form.content.id_for_label }}">Content</label>
             {{ form.content }}
 
-            <!-- Multiple Image Upload -->
             <label for="id_images">Upload Images (Max 8)</label>
             <input type="file" id="id_images" name="images" accept="image/*" multiple>
 
-            <!-- Image Preview -->
             <div class="image-preview" id="previewContainer"></div>
 
-            <button type="submit">Post</button>
+            <button type="submit" class="btn">Post</button>
         </form>
     </div>
 

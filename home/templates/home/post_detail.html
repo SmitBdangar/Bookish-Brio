@@ -10,158 +10,228 @@
     <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* --- General Theming & Resets --- */
+        :root {
+            --primary-bg: #fdf8f1;
+            --container-bg: #fff9f0;
+            --primary-text: #3b2f2f;
+            --secondary-text: #666;
+            --border-color: #3b2f2f;
+            --btn-bg: #3b2f2f;
+            --btn-text: #fdfaf3;
+            --comment-bg: #fdfaf3;
+            --delete-btn: #D0021B;
+            --like-color: #D0021B;
+            --hover-color: #5a4949;
+        }
+
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f4ecd8;
+            background-color: var(--primary-bg);
             margin: 0;
             padding: 15px;
+            color: var(--primary-text);
         }
 
         .container {
-            max-width: 1900px;
-            margin: auto;
-            background: #fff8e7;
-            border: 2px solid #3b2f2f;
+            max-width: 900px;
+            margin: 30px auto;
+            background: var(--container-bg);
             padding: 25px;
-            box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.25);
-            border-radius: 10px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         }
 
+        /* --- Header & Navigation --- */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid #3b2f2f;
-            padding-bottom: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
-        h1 {
-            font-size: 36px;
-            font-family: 'Georgia', serif;
-            letter-spacing: 2px;
-            color: #3b2f2f;
+        .header h1 {
+            font-family: Georgia, serif;
+            font-size: 2rem;
             margin: 0;
         }
 
+        hr.divider {
+            border: 0;
+            height: 1px;
+            background-color: #d0d0d0;
+            margin: 20px 0;
+        }
+
+        /* --- Buttons --- */
         .btn {
-            background-color: #3b2f2f;
-            color: #fdfaf3;
-            padding: 12px 25px;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            padding: 10px 20px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-family: 'Georgia', serif;
-            font-size: 15px;
-            letter-spacing: 1px;
-            transition: background 0.3s;
+            font-family: Georgia, serif;
+            font-size: 14px;
             text-decoration: none;
-            display: inline-block;
+            transition: 0.3s;
         }
 
         .btn:hover {
-            background-color: #2a2320;
+            background-color: var(--hover-color);
         }
 
-        .post-card {
-            padding: 20px;
-            margin-bottom: 25px;
-            background-color: #fffdf5;
-            border-left: 5px solid #3b2f2f;
-            border-radius: 6px;
-            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+        .btn-danger {
+            background-color: var(--delete-btn);
+            color: white;
         }
 
-        .post-card h2 {
-            margin: 0 0 10px;
-            font-family: 'Georgia', serif;
-            color: #2c1c1c;
+        .btn-danger:hover {
+            background-color: #ff3333;
         }
 
-        .post-card p {
-            margin: 0 0 10px;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        .post-meta {
-            color: #5a4636;
-            font-style: italic;
-            margin-top: 10px;
-        }
-
-        .post-author {
-            font-weight: bold;
-            color: #3b2f2f;
-        }
-
-        .btn-small {
-            padding: 8px 15px;
-            font-size: 13px;
+        /* --- Like Button from index.html --- */
+        .engagement-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .btn-like-dislike {
-            transition: transform 0.2s ease-in-out;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--primary-text);
+            transition: transform 0.2s ease-in-out, color 0.2s ease;
         }
 
         .btn-like-dislike:hover {
             transform: scale(1.2);
-            color: #f75d59 !important;
+            color: var(--like-color);
         }
 
+        .btn-like-dislike .fas.fa-heart {
+            color: var(--like-color);
+        }
+
+        /* --- Post Content --- */
+        .post-title {
+            font-family: Georgia, serif;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .post-meta {
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .post-content {
+            font-family: Roboto, sans-serif;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .post-image-container {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .post-images-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-image img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* --- Comments Section --- */
         .comments-section {
-            margin-top: 30px;
-            border-top: 2px solid #3b2f2f;
+            border-top: 2px solid var(--border-color);
             padding-top: 20px;
         }
 
         .comment {
-            background-color: #fdfaf3;
+            background: var(--comment-bg);
             padding: 15px;
-            border-radius: 6px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             margin-bottom: 15px;
-            border-left: 3px solid #5a4636;
-            border-bottom: 1px solid #ddd;
+            position: relative;
         }
 
         .comment-author {
             font-weight: bold;
-            color: #3b2f2f;
             margin-bottom: 5px;
         }
 
         .comment-date {
             font-size: 0.8rem;
-            color: #5a4636;
+            color: var(--secondary-text);
+        }
+
+        .delete-comment-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: var(--delete-btn);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.2s;
+        }
+
+        .delete-comment-btn:hover {
+            color: #ff3333;
         }
 
         .comment-form {
-            border: 1px solid #3b2f2f;
-            border-radius: 6px;
-            padding: 20px;
             margin-top: 20px;
-            margin-bottom: 30px;
-        }
-
-        .comment-form h4 {
-            margin-top: 0;
-            margin-bottom: 15px;
         }
 
         .comment-form textarea {
             width: 100%;
-            border: none;
-            resize: vertical;
-            padding: 0;
-            box-sizing: border-box;
+            display: block;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px;
             font-family: inherit;
+            resize: vertical;
+            box-sizing: border-box;
+            margin-bottom: 15px;
         }
 
-        .comment-form button {
-            margin-top: 10px;
+        .comment-form button.btn {
+            display: block;
+            margin-top: 15px;
         }
 
-        /* Image Modal Styles */
+        /* --- Alignment --- */
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        /* --- Image Modal --- */
         .image-modal {
             display: none;
             position: fixed;
@@ -170,176 +240,37 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            cursor: pointer;
+            background: rgba(0, 0, 0, 0.9);
         }
 
         .modal-content {
             display: block;
-            margin: auto;
+            margin: 5% auto;
             max-width: 90%;
             max-height: 90%;
-            margin-top: 5%;
-            border-radius: 6px;
+            border-radius: 8px;
         }
 
         .close-modal {
             position: absolute;
             top: 15px;
-            right: 35px;
+            right: 30px;
+            font-size: 40px;
             color: white;
-            font-size: 40px;
-            font-weight: bold;
             cursor: pointer;
         }
 
-        .post-images-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
+        /* --- Responsive Design --- */
+        @media (max-width: 600px) {
+            .post-images-gallery {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
-        .gallery-image img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .gallery-image img:hover {
-            transform: scale(1.05);
-        }
-
-        /* Modal styles */
-        .image-modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-        }
-
-        .modal-content {
-            margin: auto;
-            display: block;
-            max-width: 90%;
-            max-height: 90vh;
-            margin-top: 50px;
-        }
-
-        .close-modal {
-            position: absolute;
-            right: 25px;
-            top: 10px;
-            color: #f1f1f1;
-            font-size: 40px;
-            cursor: pointer;
-        }
-
-        .post-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .post-title {
-            text-align: left;
-            margin-bottom: 20px;
-            font-family: Georgia, serif;
-            color: #3b2f2f;
-        }
-
-        .post-images-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-            justify-items: center;
-        }
-
-        .gallery-image {
-            width: 100%;
-            max-width: 300px;
-        }
-
-        .gallery-image img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .gallery-image img:hover {
-            transform: scale(1.05);
-        }
-
-        .post-content {
-            margin-top: 30px;
-            line-height: 1.6;
-            font-family: 'Roboto', sans-serif;
-            color: #3b2f2f;
-        }
-
-        .post-detail-container {
-            max-width: 1900px;
-            margin: 0 auto;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .post-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .post-title {
-            color: #3b2f2f;
-            font-family: Georgia, serif;
-            margin-bottom: 10px;
-        }
-
-        .post-meta {
-            color: #666;
-            font-size: 0.9em;
-            margin-bottom: 20px;
-        }
-
-        .post-images-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .gallery-image img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .gallery-image img:hover {
-            transform: scale(1.05);
-        }
-
-        .post-content {
-            line-height: 1.6;
-            color: #3b2f2f;
-            font-family: 'Roboto', sans-serif;
-            margin-top: 20px;
+        @media (max-width: 400px) {
+            .post-images-gallery {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -348,178 +279,115 @@
     <div class="container">
         <div class="header">
             <h1>ChatBox</h1>
-            <a href="{% url 'index' %}" class="btn btn-small">← Back to Posts</a>
+            <a href="{% url 'index' %}" class="btn">← Back to Posts</a>
         </div>
+
+        <hr class="divider">
 
         {% if messages %}
         <div class="messages">
             {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-                {{ message }}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <h2 class="post-title">{{ post.title }}</h2>
+        <p class="post-meta">By {{ post.author }} | {{ post.created_at|date:"F j, Y" }}</p>
+
+        {% if post.image %}
+        <div class="post-image-container">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}"
+                style="max-width: 100%; border-radius: 8px; cursor:pointer;"
+                onclick="openImageModal('{{ post.image.url }}')">
+        </div>
+        {% endif %}
+
+        {% if images %}
+        <div class="post-images-gallery">
+            {% for img in images %}
+            <div class="gallery-image">
+                <img src="{{ img.image.url }}" alt="Image" onclick="openImageModal('{{ img.image.url }}')">
             </div>
             {% endfor %}
         </div>
         {% endif %}
 
-        <!-- <div class="post-card">
-            <h2>{{ post.title }}</h2>
-            {% if post.image %}
-            <div style="text-align: center; margin: 15px 0;">
-                <img src="{{ post.image.url }}" alt="{{ post.title }}" 
-                     style="max-width: 100%; max-height: 500px; border-radius: 6px; box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1); cursor: pointer;"
-                     onclick="openImageModal('{{ post.image.url }}')">
-            </div>
-            {% endif %}
-            <p>{{ post.content|linebreaksbr }}</p> -->
-
-
-        <!-- <div class="post-detail-container">
-            <h1>{{ post.title }}</h1>
-            <p class="post-meta">
-                By {{ post.author }} | {{ post.created_at|date:"F j, Y" }}
-            </p>
-
-            <div class="post-content">
-                {{ post.content|linebreaks }}
-            </div> -->
-
-
-        <div class="post-detail-container">
-            <h1 class="post-title">{{ post.title }}</h1>
-            <p class="post-meta">
-                By {{ post.author }} | {{ post.created_at|date:"F j, Y" }}
-            </p>
-
-            <!-- Optional single cover image -->
-            {% if post.image %}
-            <div style="text-align: center; margin: 15px 0;">
-                <img src="{{ post.image.url }}" alt="{{ post.title }}" style="max-width: 100%; max-height: 500px; border-radius: 6px;
-                    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);">
-            </div>
-            {% endif %}
-
-            <!-- 🔥 Gallery support for multiple images -->
-            {% if images %}
-            <div class="post-images-gallery">
-                {% for img in images %}
-                <div class="gallery-image">
-                    <img src="{{ img.image.url }}" alt="{{ post.title }}"
-                        onclick="openImageModal('{{ img.image.url }}')">
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            <!-- Post content -->
-            <div class="post-content">
-                {{ post.content|linebreaks }}
-            </div>
+        <div class="post-content">
+            {{ post.content|linebreaks }}
         </div>
 
-
-
-
-        <div class="post-meta" style="display: block; margin-top: 10px;">
-            <div class="post-meta-details">
-                {% if post.author %}
-                <small>👤 By <span class="post-author">{{ post.author.username }}</span></small>
+        <div class="post-actions">
+            <div class="engagement-item">
+                {% if user.is_authenticated %}
+                <form action="{% url 'like_post' post.pk %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-like-dislike">
+                        {% if user in post.likes.all %}
+                        <i class="fas fa-heart"></i>
+                        {% else %}
+                        <i class="far fa-heart"></i>
+                        {% endif %}
+                    </button>
+                </form>
+                {% else %}
+                <i class="far fa-heart"></i>
                 {% endif %}
-                <small>🕰 Posted on {{ post.created_at }}</small>
+                <span>{{ post.total_likes }}</span>
             </div>
 
-            <div class="post-actions"
-                style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-                <div class="like-container" style="display: flex; align-items: center; gap: 5px;">
-                    {% if user.is_authenticated %}
-                    <form action="{% url 'like_post' post.pk %}" method="POST" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn-like-dislike"
-                            style="color: #3b2f2f; border: none; background: none; cursor: pointer; font-size: 1.2rem;">
-                            {% if user in post.likes.all %}
-                            <i class="fas fa-heart"></i>
-                            {% else %}
-                            <i class="far fa-heart"></i>
-                            {% endif %}
-                        </button>
-                    </form>
-                    <span class="like-count" style="color: #3b2f2f; font-weight: bold; font-size: 1.1rem;">
-                        {{ post.total_likes }}
-                    </span>
-                    {% endif %}
-                </div>
+            {% if post.author == user %}
+            <a href="{% url 'delete_post' post.pk %}" class="btn btn-danger">Delete Post</a>
+            {% endif %}
+        </div>
 
-                {% if post.author == user %}
-                <a href="{% url 'delete_post' post.pk %}" class="btn btn-small"
-                    style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f;">Delete</a>
+        <div class="comments-section">
+            <h3>Comments ({{ comments.count }})</h3>
+            {% if user.is_authenticated %}
+            <div class="comment-form">
+                <form method="POST" action="{% url 'add_comment' post.pk %}">
+                    {% csrf_token %}
+                    <textarea name="content" placeholder="Write your comment here..." required></textarea>
+                    <button type="submit" class="btn">Submit Comment</button>
+                </form>
+            </div>
+            {% else %}
+            <p style="font-style: italic; color: #5a4636;">Please <a href="{% url 'login' %}?next={{ request.path }}">log
+                    in</a> to
+                comment.</p>
+            {% endif %}
+
+            {% for comment in comments %}
+            <div class="comment">
+                <p class="comment-author">{{ comment.author.username }}
+                    <span class="comment-date">- {{ comment.created_at|date:"F j, Y" }}</span>
+                </p>
+                <p>{{ comment.content|linebreaksbr }}</p>
+
+                {% if user.is_authenticated %}
+                {% if comment.author.id == user.id or post.author.id == user.id %}
+                <a href="{% url 'delete_comment' comment.pk %}" class="delete-comment-btn"
+                    onclick="return confirm('Are you sure you want to delete this comment?');">
+                    <i class="fas fa-trash"></i>
+                </a>
+                {% endif %}
                 {% endif %}
             </div>
+            {% empty %}
+            <p style="font-style: italic; color: #5a4636;">No comments yet.</p>
+            {% endfor %}
         </div>
     </div>
 
-    <!-- Keep only this main content section -->
-    <!-- <div class="post-detail-container">
-            <h1>{{ post.title }}</h1>
-            <p class="post-meta">
-                By {{ post.author }} | {{ post.created_at|date:"F j, Y" }}
-            </p>
-            
-            <div class="post-content">
-                {{ post.content|linebreaks }}
-            </div> -->
-
-    <!-- Comments section -->
-    <div class="comments-section">
-        <h3>Comments ({{ comments.count }})</h3>
-
-        {% if user.is_authenticated %}
-        <div class="comment-form">
-            <h4 style="font-family: 'Georgia', serif; color: #3b2f2f;">Add a Comment</h4>
-            <form method="POST" action="{% url 'add_comment' post.pk %}">
-                {% csrf_token %}
-                {{ comment_form.content }}
-                <button type="submit" class="btn">Submit Comment</button>
-            </form>
-        </div>
-        {% else %}
-        <p style="font-style: italic; color: #5a4636;">
-            Please <a href="{% url 'login' %}?next={{ request.path }}" style="color: #3b2f2f;">log in</a> to
-            comment.
-        </p>
-        {% endif %}
-
-        {% for comment in comments %}
-        <div class="comment">
-            <p class="comment-author">
-                {{ comment.author.username }}
-                <span class="comment-date"> - {{ comment.created_at|date:"F j, Y" }}</span>
-            </p>
-            <p>{{ comment.content|linebreaksbr }}</p>
-
-            {% if user.is_authenticated and comment.author.id == user.id or post.author.id == user.id %}
-            <div style="text-align: right; margin-top: 10px;">
-                <a href="{% url 'delete_comment' comment.pk %}" class="btn btn-small"
-                    style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f;">Delete</a>
-            </div>
-            {% endif %}
-        </div>
-        {% empty %}
-        <p style="font-style: italic; color: #5a4636;">No comments yet.</p>
-        {% endfor %}
-
-    </div>
-    </div>
-
-    <!-- Image Modal -->
-    <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+    <div id="imageModal" class="image-modal">
         <span class="close-modal" onclick="closeImageModal()">&times;</span>
         <img class="modal-content" id="modalImage">
     </div>
-    </div>
 
     <script>
-        function openImageModal(imageSrc) {
+        function openImageModal(src) {
             document.getElementById('imageModal').style.display = 'block';
-            document.getElementById('modalImage').src = imageSrc;
+            document.getElementById('modalImage').src = src;
             document.body.style.overflow = 'hidden';
         }
 
@@ -528,10 +396,8 @@
             document.body.style.overflow = 'auto';
         }
 
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape') {
-                closeImageModal();
-            }
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeImageModal();
         });
     </script>
 </body>

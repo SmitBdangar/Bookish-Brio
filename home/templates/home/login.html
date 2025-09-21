@@ -7,23 +7,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - ChatBox</title>
     <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Roboto:wght@400;700&display=swap"
+        rel="stylesheet">
     <style>
+        /* --- General Theming & Resets --- */
+        :root {
+            --color-primary: #3b2f2f;
+            --color-secondary: #fffdf5;
+            --color-accent: #f75d59;
+            --color-background: #fdfaf3;
+            --color-text: #2c1c1c;
+            --border-radius-card: 12px;
+            --box-shadow-card: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --transition-speed: 0.25s;
+        }
+
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f4ecd8;
+            background-color: var(--color-background);
             margin: 0;
-            padding: 15px;
+            padding: 20px;
+            color: var(--color-text);
+            line-height: 1.6;
         }
 
         .container {
             max-width: 500px;
             margin: 50px auto;
-            background: #fff8e7;
-            border: 2px solid #3b2f2f;
+            background: #fff9f0;
+            border: 1px solid #e0d9d2;
             padding: 40px;
-            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.25);
-            border-radius: 10px;
+            border-radius: var(--border-radius-card);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
         }
 
         .login-header {
@@ -32,11 +47,11 @@
         }
 
         .login-header h1 {
-            font-size: 32px;
+            font-size: 2.5rem;
             font-family: 'Georgia', serif;
-            letter-spacing: 2px;
-            color: #3b2f2f;
-            margin-bottom: 10px;
+            letter-spacing: 1.5px;
+            color: var(--color-primary);
+            margin: 0 0 8px;
         }
 
         .login-header p {
@@ -45,6 +60,7 @@
             margin: 0;
         }
 
+        /* --- Form --- */
         .form-group {
             margin-bottom: 20px;
         }
@@ -52,72 +68,104 @@
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: #3b2f2f;
+            color: var(--color-primary);
             font-family: 'Georgia', serif;
             font-weight: bold;
         }
 
         .form-control {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #3b2f2f;
-            border-radius: 6px;
+            padding: 14px;
+            border: 1px solid #e0d9d2;
+            border-radius: 8px;
             font-size: 16px;
             font-family: 'Roboto', sans-serif;
-            background: #fffdf5;
+            background: var(--color-secondary);
+            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
             box-sizing: border-box;
         }
 
         .form-control:focus {
             outline: none;
-            border-color: #5a4636;
+            border-color: var(--color-primary);
             box-shadow: 0 0 5px rgba(59, 47, 47, 0.3);
         }
 
+        /* --- Buttons --- */
         .btn {
-            background-color: #3b2f2f;
-            color: #fdfaf3;
+            background-color: var(--color-primary);
+            color: var(--color-background);
             padding: 15px 30px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             font-family: 'Georgia', serif;
             font-size: 16px;
             letter-spacing: 1px;
-            transition: background 0.3s;
+            transition: all var(--transition-speed) ease;
             width: 100%;
             margin-bottom: 20px;
         }
 
         .btn:hover {
-            background-color: #2a2320;
+            background-color: #5a4949;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-ghost {
+            background-color: transparent;
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 15px;
+            font-size: 13px;
+        }
+        
+        .btn-ghost:hover {
+            background-color: var(--color-primary);
+            color: var(--color-background);
         }
 
+        /* --- Links --- */
         .links {
             text-align: center;
             font-family: 'Georgia', serif;
+            margin-top: 20px;
         }
 
         .links a {
-            color: #3b2f2f;
+            color: var(--color-primary);
             text-decoration: none;
             font-weight: bold;
+            transition: color var(--transition-speed), text-decoration var(--transition-speed);
         }
 
         .links a:hover {
+            color: #5a4949;
             text-decoration: underline;
         }
 
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            color: #5a4636;
+            font-style: italic;
+        }
+
+        /* --- Messages --- */
         .messages {
             margin-bottom: 20px;
         }
 
         .alert {
             padding: 12px 20px;
-            border-radius: 6px;
+            border-radius: 8px;
             margin-bottom: 10px;
             font-family: 'Georgia', serif;
             border-left: 5px solid;
+            transition: all 0.3s;
         }
 
         .alert-success {
@@ -132,11 +180,21 @@
             border-left-color: #dc3545;
         }
 
-        .divider {
-            text-align: center;
-            margin: 20px 0;
-            color: #5a4636;
-            font-style: italic;
+        /* --- Responsive --- */
+        @media (max-width: 480px) {
+            .container {
+                margin: 20px 15px;
+                padding: 30px 20px;
+            }
+
+            .login-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .btn {
+                font-size: 15px;
+                padding: 12px 25px;
+            }
         }
     </style>
 </head>
@@ -148,15 +206,14 @@
             <p>Welcome back! Please sign in to continue chatting.</p>
         </div>
 
-        <!-- Display messages -->
         {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
             </div>
+            {% endfor %}
+        </div>
         {% endif %}
 
         <form method="post">
