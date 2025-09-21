@@ -192,6 +192,155 @@
             font-weight: bold;
             cursor: pointer;
         }
+
+        .post-images-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .gallery-image img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Modal styles */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90vh;
+            margin-top: 50px;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 25px;
+            top: 10px;
+            color: #f1f1f1;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        .post-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .post-title {
+            text-align: left;
+            margin-bottom: 20px;
+            font-family: Georgia, serif;
+            color: #3b2f2f;
+        }
+
+        .post-images-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+            justify-items: center;
+        }
+
+        .gallery-image {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-image img:hover {
+            transform: scale(1.05);
+        }
+
+        .post-content {
+            margin-top: 30px;
+            line-height: 1.6;
+            font-family: 'Roboto', sans-serif;
+            color: #3b2f2f;
+        }
+
+        .post-detail-container {
+            max-width: 1900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .post-title {
+            color: #3b2f2f;
+            font-family: Georgia, serif;
+            margin-bottom: 10px;
+        }
+
+        .post-meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+
+        .post-images-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .gallery-image img:hover {
+            transform: scale(1.05);
+        }
+
+        .post-content {
+            line-height: 1.6;
+            color: #3b2f2f;
+            font-family: 'Roboto', sans-serif;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -212,7 +361,7 @@
         </div>
         {% endif %}
 
-        <div class="post-card">
+        <!-- <div class="post-card">
             <h2>{{ post.title }}</h2>
             {% if post.image %}
             <div style="text-align: center; margin: 15px 0;">
@@ -221,90 +370,150 @@
                      onclick="openImageModal('{{ post.image.url }}')">
             </div>
             {% endif %}
-            <p>{{ post.content|linebreaksbr }}</p>
+            <p>{{ post.content|linebreaksbr }}</p> -->
 
-            <div class="post-meta" style="display: block; margin-top: 10px;">
-                <div class="post-meta-details">
-                    {% if post.author %}
-                    <small>👤 By <span class="post-author">{{ post.author.username }}</span></small>
-                    {% endif %}
-                    <small>🕰 Posted on {{ post.created_at }}</small>
-                </div>
 
-                <div class="post-actions"
-                    style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-                    <div class="like-container" style="display: flex; align-items: center; gap: 5px;">
-                        {% if user.is_authenticated %}
-                        <form action="{% url 'like_post' post.pk %}" method="POST" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn-like-dislike"
-                                style="color: #3b2f2f; border: none; background: none; cursor: pointer; font-size: 1.2rem;">
-                                {% if user in post.likes.all %}
-                                <i class="fas fa-heart"></i>
-                                {% else %}
-                                <i class="far fa-heart"></i>
-                                {% endif %}
-                            </button>
-                        </form>
-                        <span class="like-count" style="color: #3b2f2f; font-weight: bold; font-size: 1.1rem;">
-                            {{ post.total_likes }}
-                        </span>
-                        {% endif %}
-                    </div>
-
-                    {% if post.author == user %}
-                    <a href="{% url 'delete_post' post.pk %}" class="btn btn-small"
-                        style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f;">Delete</a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-
-        <div class="comments-section">
-            <h3 style="font-family: 'Georgia', serif; color: #3b2f2f;">Comments ({{ comments.count }})</h3>
-
-            {% if user.is_authenticated %}
-            <div class="comment-form">
-                <h4 style="font-family: 'Georgia', serif; color: #3b2f2f;">Add a Comment</h4>
-                <form method="POST" action="{% url 'add_comment' post.pk %}">
-                    {% csrf_token %}
-                    {{ comment_form.content }}
-                    <button type="submit" class="btn">Submit Comment</button>
-                </form>
-            </div>
-            {% else %}
-            <p style="font-style: italic; color: #5a4636;">
-                Please <a href="{% url 'login' %}?next={{ request.path }}" style="color: #3b2f2f;">log in</a> to
-                comment.
+        <!-- <div class="post-detail-container">
+            <h1>{{ post.title }}</h1>
+            <p class="post-meta">
+                By {{ post.author }} | {{ post.created_at|date:"F j, Y" }}
             </p>
+
+            <div class="post-content">
+                {{ post.content|linebreaks }}
+            </div> -->
+
+
+        <div class="post-detail-container">
+            <h1 class="post-title">{{ post.title }}</h1>
+            <p class="post-meta">
+                By {{ post.author }} | {{ post.created_at|date:"F j, Y" }}
+            </p>
+
+            <!-- Optional single cover image -->
+            {% if post.image %}
+            <div style="text-align: center; margin: 15px 0;">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" style="max-width: 100%; max-height: 500px; border-radius: 6px;
+                    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);">
+            </div>
             {% endif %}
 
-            {% for comment in comments %}
-            <div class="comment">
-                <p class="comment-author">
-                    {{ comment.author.username }}
-                    <span class="comment-date"> - {{ comment.created_at|date:"F j, Y" }}</span>
-                </p>
-                <p>{{ comment.content|linebreaksbr }}</p>
-
-                {% if user.is_authenticated and comment.author.id == user.id or post.author.id == user.id %}
-                <div style="text-align: right; margin-top: 10px;">
-                    <a href="{% url 'delete_comment' comment.pk %}" class="btn btn-small"
-                        style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f;">Delete</a>
+            <!-- 🔥 Gallery support for multiple images -->
+            {% if images %}
+            <div class="post-images-gallery">
+                {% for img in images %}
+                <div class="gallery-image">
+                    <img src="{{ img.image.url }}" alt="{{ post.title }}"
+                        onclick="openImageModal('{{ img.image.url }}')">
                 </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Post content -->
+            <div class="post-content">
+                {{ post.content|linebreaks }}
+            </div>
+        </div>
+
+
+
+
+        <div class="post-meta" style="display: block; margin-top: 10px;">
+            <div class="post-meta-details">
+                {% if post.author %}
+                <small>👤 By <span class="post-author">{{ post.author.username }}</span></small>
+                {% endif %}
+                <small>🕰 Posted on {{ post.created_at }}</small>
+            </div>
+
+            <div class="post-actions"
+                style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                <div class="like-container" style="display: flex; align-items: center; gap: 5px;">
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'like_post' post.pk %}" method="POST" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-like-dislike"
+                            style="color: #3b2f2f; border: none; background: none; cursor: pointer; font-size: 1.2rem;">
+                            {% if user in post.likes.all %}
+                            <i class="fas fa-heart"></i>
+                            {% else %}
+                            <i class="far fa-heart"></i>
+                            {% endif %}
+                        </button>
+                    </form>
+                    <span class="like-count" style="color: #3b2f2f; font-weight: bold; font-size: 1.1rem;">
+                        {{ post.total_likes }}
+                    </span>
+                    {% endif %}
+                </div>
+
+                {% if post.author == user %}
+                <a href="{% url 'delete_post' post.pk %}" class="btn btn-small"
+                    style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f;">Delete</a>
                 {% endif %}
             </div>
-            {% empty %}
-            <p style="font-style: italic; color: #5a4636;">No comments yet.</p>
-            {% endfor %}
-
         </div>
+    </div>
+
+    <!-- Keep only this main content section -->
+    <!-- <div class="post-detail-container">
+            <h1>{{ post.title }}</h1>
+            <p class="post-meta">
+                By {{ post.author }} | {{ post.created_at|date:"F j, Y" }}
+            </p>
+            
+            <div class="post-content">
+                {{ post.content|linebreaks }}
+            </div> -->
+
+    <!-- Comments section -->
+    <div class="comments-section">
+        <h3>Comments ({{ comments.count }})</h3>
+
+        {% if user.is_authenticated %}
+        <div class="comment-form">
+            <h4 style="font-family: 'Georgia', serif; color: #3b2f2f;">Add a Comment</h4>
+            <form method="POST" action="{% url 'add_comment' post.pk %}">
+                {% csrf_token %}
+                {{ comment_form.content }}
+                <button type="submit" class="btn">Submit Comment</button>
+            </form>
+        </div>
+        {% else %}
+        <p style="font-style: italic; color: #5a4636;">
+            Please <a href="{% url 'login' %}?next={{ request.path }}" style="color: #3b2f2f;">log in</a> to
+            comment.
+        </p>
+        {% endif %}
+
+        {% for comment in comments %}
+        <div class="comment">
+            <p class="comment-author">
+                {{ comment.author.username }}
+                <span class="comment-date"> - {{ comment.created_at|date:"F j, Y" }}</span>
+            </p>
+            <p>{{ comment.content|linebreaksbr }}</p>
+
+            {% if user.is_authenticated and comment.author.id == user.id or post.author.id == user.id %}
+            <div style="text-align: right; margin-top: 10px;">
+                <a href="{% url 'delete_comment' comment.pk %}" class="btn btn-small"
+                    style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f;">Delete</a>
+            </div>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p style="font-style: italic; color: #5a4636;">No comments yet.</p>
+        {% endfor %}
+
+    </div>
     </div>
 
     <!-- Image Modal -->
     <div id="imageModal" class="image-modal" onclick="closeImageModal()">
         <span class="close-modal" onclick="closeImageModal()">&times;</span>
         <img class="modal-content" id="modalImage">
+    </div>
     </div>
 
     <script>
@@ -319,7 +528,7 @@
             document.body.style.overflow = 'auto';
         }
 
-        document.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape') {
                 closeImageModal();
             }

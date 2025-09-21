@@ -1,145 +1,117 @@
-{% load static %}
+<!-- home/templates/home/add_post.html -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Post</title>
-    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Roboto&display=swap" rel="stylesheet">
+    <title>Add New Post</title>
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4ecd8;
+            font-family: 'Georgia', serif;
+            background-color: #fdfaf3;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
-
         .container {
-            max-width: 1200px;
-            /* wider, full layout feel */
+            max-width: 700px;
             margin: 50px auto;
-            background: #fff8e7;
-            padding: 35px 45px;
-            border: 2px solid #3b2f2f;
+            padding: 30px;
+            background-color: #fffdf7;
             border-radius: 10px;
-            box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-
         h1 {
             text-align: center;
-            font-family: 'Georgia', serif;
-            font-size: 30px;
-            color: #3b2f2f;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border-bottom: 2px solid #3b2f2f;
-            padding-bottom: 12px;
             margin-bottom: 25px;
         }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 16px;
-            color: #2c1c1c;
-        }
-
-        input,
-        textarea {
+        input[type="text"], textarea {
+            width: 100%;
             padding: 12px;
             margin-bottom: 20px;
             border: 1px solid #3b2f2f;
             border-radius: 6px;
-            font-size: 15px;
+            font-size: 16px;
             background-color: #fdfaf3;
-            font-family: 'Times New Roman', serif;
         }
-
-        textarea {
-            min-height: 200px;
+        input[type="file"] {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 20px;
         }
-
         button {
+            display: block;
+            width: 100%;
+            padding: 12px;
             background-color: #3b2f2f;
-            color: #fdfaf3;
-            padding: 14px;
+            color: #fff;
+            font-size: 18px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 16px;
-            font-family: Georgia, serif;
-            letter-spacing: 1px;
-            transition: background 0.3s;
+            transition: background-color 0.3s;
         }
-
         button:hover {
-            background-color: #2a2320;
+            background-color: #5a4949;
         }
-
-        .return-link {
-            display: inline-block;
-            margin-top: 25px;
-            text-decoration: none;
-            color: #3b2f2f;
-            font-style: italic;
-            font-size: 15px;
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .image-preview img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        label {
+            font-weight: bold;
         }
     </style>
 </head>
-
 <body>
-
     <div class="container">
         <h1>🖋 Add a New Post</h1>
 
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
+            <!-- Title -->
+            <label for="{{ form.title.id_for_label }}">Title</label>
+            {{ form.title }}
 
-            <label for="title">Title</label>
-            <input type="text" name="title" id="title" placeholder="Enter your title..." required>
+            <!-- Content -->
+            <label for="{{ form.content.id_for_label }}">Content</label>
+            {{ form.content }}
 
-            <label for="image">Add Photo (Optional)</label>
-            <input type="file" name="image" id="image" accept="image/*">
-            <div id="imagePreview" style="display: none; text-align: center; margin: 10px 0;">
-                <img id="previewImg" src="" alt="Image Preview"
-                    style="max-width: 100%; max-height: 300px; border: 1px solid #3b2f2f; border-radius: 6px;">
-            </div>
+            <!-- Multiple Image Upload -->
+            <label for="id_images">Upload Images (Max 8)</label>
+            <input type="file" id="id_images" name="images" accept="image/*" multiple>
 
-            <label for="content">Content</label>
-            <textarea name="content" id="content" placeholder="Write your story..." required></textarea>
+            <!-- Image Preview -->
+            <div class="image-preview" id="previewContainer"></div>
 
-            <button type="submit">Publish Post</button>
+            <button type="submit">Post</button>
         </form>
-
-        <a href="{% url 'index' %}" class="return-link">← Return</a>
     </div>
 
     <script>
-        document.getElementById('image').addEventListener('change', function (e) {
-            const file = e.target.files[0];
-            const preview = document.getElementById('imagePreview');
-            const previewImg = document.getElementById('previewImg');
+        const input = document.getElementById('id_images');
+        const previewContainer = document.getElementById('previewContainer');
 
-            if (file) {
+        input.addEventListener('change', () => {
+            previewContainer.innerHTML = '';
+            const files = Array.from(input.files).slice(0, 8); // Limit to 8
+            files.forEach(file => {
                 const reader = new FileReader();
-                reader.onload = function (e) {
-                    previewImg.src = e.target.result;
-                    preview.style.display = 'block';
+                reader.onload = e => {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    previewContainer.appendChild(img);
                 };
                 reader.readAsDataURL(file);
-            } else {
-                preview.style.display = 'none';
-            }
+            });
         });
     </script>
-
 </body>
-
 </html>

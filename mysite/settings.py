@@ -18,7 +18,7 @@ SECRET_KEY = os.environ.get(
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = os.environ.get("DEBUG", "False") == "True"

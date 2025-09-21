@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Body and container styling */
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f4ecd8;
@@ -23,10 +24,11 @@
             background: #fff8e7;
             border: 2px solid #3b2f2f;
             padding: 25px;
-            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.25);
             border-radius: 10px;
+            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.25);
         }
 
+        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -44,6 +46,7 @@
             margin: 0;
         }
 
+        /* User info */
         .user-info {
             display: flex;
             align-items: center;
@@ -64,23 +67,23 @@
             font-size: 16px;
         }
 
-        .btn {
+        /* Buttons */
+        .btn, .btn-small {
             background-color: #3b2f2f;
             color: #fdfaf3;
-            padding: 12px 25px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             font-family: 'Georgia', serif;
-            font-size: 15px;
-            letter-spacing: 1px;
-            transition: background 0.3s;
             text-decoration: none;
             display: inline-block;
+            transition: background 0.3s;
         }
 
-        .btn:hover {
-            background-color: #2a2320;
+        .btn {
+            padding: 12px 25px;
+            font-size: 15px;
+            letter-spacing: 1px;
         }
 
         .btn-small {
@@ -88,6 +91,11 @@
             font-size: 13px;
         }
 
+        .btn:hover {
+            background-color: #2a2320;
+        }
+
+        /* Post card styling */
         .post-card {
             padding: 20px;
             margin-bottom: 25px;
@@ -103,19 +111,31 @@
             color: #2c1c1c;
         }
 
-        .post-card p {
-            margin: 0 0 10px;
-            line-height: 1.6;
-            color: #333;
+        .post-card-content {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            align-items: flex-start;
         }
 
+        .post-card-content .post-text {
+            flex: 1;
+            text-align: justify;
+        }
+
+        .post-card-content img {
+            max-width: 250px;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Post metadata */
         .post-meta {
+            display: block;
+            margin-top: 10px;
             color: #5a4636;
             font-style: italic;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
         }
 
         .post-author {
@@ -123,16 +143,49 @@
             color: #3b2f2f;
         }
 
-        .pagination {
-            text-align: center;
-            margin-top: 30px;
+        /* Engagement (likes/comments) */
+        .engagement-section {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-top: 10px;
         }
 
-        .pagination a {
+        .engagement-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-like-dislike {
+            transition: transform 0.2s ease-in-out;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #3b2f2f;
+        }
+
+        .btn-like-dislike:hover {
+            transform: scale(1.2);
+            color: #f75d59;
+        }
+
+        .comment-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #3b2f2f;
             text-decoration: none;
-            margin: 0 5px;
+            transition: transform 0.2s ease-in-out;
         }
 
+        .comment-link:hover {
+            transform: scale(1.1);
+            color: #2a2320;
+        }
+
+        /* Messages */
         .messages {
             margin-bottom: 20px;
         }
@@ -156,48 +209,18 @@
             border: 1px solid #f5c6cb;
         }
 
-        .auth-buttons {
-            display: flex;
-            gap: 10px;
-            align-items: center;
+        /* Pagination */
+        .pagination {
+            text-align: center;
+            margin-top: 30px;
         }
 
-        .btn-like-dislike {
-            transition: transform 0.2s ease-in-out;
-        }
-
-        .btn-like-dislike:hover {
-            transform: scale(1.2);
-            color: #f75d59 !important;
-        }
-
-        .engagement-section {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .engagement-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .comment-link {
-            color: #3b2f2f;
+        .pagination a {
             text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: transform 0.2s ease-in-out;
+            margin: 0 5px;
         }
 
-        .comment-link:hover {
-            transform: scale(1.1);
-            color: #2a2320;
-        }
-
-        /* Image Modal Styles */
+        /* Image modal */
         .image-modal {
             display: none;
             position: fixed;
@@ -229,23 +252,45 @@
             cursor: pointer;
         }
 
+        .main-image-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .main-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .image-counter {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(59, 47, 47, 0.8);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+        }
+
+        /* Responsive adjustments */
         @media (max-width: 768px) {
-            .header {
+            .post-card-content {
                 flex-direction: column;
-                gap: 15px;
-                text-align: center;
             }
 
-            .user-info {
-                justify-content: center;
-            }
-
-            .auth-buttons {
+            .user-info, .auth-buttons {
                 justify-content: center;
             }
 
             .engagement-section {
                 gap: 15px;
+            }
+
+            .post-card-content img {
+                margin: 0 auto;
             }
         }
     </style>
@@ -253,6 +298,7 @@
 
 <body>
     <div class="container">
+        <!-- Header -->
         <div class="header">
             <h1>ChatBox</h1>
 
@@ -273,6 +319,7 @@
             {% endif %}
         </div>
 
+        <!-- Messages -->
         {% if messages %}
         <div class="messages">
             {% for message in messages %}
@@ -283,6 +330,7 @@
         </div>
         {% endif %}
 
+        <!-- Add Post Button -->
         <div style="text-align:center; margin-bottom:30px;">
             {% if user.is_authenticated %}
             <a href="{% url 'add_post' %}" class="btn">Add New Post</a>
@@ -293,93 +341,89 @@
             {% endif %}
         </div>
 
+        <!-- Posts Listing -->
         {% for post in page_obj %}
         <div class="post-card">
             <h2>{{ post.title }}</h2>
-
-            <div style="margin: 15px 0; overflow: hidden;">
-                {% if post.image %}
-                <img src="{{ post.image.url }}" alt="{{ post.title }}"
-                    style="float: right; max-width: 250px; margin-left: 20px; margin-bottom: 10px; border-radius: 6px; box-shadow: 0px 2px 6px rgba(0,0,0,0.1); cursor: pointer;"
-                    onclick="openImageModal('{{ post.image.url }}')">
-                {% endif %}
-
-                <div style="text-align: justify;">
+            <div class="post-card-content">
+                <div class="post-text">
                     {{ post.preview_content|linebreaks }}
+                    {% if post.show_read_more %}
+                    <a href="{% url 'post_detail' post.pk %}" class="btn btn-small"
+                        style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f; margin-top: 10px; display: inline-block;">
+                        Read More
+                    </a>
+                    {% endif %}
                 </div>
 
-                {% if post.show_read_more %}
-                <a href="{% url 'post_detail' post.pk %}" class="btn btn-small"
-                    style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f; margin-top: 10px; display: inline-block;">
-                    Read More
-                </a>
+                {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title }}"
+                    onclick="openImageModal('{{ post.image.url }}')">
                 {% endif %}
             </div>
 
-
-            <div class="post-meta" style="display: block; margin-top: 10px;">
-                <div class="post-meta-details">
-                    {% if post.author %}
-                    <small>👤 By <span class="post-author">{{ post.author.username }}</span></small>
+            <!-- Additional post images -->
+            {% with post_images=post.images.all %}
+            {% if post_images %}
+            <div class="post-images" style="margin-top: 15px;">
+                <div class="main-image-container">
+                    <img src="{{ post_images.first.image.url }}" alt="Post image" class="main-image">
+                    {% if post_images.count > 1 %}
+                    <div class="image-counter">+{{ post_images.count|add:"-1" }}</div>
                     {% endif %}
-                    <small>🕰 Posted on {{ post.created_at }}</small>
                 </div>
+            </div>
+            {% endif %}
+            {% endwith %}
 
-                <div class="post-actions"
-                    style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-                    <div class="engagement-section">
-                        <!-- Like Section -->
-                        <div class="engagement-item">
-                            {% if user.is_authenticated %}
-                            <form action="{% url 'like_post' post.pk %}" method="POST" style="display: inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn-like-dislike"
-                                    style="color: #3b2f2f; border: none; background: none; cursor: pointer; font-size: 1.2rem;">
-                                    {% if user in post.likes.all %}
-                                    <i class="fas fa-heart"></i>
-                                    {% else %}
-                                    <i class="far fa-heart"></i>
-                                    {% endif %}
-                                </button>
-                            </form>
-                            <span class="like-count" style="color: #3b2f2f; font-weight: bold; font-size: 1.1rem;">
-                                {{ post.total_likes }}
-                            </span>
-                            {% else %}
-                            <i class="far fa-heart" style="color: #3b2f2f; font-size: 1.2rem;"></i>
-                            <span style="color: #3b2f2f; font-weight: bold; font-size: 1.1rem;">
-                                {{ post.total_likes }}
-                            </span>
-                            {% endif %}
-                        </div>
-
-                        <!-- Comment Section -->
-                        <div class="engagement-item">
-                            <a href="{% url 'post_detail' post.pk %}" class="comment-link">
-                                <i class="far fa-comment" style="font-size: 1.2rem;"></i>
-                                <span style="font-weight: bold; font-size: 1.1rem;">{{ post.comment_count }}</span>
-                            </a>
-                        </div>
+            <!-- Metadata & Engagement -->
+            <div class="post-meta">
+                <small>👤 By <span class="post-author">{{ post.author.username }}</span></small>
+                <small>🕰 Posted on {{ post.created_at }}</small>
+                <div class="engagement-section">
+                    <div class="engagement-item">
+                        {% if user.is_authenticated %}
+                        <form action="{% url 'like_post' post.pk %}" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-like-dislike">
+                                {% if user in post.likes.all %}
+                                <i class="fas fa-heart"></i>
+                                {% else %}
+                                <i class="far fa-heart"></i>
+                                {% endif %}
+                            </button>
+                        </form>
+                        {% else %}
+                        <i class="far fa-heart"></i>
+                        {% endif %}
+                        <span>{{ post.total_likes }}</span>
                     </div>
 
-                    {% if post.author == user %}
-                    <a href="{% url 'delete_post' post.pk %}" class="btn btn-small"
-                        style="background-color: #fdfaf3; color: #3b2f2f; text-decoration: none; border: 1px solid #3b2f2f;">Delete</a>
-                    {% endif %}
+                    <div class="engagement-item">
+                        <a href="{% url 'post_detail' post.pk %}" class="comment-link">
+                            <i class="far fa-comment"></i> {{ post.comment_count }}
+                        </a>
+                    </div>
                 </div>
+
+                {% if post.author == user %}
+                <a href="{% url 'delete_post' post.pk %}" class="btn btn-small"
+                    style="background-color: #fdfaf3; color: #3b2f2f; border: 1px solid #3b2f2f;">Delete</a>
+                {% endif %}
             </div>
         </div>
         {% empty %}
-        <p style="text-align: center; font-style: italic; color: #5a4636;">
+        <p style="text-align:center; font-style: italic; color:#5a4636;">
             No posts yet.
             {% if user.is_authenticated %}
-            <a href="{% url 'add_post' %}" style="color: #3b2f2f;">Be the first to chat!</a>
+            <a href="{% url 'add_post' %}" style="color:#3b2f2f;">Be the first to chat!</a>
             {% else %}
-            <a href="{% url 'signup' %}" style="color: #3b2f2f;">Sign up</a> to be the first to chat!
+            <a href="{% url 'signup' %}" style="color:#3b2f2f;">Sign up</a> to be the first to chat!
             {% endif %}
         </p>
         {% endfor %}
 
+        <!-- Pagination -->
         <div class="pagination">
             {% if page_obj.has_previous %}
             <a href="?page={{ page_obj.previous_page_number }}" class="btn">← Previous</a>
@@ -391,31 +435,30 @@
     </div>
 
     <!-- Image Modal -->
-    <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+    <div id="imageModal" class="image-modal">
         <span class="close-modal" onclick="closeImageModal()">&times;</span>
         <img class="modal-content" id="modalImage">
     </div>
 
     <script>
+        // Open modal
         function openImageModal(imageSrc) {
             document.getElementById('imageModal').style.display = 'block';
             document.getElementById('modalImage').src = imageSrc;
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            document.body.style.overflow = 'hidden';
         }
 
+        // Close modal
         function closeImageModal() {
             document.getElementById('imageModal').style.display = 'none';
-            document.body.style.overflow = 'auto'; // Re-enable scrolling
+            document.body.style.overflow = 'auto';
         }
 
-        // Close modal when pressing Escape key
+        // Close modal on Escape key
         document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape') {
-                closeImageModal();
-            }
+            if (event.key === 'Escape') closeImageModal();
         });
     </script>
-
 </body>
 
 </html>
