@@ -312,9 +312,8 @@
         .dropdown-menu {
             display: none;
             position: absolute;
-            /*top: 100%;*/
-            bottom: 110%;
-            right: 10px;
+            bottom: 100%;
+            right: 0;
             background: var(--color-warm-white);
             border: 1px solid var(--color-border-warm);
             border-radius: var(--border-radius);
@@ -520,7 +519,6 @@
         }
 
         .read-more-wrapper::before {
-            content: '✒️';
             font-size: 1.2rem;
             opacity: 0.7;
         }
@@ -883,11 +881,11 @@
                         <div class="post-card-body">
                             <div class="post-card-content">
                                 <div class="post-text">
-                                    {{ post.preview_content|truncatechars:2000|linebreaks }}
+                                    {{ post.preview_content|truncatechars:700|linebreaks }}
                                     {% if post.show_read_more %}
                                     <div class="read-more-wrapper">
                                         <a href="{% url 'post_detail' post.pk %}" class="btn btn-read-more">
-                                            Continue Reading <i class="fas fa-bookmark"></i>
+                                            Read More <i class="fa fa-book"></i>
                                         </a>
                                     </div>
                                     {% endif %}

@@ -1,182 +1,677 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
-    <title>Add New Post</title>
-    <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Roboto:wght@400;700&display=swap"
-        rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compose New Piece - The Literary Salon</title>
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Source+Sans+Pro:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* --- General Theming & Resets --- */
+        /* --- Literary Magazine Color Palette & Variables --- */
         :root {
-            --color-primary: #3b2f2f;
-            --color-secondary: #fffdf5;
-            --color-accent: #f75d59;
-            --color-background: #fdfaf3;
-            --color-text: #2c1c1c;
-            --border-radius-card: 12px;
-            --box-shadow-card: 0 4px 12px rgba(0, 0, 0, 0.05);
-            --transition-speed: 0.25s;
+            --color-parchment: #faf7f2;
+            --color-cream: #f8f5f0;
+            --color-warm-white: #fefcf8;
+            --color-ink: #2c2c2c;
+            --color-ink-light: #4a4a4a;
+            --color-ink-lighter: #666666;
+            --color-burgundy: #8b2635;
+            --color-burgundy-light: #a73d4a;
+            --color-burgundy-dark: #6b1e29;
+            --color-teal: #2c5f5d;
+            --color-teal-light: #4a7b79;
+            --color-gold: #d4a574;
+            --color-gold-light: #e6c299;
+            --color-sage: #9caa9c;
+            --color-sage-light: #b8c4b8;
+            --color-border-subtle: #e8e2d8;
+            --color-border-warm: #d9d0c4;
+            --color-shadow: rgba(44, 44, 44, 0.1);
+            --color-shadow-warm: rgba(139, 38, 53, 0.15);
+            
+            --font-serif: 'Crimson Text', 'Times New Roman', serif;
+            --font-display: 'Playfair Display', 'Times New Roman', serif;
+            --font-sans: 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+            
+            --border-radius: 8px;
+            --border-radius-small: 4px;
+            --shadow-subtle: 0 2px 8px var(--color-shadow);
+            --shadow-paper: 0 4px 16px rgba(139, 38, 53, 0.08), 0 2px 8px rgba(44, 44, 44, 0.04);
+            --shadow-elevated: 0 8px 32px rgba(139, 38, 53, 0.12), 0 4px 16px rgba(44, 44, 44, 0.06);
+            --transition-elegant: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            --spacing-xxl: 4rem;
+        }
+
+        /* --- Base Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--color-background);
-            margin: 0;
-            padding: 20px;
-            color: var(--color-text);
-            line-height: 1.6;
+            font-family: var(--font-serif);
+            background: linear-gradient(135deg, var(--color-parchment) 0%, var(--color-cream) 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: var(--color-ink);
+            line-height: 1.7;
+            font-size: 16px;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            letter-spacing: 0.01em;
+            padding: var(--spacing-lg);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(139, 38, 53, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(44, 95, 93, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(212, 165, 116, 0.02) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
         }
 
         .container {
-            max-width: 700px;
-            margin: 40px auto;
-            padding: 35px 30px;
-            background-color: #fffdf7;
-            border: 1px solid #e0d9d2;
-            border-radius: var(--border-radius-card);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            max-width: 1100px;
+            margin: 0 auto;
+            background: var(--color-warm-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-paper);
+            overflow: hidden;
+            border: 1px solid var(--color-border-warm);
+            position: relative;
         }
 
-        h1 {
+        /* --- Header Section --- */
+        .header {
+            background: linear-gradient(135deg, var(--color-burgundy) 0%, var(--color-burgundy-dark) 100%);
+            color: var(--color-warm-white);
+            padding: var(--spacing-xl);
             text-align: center;
-            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header h1 {
+            font-family: var(--font-display);
             font-size: 2.5rem;
-            font-family: 'Georgia', serif;
-            letter-spacing: 1.5px;
-            color: var(--color-primary);
+            font-weight: 700;
+            font-style: italic;
+            margin: 0;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-subtitle {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-top: var(--spacing-sm);
+            font-style: italic;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- Navigation --- */
+        .nav-container {
+            padding: var(--spacing-md) var(--spacing-xl);
+            background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-parchment) 100%);
+            border-bottom: 1px solid var(--color-border-subtle);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--color-burgundy);
+            text-decoration: none;
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 8px 16px;
+            border-radius: var(--border-radius-small);
+            border: 2px solid transparent;
+            transition: all var(--transition-elegant);
+        }
+
+        .back-link:hover {
+            background: rgba(139, 38, 53, 0.1);
+            border-color: var(--color-burgundy);
+            transform: translateX(-2px);
+        }
+
+        /* --- Form Container --- */
+        .form-container {
+            padding: var(--spacing-xxl) var(--spacing-xl);
+        }
+
+        .form-introduction {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            background: linear-gradient(135deg, var(--color-parchment) 0%, var(--color-cream) 100%);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--color-border-subtle);
+        }
+
+        .form-introduction p {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            color: var(--color-ink-light);
+            font-style: italic;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* --- Form Elements --- */
+        .form-group {
+            margin-bottom: var(--spacing-xl);
         }
 
         label {
             display: block;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: var(--color-primary);
-            font-family: 'Georgia', serif;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--color-ink);
+            margin-bottom: var(--spacing-sm);
+            letter-spacing: 0.02em;
         }
 
-        input[type="text"],
-        textarea,
-        input[type="file"] {
-            width: 100%;
-            padding: 14px;
-            margin-bottom: 20px;
-            border: 1px solid #e0d9d2;
-            border-radius: 8px;
-            font-size: 16px;
-            background-color: var(--color-secondary);
-            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
-            box-sizing: border-box; /* Important for padding and border calculation */
+        label::before {
+            content: '✒️';
+            margin-right: var(--spacing-xs);
+            font-size: 1rem;
+            opacity: 0.8;
         }
-        
-        input[type="text"]:focus,
+
+        input[type="text"] {
+            width: 100%;
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--color-ink);
+            background: var(--color-warm-white);
+            border: 2px solid var(--color-border-warm);
+            border-radius: var(--border-radius);
+            transition: all var(--transition-elegant);
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--color-burgundy);
+            box-shadow: 0 0 0 4px rgba(139, 38, 53, 0.1);
+            background: var(--color-cream);
+        }
+
+        input[type="text"]::placeholder {
+            color: var(--color-ink-lighter);
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: var(--spacing-lg);
+            font-family: var(--font-serif);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--color-ink);
+            background: var(--color-warm-white);
+            border: 2px solid var(--color-border-warm);
+            border-radius: var(--border-radius);
+            transition: all var(--transition-elegant);
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
         textarea:focus {
             outline: none;
-            border-color: var(--color-primary);
-            box-shadow: 0 0 5px rgba(59, 47, 47, 0.3);
+            border-color: var(--color-burgundy);
+            box-shadow: 0 0 0 4px rgba(139, 38, 53, 0.1);
+            background: var(--color-cream);
+        }
+
+        textarea::placeholder {
+            color: var(--color-ink-lighter);
+            font-style: italic;
+        }
+
+        /* --- File Upload Section --- */
+        .file-upload-section {
+            background: linear-gradient(135deg, var(--color-parchment) 0%, var(--color-cream) 100%);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            border: 2px dashed var(--color-border-warm);
+            text-align: center;
+            transition: all var(--transition-elegant);
+            position: relative;
+        }
+
+        .file-upload-section:hover {
+            border-color: var(--color-burgundy);
+            background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-parchment) 100%);
+        }
+
+        .file-upload-section.dragover {
+            border-color: var(--color-teal);
+            background: linear-gradient(135deg, #f0f9f4 0%, #e6f7ed 100%);
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--color-burgundy);
+            margin-bottom: var(--spacing-md);
+            opacity: 0.7;
+        }
+
+        .upload-text {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            color: var(--color-ink-light);
+            margin-bottom: var(--spacing-md);
+            font-style: italic;
         }
 
         input[type="file"] {
-            display: block;
-            margin-top: 10px;
-            margin-bottom: 20px;
-        }
-
-        .btn {
-            display: block;
             width: 100%;
-            padding: 14px;
-            background-color: var(--color-primary);
-            color: var(--color-background);
-            font-size: 18px;
+            padding: var(--spacing-md);
             border: none;
-            border-radius: 8px;
+            background: transparent;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            color: var(--color-ink);
             cursor: pointer;
-            transition: background-color var(--transition-speed), transform 0.2s;
-            font-family: 'Georgia', serif;
-            letter-spacing: 1px;
         }
 
-        .btn:hover {
-            background-color: #5a4949;
-            transform: translateY(-2px);
+        input[type="file"]::file-selector-button {
+            background: var(--color-burgundy);
+            color: var(--color-warm-white);
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--border-radius-small);
+            font-family: var(--font-sans);
+            font-weight: 500;
+            cursor: pointer;
+            margin-right: var(--spacing-sm);
+            transition: all var(--transition-elegant);
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background: var(--color-burgundy-dark);
+            transform: translateY(-1px);
         }
 
         /* --- Image Preview --- */
         .image-preview {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
         }
 
-        .image-preview img {
-            width: 100px;
-            height: 100px;
+        .preview-item {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-subtle);
+            border: 1px solid var(--color-border-subtle);
+            transition: all var(--transition-elegant);
+        }
+
+        .preview-item:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-paper);
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 120px;
             object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            transition: transform 0.3s;
+            display: block;
         }
 
-        .image-preview img:hover {
-            transform: scale(1.05);
+        .preview-overlay {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: rgba(139, 38, 53, 0.9);
+            color: var(--color-warm-white);
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all var(--transition-elegant);
         }
 
-        /* --- Responsive --- */
+        .preview-overlay:hover {
+            background: var(--color-burgundy-dark);
+            width: 28px;
+            height: 28px;
+        }
+
+        /* --- Submit Button --- */
+        .submit-section {
+            margin-top: var(--spacing-xxl);
+            text-align: center;
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--color-border-subtle);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--color-teal) 0%, var(--color-teal-light) 100%);
+            color: var(--color-warm-white);
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: var(--spacing-md) var(--spacing-xxl);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all var(--transition-elegant);
+            box-shadow: var(--shadow-subtle);
+            letter-spacing: 0.02em;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-elevated);
+            background: linear-gradient(135deg, var(--color-teal-light) 0%, var(--color-teal) 100%);
+        }
+
+        .btn-submit:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-submit i {
+            font-size: 1.1rem;
+        }
+
+        /* --- Character Counter --- */
+        .char-counter {
+            text-align: right;
+            margin-top: var(--spacing-xs);
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: var(--color-ink-lighter);
+        }
+
+        .char-counter.warning {
+            color: var(--color-burgundy);
+            font-weight: 600;
+        }
+
+        /* --- Responsive Design --- */
         @media (max-width: 768px) {
-            .container {
-                margin: 20px;
-                padding: 25px 20px;
+            body {
+                padding: var(--spacing-md);
             }
 
-            h1 {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .form-container {
+                padding: var(--spacing-lg);
+            }
+
+            .image-preview {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+
+            textarea {
+                min-height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
                 font-size: 1.8rem;
             }
 
-            .btn {
-                font-size: 16px;
+            .btn-submit {
+                width: 100%;
+                padding: var(--spacing-md);
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🖋 Add a New Post</h1>
+        <div class="header">
+            <h1>Compose New Piece</h1>
+            <p class="header-subtitle">Share your literary voice with our distinguished community</p>
+        </div>
 
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <label for="{{ form.title.id_for_label }}">Title</label>
-            {{ form.title }}
+        <div class="nav-container">
+            <a href="{% url 'index' %}" class="back-link">
+                <i class="fas fa-arrow-left"></i> Return to Salon
+            </a>
+        </div>
 
-            <label for="{{ form.content.id_for_label }}">Content</label>
-            {{ form.content }}
+        <div class="form-container">
+            <div class="form-introduction">
+                <p>Welcome to your writing sanctuary. Craft your thoughts with care, for they shall grace the pages of our literary salon and inspire fellow wordsmiths.</p>
+            </div>
 
-            <label for="id_images">Upload Images (Max 8)</label>
-            <input type="file" id="id_images" name="images" accept="image/*" multiple>
+            <form method="post" enctype="multipart/form-data" id="compositionForm">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="{{ form.title.id_for_label }}">Title of Your Piece</label>
+                    {{ form.title }}
+                </div>
 
-            <div class="image-preview" id="previewContainer"></div>
+                <div class="form-group">
+                    <label for="{{ form.content.id_for_label }}">Your Literary Composition</label>
+                    {{ form.content }}
+                    <div class="char-counter" id="charCounter">0 characters</div>
+                </div>
 
-            <button type="submit" class="btn">Post</button>
-        </form>
+                <div class="form-group">
+                    <label for="id_images">Visual Accompaniment</label>
+                    <div class="file-upload-section" id="uploadSection">
+                        <div class="upload-icon">
+                            <i class="fas fa-camera-retro"></i>
+                        </div>
+                        <div class="upload-text">
+                            Select up to 8 images to complement your literary work
+                        </div>
+                        <input type="file" id="id_images" name="images" accept="image/*" multiple>
+                    </div>
+                    <div class="image-preview" id="previewContainer"></div>
+                </div>
+
+                <div class="submit-section">
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-feather-alt"></i>
+                        Publish to Salon
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>
+        // Image preview functionality
         const input = document.getElementById('id_images');
         const previewContainer = document.getElementById('previewContainer');
+        const uploadSection = document.getElementById('uploadSection');
+        let selectedFiles = [];
 
-        input.addEventListener('change', () => {
+        input.addEventListener('change', handleFileSelection);
+
+        function handleFileSelection() {
+            const files = Array.from(input.files);
+            selectedFiles = files.slice(0, 8); // Limit to 8 files
+            updatePreview();
+        }
+
+        function updatePreview() {
             previewContainer.innerHTML = '';
-            const files = Array.from(input.files).slice(0, 8); // Limit to 8
-            files.forEach(file => {
+            
+            selectedFiles.forEach((file, index) => {
                 const reader = new FileReader();
-                reader.onload = e => {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    previewContainer.appendChild(img);
+                reader.onload = function(e) {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+                    previewItem.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview ${index + 1}">
+                        <div class="preview-overlay" onclick="removeImage(${index})">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    `;
+                    previewContainer.appendChild(previewItem);
                 };
                 reader.readAsDataURL(file);
             });
+        }
+
+        function removeImage(index) {
+            selectedFiles.splice(index, 1);
+            updateFileInput();
+            updatePreview();
+        }
+
+        function updateFileInput() {
+            const dt = new DataTransfer();
+            selectedFiles.forEach(file => dt.items.add(file));
+            input.files = dt.files;
+        }
+
+        // Drag and drop functionality
+        uploadSection.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadSection.classList.add('dragover');
         });
+
+        uploadSection.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadSection.classList.remove('dragover');
+        });
+
+        uploadSection.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadSection.classList.remove('dragover');
+            
+            const files = Array.from(e.dataTransfer.files).filter(file => 
+                file.type.startsWith('image/')
+            ).slice(0, 8);
+            
+            selectedFiles = files;
+            updateFileInput();
+            updatePreview();
+        });
+
+        // Character counter
+        const textarea = document.querySelector('textarea[name="content"]');
+        const charCounter = document.getElementById('charCounter');
+
+        if (textarea && charCounter) {
+            textarea.addEventListener('input', function() {
+                const count = this.value.length;
+                charCounter.textContent = `${count} characters`;
+                
+                if (count > 5000) {
+                    charCounter.classList.add('warning');
+                } else {
+                    charCounter.classList.remove('warning');
+                }
+            });
+        }
+
+        // Title placeholder enhancement
+        const titleInput = document.querySelector('input[name="title"]');
+        if (titleInput) {
+            titleInput.placeholder = "Enter an evocative title for your piece...";
+        }
+
+        // Content placeholder enhancement
+        if (textarea) {
+            textarea.placeholder = "Pour your thoughts onto this digital parchment. Let your words flow with the rhythm of your soul, painting vivid imagery and evoking deep emotions in your readers. Every great piece begins with a single, inspired sentence...";
+        }
+
+        // Form submission enhancement
+        const form = document.getElementById('compositionForm');
+        const submitBtn = document.querySelector('.btn-submit');
+
+        form.addEventListener('submit', function() {
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publishing...';
+            submitBtn.disabled = true;
+        });
+
+        // Auto-save functionality (localStorage not available in artifacts)
+        let autoSaveTimer;
+        function setupAutoSave() {
+            [titleInput, textarea].forEach(element => {
+                if (element) {
+                    element.addEventListener('input', function() {
+                        clearTimeout(autoSaveTimer);
+                        autoSaveTimer = setTimeout(() => {
+                            // Note: In a real implementation, this would save to localStorage
+                            console.log('Auto-saving content...');
+                        }, 2000);
+                    });
+                }
+            });
+        }
+
+        setupAutoSave();
+
+        // Focus enhancement
+        if (titleInput) {
+            titleInput.focus();
+        }
     </script>
 </body>
 </html>
