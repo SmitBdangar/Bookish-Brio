@@ -5,320 +5,698 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatBox</title>
+    <title>The Literary Salon</title>
     <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Roboto:wght@400;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Source+Sans+Pro:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* --- General Theming & Resets --- */
+        /* --- Literary Magazine Color Palette & Variables --- */
         :root {
-            --color-primary: #3b2f2f;
-            --color-secondary: #fffdf5;
-            --color-accent: #f75d59;
-            --color-background: #fdfaf3;
-            --color-text: #2c1c1c;
-            --border-radius-card: 12px;
-            --box-shadow-card: 0 4px 12px rgba(0, 0, 0, 0.05);
-            --transition-speed: 0.25s;
+            --color-parchment: #faf7f2;
+            --color-cream: #f8f5f0;
+            --color-warm-white: #fefcf8;
+            --color-ink: #2c2c2c;
+            --color-ink-light: #4a4a4a;
+            --color-ink-lighter: #666666;
+            --color-burgundy: #8b2635;
+            --color-burgundy-light: #a73d4a;
+            --color-burgundy-dark: #6b1e29;
+            --color-teal: #2c5f5d;
+            --color-teal-light: #4a7b79;
+            --color-gold: #d4a574;
+            --color-gold-light: #e6c299;
+            --color-sage: #9caa9c;
+            --color-sage-light: #b8c4b8;
+            --color-border-subtle: #e8e2d8;
+            --color-border-warm: #d9d0c4;
+            --color-shadow: rgba(44, 44, 44, 0.1);
+            --color-shadow-warm: rgba(139, 38, 53, 0.15);
+            
+            --font-serif: 'Crimson Text', 'Times New Roman', serif;
+            --font-display: 'Playfair Display', 'Times New Roman', serif;
+            --font-sans: 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+            
+            --border-radius: 8px;
+            --border-radius-small: 4px;
+            --shadow-subtle: 0 2px 8px var(--color-shadow);
+            --shadow-paper: 0 4px 16px rgba(139, 38, 53, 0.08), 0 2px 8px rgba(44, 44, 44, 0.04);
+            --shadow-elevated: 0 8px 32px rgba(139, 38, 53, 0.12), 0 4px 16px rgba(44, 44, 44, 0.06);
+            --transition-elegant: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            --spacing-xxl: 4rem;
+        }
+
+        /* --- Base Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--color-background);
-            margin: 0;
-            padding: 20px;
-            color: var(--color-text);
-            line-height: 1.6;
+            font-family: var(--font-sans);
+            background: linear-gradient(135deg, var(--color-parchment) 0%, var(--color-cream) 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: var(--color-ink);
+            line-height: 1.7;
+            font-size: 16px;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            letter-spacing: 0.01em;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(139, 38, 53, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(44, 95, 93, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(212, 165, 116, 0.02) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .app-wrapper {
+            min-height: 100vh;
+            padding: var(--spacing-lg) var(--spacing-md);
         }
 
         .container {
             max-width: 1100px;
-            margin: auto;
-            background: #fff9f0;
-            border: 1px solid #e0d9d2;
-            padding: 30px;
-            border-radius: var(--border-radius-card);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            margin: 0 auto;
+            background: var(--color-warm-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-paper);
+            overflow: hidden;
+            border: 1px solid var(--color-border-warm);
         }
 
-        /* --- Header & Navigation --- */
+        /* --- Header Section --- */
         .header {
+            background: linear-gradient(135deg, var(--color-burgundy) 0%, var(--color-burgundy-dark) 100%);
+            color: var(--color-warm-white);
+            padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header-content {
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--color-primary);
-            padding-bottom: 20px;
-            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            position: relative;
+            z-index: 2;
         }
 
-        h1 {
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .logo-section h1 {
+            font-family: var(--font-display);
             font-size: 2.5rem;
-            font-family: 'Georgia', serif;
-            letter-spacing: 1.5px;
-            color: var(--color-primary);
+            font-weight: 700;
+            font-style: italic;
+            letter-spacing: -0.02em;
             margin: 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-section i {
+            font-size: 2rem;
+            margin-right: var(--spacing-xs);
+            opacity: 0.9;
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            gap: 20px;
-            font-family: 'Georgia', serif;
+            gap: var(--spacing-md);
         }
 
         .user-avatar {
-            width: 45px;
-            height: 45px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
-            background: var(--color-primary);
-            color: var(--color-background);
+            background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
+            color: var(--color-burgundy-dark);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 1.3rem;
+            font-family: var(--font-serif);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .welcome-text {
             font-size: 1.1rem;
+            opacity: 0.95;
+            font-weight: 300;
         }
 
-        /* --- Buttons --- */
-        .btn,
-        .btn-small {
-            background-color: var(--color-primary);
-            color: var(--color-background);
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: 'Georgia', serif;
-            text-decoration: none;
-            display: inline-block;
-            transition: all var(--transition-speed) ease;
+        .auth-buttons {
+            display: flex;
+            gap: var(--spacing-sm);
         }
 
+        /* --- Button Styles --- */
         .btn {
-            padding: 12px 25px;
+            padding: 12px 24px;
+            border-radius: var(--border-radius-small);
+            font-weight: 500;
             font-size: 15px;
-            letter-spacing: 1px;
+            cursor: pointer;
+            border: none;
+            transition: all var(--transition-elegant);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-xs);
+            white-space: nowrap;
+            font-family: var(--font-sans);
+            letter-spacing: 0.01em;
         }
 
-        .btn-small {
-            padding: 8px 15px;
-            font-size: 13px;
+        .btn-primary {
+            background: var(--color-burgundy);
+            color: var(--color-warm-white);
+            border: 2px solid transparent;
         }
 
-        .btn:hover,
-        .btn-small:hover {
-            background-color: #5a4949;
+        .btn-primary:hover {
+            background: var(--color-burgundy-dark);
             transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-elevated);
         }
-        
+
+        .btn-secondary {
+            background: var(--color-warm-white);
+            color: var(--color-burgundy);
+            border: 2px solid var(--color-border-warm);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-cream);
+            border-color: var(--color-burgundy);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-subtle);
+        }
+
         .btn-ghost {
-            background-color: transparent;
-            color: var(--color-primary);
-            border: 1px solid var(--color-primary);
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--color-warm-white);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
         }
 
         .btn-ghost:hover {
-            background-color: var(--color-primary);
-            color: var(--color-background);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-1px);
         }
 
-        .btn-delete {
-            background-color: #dc3545; /* A strong red color */
-            color: white; /* White text for contrast */
-            border: none;
-            border-radius: 8px; /* Slightly more rounded corners */
-            padding: 10px 20px; /* Comfortable padding */
-            font-size: 15px; /* Clear, readable text */
-            font-family: 'Georgia', serif; /* Matching your header font for consistency */
-            cursor: pointer;
-            transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        .btn-success {
+            background: linear-gradient(135deg, var(--color-teal) 0%, var(--color-teal-light) 100%);
+            color: var(--color-warm-white);
+            font-size: 1.1rem;
+            padding: 16px 32px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-subtle);
         }
-        
-        .btn-delete:hover {
-            background-color: #c82333; /* Slightly darker red on hover */
-            transform: translateY(-1px); /* Gentle lift effect */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .btn-success i {
+            font-size: 1.2rem;
+        }
+
+        .btn-read-more {
+            background: var(--color-gold);
+            color: var(--color-ink);
+            font-weight: 600;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            border-radius: 20px;
+        }
+
+        .btn-read-more:hover {
+            background: var(--color-gold-light);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+        }
+
+        /* --- Secure Delete Button --- */
+        .post-actions-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            background: var(--color-sage);
+            color: var(--color-warm-white);
+            border: none;
+            padding: 8px 12px;
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all var(--transition-elegant);
+        }
+
+        .dropdown-toggle:hover {
+            background: var(--color-sage-light);
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            /*top: 100%;*/
+            bottom: 110%;
+            right: 10px;
+            background: var(--color-warm-white);
+            border: 1px solid var(--color-border-warm);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-elevated);
+            z-index: 100;
+            min-width: 150px;
+            margin-top: 4px;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 10px 16px;
+            color: var(--color-ink);
+            text-decoration: none;
+            border-bottom: 1px solid var(--color-border-subtle);
+            transition: all var(--transition-elegant);
+            font-size: 0.9rem;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: var(--color-cream);
+        }
+
+        .dropdown-item.danger {
+            color: var(--color-burgundy);
+        }
+
+        .dropdown-item.danger:hover {
+            background: #fef2f2;
+            color: var(--color-burgundy-dark);
+        }
+
+        /* --- Main Content Area --- */
+        .main-content {
+            padding: var(--spacing-xxl) var(--spacing-xl);
+            background: var(--color-warm-white);
+        }
+
+        /* --- Messages/Alerts --- */
+        .messages {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .alert {
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-family: var(--font-serif);
+            font-size: 1.05rem;
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, #f0f9f4 0%, #e6f7ed 100%);
+            color: var(--color-teal);
+            border-left: 4px solid var(--color-teal);
+            border: 1px solid #d1fae5;
+        }
+
+        .alert-error {
+            background: linear-gradient(135deg, #fef7f7 0%, #fef2f2 100%);
+            color: var(--color-burgundy);
+            border-left: 4px solid var(--color-burgundy);
+            border: 1px solid #fecaca;
+        }
+
+        /* --- Post Creation Section --- */
+        .post-actions {
+            text-align: center;
+            margin-bottom: var(--spacing-xxl);
+            padding: var(--spacing-xl);
+            background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-parchment) 100%);
+            border-radius: var(--border-radius);
+            border: 2px solid var(--color-border-warm);
+            position: relative;
+        }
+
+        .post-actions::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-burgundy) 50%, var(--color-teal) 100%);
+            border-radius: var(--border-radius);
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .empty-state-text {
+            color: var(--color-ink-light);
+            font-size: 1.2rem;
+            font-family: var(--font-serif);
+            font-style: italic;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .empty-state-text a {
+            color: var(--color-burgundy);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            transition: all var(--transition-elegant);
+        }
+
+        .empty-state-text a:hover {
+            border-bottom-color: var(--color-burgundy);
         }
 
         /* --- Post Cards --- */
+        .posts-grid {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xl);
+        }
+
         .post-card {
-            padding: 25px;
-            margin-bottom: 30px;
-            background-color: var(--color-secondary);
-            border: 1px solid #e0d9d2;
-            border-left: 5px solid var(--color-primary);
-            border-radius: 10px;
-            box-shadow: var(--box-shadow-card);
-            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            background: var(--color-warm-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-paper);
+            overflow: hidden;
+            transition: all var(--transition-elegant);
+            border: 1px solid var(--color-border-subtle);
+            position: relative;
+        }
+
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-burgundy) 0%, var(--color-gold) 50%, var(--color-teal) 100%);
+            opacity: 0;
+            transition: opacity var(--transition-elegant);
         }
 
         .post-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-elevated);
+            border-color: var(--color-border-warm);
+        }
+
+        .post-card:hover::before {
+            opacity: 1;
+        }
+
+        .post-card-header {
+            padding: var(--spacing-lg) var(--spacing-xl) var(--spacing-md);
+            background: linear-gradient(135deg, var(--color-parchment) 0%, var(--color-cream) 100%);
+            border-bottom: 1px solid var(--color-border-subtle);
         }
 
         .post-card h2 {
-            margin: 0 0 15px;
-            font-family: 'Georgia', serif;
-            color: var(--color-text);
+            font-family: var(--font-display);
             font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-ink);
+            margin: 0;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+        }
+
+        .post-card-body {
+            padding: var(--spacing-xl);
         }
 
         .post-card-content {
             display: flex;
-            flex-direction: row;
-            gap: 25px;
+            gap: var(--spacing-xl);
             align-items: flex-start;
         }
 
         .post-text {
             flex: 1;
-            text-align: justify;
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--color-ink-light);
+        }
+
+        .post-text p {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .read-more-wrapper {
+            margin-top: var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .read-more-wrapper::before {
+            content: '✒️';
+            font-size: 1.2rem;
+            opacity: 0.7;
         }
 
         .post-card-content img {
-            max-width: 280px;
-            border-radius: 8px;
+            max-width: 300px;
+            width: 100%;
+            border-radius: var(--border-radius);
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            transition: all var(--transition-elegant);
+            box-shadow: var(--shadow-subtle);
+            border: 1px solid var(--color-border-subtle);
         }
 
         .post-card-content img:hover {
             transform: scale(1.02);
-        }
-
-        .post-images img {
-            max-width: 150px;
-            height: auto;
-            border-radius: 6px;
+            box-shadow: var(--shadow-elevated);
         }
 
         .post-images {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-lg);
+            flex-wrap: wrap;
         }
 
-        /* --- Post Metadata & Engagement --- */
+        .post-images img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all var(--transition-elegant);
+            box-shadow: var(--shadow-subtle);
+            border: 1px solid var(--color-border-subtle);
+        }
+
+        .post-images img:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-elevated);
+        }
+
+        /* --- Post Footer --- */
+        .post-card-footer {
+            padding: var(--spacing-md) var(--spacing-xl);
+            background: linear-gradient(135deg, var(--color-parchment) 0%, var(--color-cream) 100%);
+            border-top: 1px solid var(--color-border-subtle);
+        }
+
         .post-meta {
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            margin-top: 20px;
-            color: #5a4636;
-            font-style: italic;
-            gap: 15px;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
         }
 
         .post-meta-details {
             display: flex;
-            gap: 20px;
+            gap: var(--spacing-lg);
+            color: var(--color-ink-lighter);
+            font-size: 0.95rem;
+            font-family: var(--font-sans);
         }
 
         .post-author {
-            font-weight: bold;
-            color: var(--color-primary);
+            color: var(--color-burgundy);
+            font-weight: 600;
+            font-family: var(--font-serif);
         }
 
         .engagement-section {
             display: flex;
-            gap: 25px;
+            gap: var(--spacing-lg);
             align-items: center;
         }
 
         .engagement-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            color: var(--color-primary);
-            font-weight: bold;
+            gap: var(--spacing-xs);
         }
 
         .btn-like-dislike {
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 1.25rem;
-            color: #5a4636;
-            transition: transform var(--transition-speed) ease-in-out, color var(--transition-speed) ease;
+            font-size: 1.3rem;
+            color: var(--color-ink-lighter);
+            transition: all var(--transition-elegant);
+            padding: var(--spacing-xs);
+            border-radius: var(--border-radius-small);
         }
 
         .btn-like-dislike:hover {
             transform: scale(1.1);
-            color: var(--color-accent);
+            color: var(--color-burgundy);
+            background: rgba(139, 38, 53, 0.1);
         }
 
         .liked {
-            color: var(--color-accent) !important;
+            color: var(--color-burgundy) !important;
         }
 
         .comment-link {
             display: flex;
             align-items: center;
-            gap: 8px;
-            color: var(--color-primary);
+            gap: var(--spacing-xs);
+            color: var(--color-ink-lighter);
             text-decoration: none;
-            transition: transform var(--transition-speed) ease-in-out, color var(--transition-speed) ease;
+            font-size: 1.3rem;
+            transition: all var(--transition-elegant);
+            padding: var(--spacing-xs);
+            border-radius: var(--border-radius-small);
         }
 
         .comment-link:hover {
+            color: var(--color-teal);
+            background: rgba(44, 95, 93, 0.1);
             transform: scale(1.05);
-            color: #2a2320;
         }
 
-        /* --- Messages & Empty State --- */
-        .alert {
-            padding: 12px 20px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            font-family: 'Georgia', serif;
+        .engagement-count {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-ink);
+            font-family: var(--font-sans);
         }
 
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .post-actions {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
+        /* --- Empty State --- */
         .empty-state {
             text-align: center;
+            padding: var(--spacing-xxl) var(--spacing-lg);
+            background: linear-gradient(135deg, var(--color-parchment) 0%, var(--color-cream) 100%);
+            border-radius: var(--border-radius);
+            border: 2px dashed var(--color-border-warm);
+            color: var(--color-ink-light);
+            position: relative;
+        }
+
+        .empty-state::before {
+            content: '📖';
+            font-size: 4rem;
+            display: block;
+            margin-bottom: var(--spacing-md);
+            opacity: 0.7;
+        }
+
+        .empty-state p {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
             font-style: italic;
-            color: #5a4636;
-            padding: 30px;
-            border: 1px dashed #d9c4b1;
-            border-radius: 8px;
+            margin: 0;
+            line-height: 1.6;
         }
 
         .empty-state a {
-            color: var(--color-primary);
-            text-decoration: underline;
+            color: var(--color-burgundy);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            transition: all var(--transition-elegant);
+        }
+
+        .empty-state a:hover {
+            border-bottom-color: var(--color-burgundy);
         }
 
         /* --- Pagination --- */
         .pagination {
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        .pagination a {
-            text-decoration: none;
-            margin: 0 8px;
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-xl);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--color-border-subtle);
         }
 
         /* --- Image Modal --- */
@@ -330,8 +708,9 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
+            background-color: rgba(44, 44, 44, 0.95);
             cursor: pointer;
+            backdrop-filter: blur(8px);
         }
 
         .modal-content {
@@ -339,188 +718,274 @@
             margin: auto;
             max-width: 90%;
             max-height: 90%;
-            margin-top: 5%;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            margin-top: 2%;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-elevated);
+            border: 2px solid var(--color-warm-white);
         }
 
         .close-modal {
             position: absolute;
-            top: 15px;
-            right: 35px;
-            color: white;
-            font-size: 40px;
-            font-weight: bold;
+            top: 30px;
+            right: 50px;
+            color: var(--color-warm-white);
+            font-size: 36px;
+            font-weight: 300;
             cursor: pointer;
-            transition: color 0.2s;
+            transition: all var(--transition-elegant);
+            background: rgba(139, 38, 53, 0.8);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
         }
 
         .close-modal:hover {
-            color: var(--color-accent);
+            color: var(--color-gold);
+            background: rgba(139, 38, 53, 0.9);
+            transform: rotate(90deg);
         }
 
         /* --- Responsive Design --- */
         @media (max-width: 768px) {
-            .container {
-                padding: 20px 15px;
+            .app-wrapper {
+                padding: var(--spacing-sm);
             }
 
             .header {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
+                padding: var(--spacing-lg);
+            }
+
+            .logo-section h1 {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding: var(--spacing-lg);
             }
 
             .post-card-content {
                 flex-direction: column;
-                gap: 15px;
             }
 
             .post-card-content img {
-                margin: 0 auto;
                 max-width: 100%;
             }
-            
+
             .post-meta {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 10px;
             }
 
-            .post-meta-details, .engagement-section {
-                gap: 15px;
+            .engagement-section {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .user-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .auth-buttons {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .logo-section h1 {
+                font-size: 1.8rem;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>ChatBox</h1>
+    <div class="app-wrapper">
+        <div class="container">
+            <div class="header">
+                <div class="header-content">
+                    <div class="logo-section">
+                        <i class="fas fa-feather-alt"></i>
+                        <h1>The Literary Salon</h1>
+                    </div>
 
-            {% if user.is_authenticated %}
-            <div class="user-info">
-                <div class="user-avatar">{{ user.username|first|upper }}</div>
-                <span>Welcome, {{ user.username }}!</span>
-                <div class="auth-buttons">
-                    <a href="{% url 'profile' %}" class="btn btn-small btn-ghost">Profile</a>
-                    <a href="{% url 'logout' %}" class="btn btn-small">Logout</a>
+                    {% if user.is_authenticated %}
+                    <div class="user-info">
+                        <div class="user-avatar">{{ user.username|first|upper }}</div>
+                        <span class="welcome-text">Welcome to the salon, {{ user.username }}</span>
+                        <div class="auth-buttons">
+                            <a href="{% url 'profile' %}" class="btn btn-ghost">
+                                <i class="fas fa-user-circle"></i> Profile
+                            </a>
+                            <a href="{% url 'logout' %}" class="btn btn-ghost">
+                                <i class="fas fa-sign-out-alt"></i> Farewell
+                            </a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="auth-buttons">
+                        <a href="{% url 'login' %}" class="btn btn-ghost">
+                            <i class="fas fa-door-open"></i> Enter Salon
+                        </a>
+                        <a href="{% url 'signup' %}" class="btn btn-ghost">
+                            <i class="fas fa-quill-pen"></i> Join the Circle
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
-            {% else %}
-            <div class="auth-buttons">
-                <a href="{% url 'login' %}" class="btn btn-small btn-ghost">Login</a>
-                <a href="{% url 'signup' %}" class="btn btn-small">Sign Up</a>
-            </div>
-            {% endif %}
-        </div>
 
-        {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
+            <div class="main-content">
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        <i class="fas fa-check-circle"></i>
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
 
-        <div class="post-actions">
-            {% if user.is_authenticated %}
-            <a href="{% url 'add_post' %}" class="btn">Add New Post</a>
-            {% else %}
-            <p class="empty-state-text">
-                Please <a href="{% url 'login' %}">login</a> to add new posts
-            </p>
-            {% endif %}
-        </div>
-
-        {% for post in page_obj %}
-        <div class="post-card">
-            <h2>{{ post.title }}</h2>
-            <div class="post-card-content">
-                <div class="post-text">
-                    {{ post.preview_content|linebreaks }}
-                    {% if post.show_read_more %}
-                    <a href="{% url 'post_detail' post.pk %}" class="btn btn-small btn-ghost">
-                        Read More
+                <div class="post-actions">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'add_post' %}" class="btn btn-success">
+                        <i class="fas fa-pen-fancy"></i> Compose New Piece
                     </a>
+                    {% else %}
+                    <p class="empty-state-text">
+                        Please <a href="{% url 'login' %}">join our literary salon</a> to share your thoughts and engage with fellow writers
+                    </p>
                     {% endif %}
                 </div>
 
-                {% if post.image %}
-                <img src="{{ post.image.url }}" alt="{{ post.title }}" onclick="openImageModal('{{ post.image.url }}')">
-                {% endif %}
-            </div>
+                <div class="posts-grid">
+                    {% for post in page_obj %}
+                    <div class="post-card">
+                        <div class="post-card-header">
+                            <h2>{{ post.title }}</h2>
+                        </div>
+                        
+                        <div class="post-card-body">
+                            <div class="post-card-content">
+                                <div class="post-text">
+                                    {{ post.preview_content|truncatechars:2000|linebreaks }}
+                                    {% if post.show_read_more %}
+                                    <div class="read-more-wrapper">
+                                        <a href="{% url 'post_detail' post.pk %}" class="btn btn-read-more">
+                                            Continue Reading <i class="fas fa-bookmark"></i>
+                                        </a>
+                                    </div>
+                                    {% endif %}
+                                </div>
 
-            {% with post_images=post.images.all %}
-            {% if post_images %}
-            <div class="post-images">
-                {% for img in post_images %}
-                    <img src="{{ img.image.url }}" alt="Post image" onclick="openImageModal('{{ img.image.url }}')">
-                {% endfor %}
-            </div>
-            {% endif %}
-            {% endwith %}
-
-            <div class="post-meta">
-                <div class="post-meta-details">
-                    <span>👤 By <span class="post-author">{{ post.author.username }}</span></span>
-                    <span>🕰 Posted on {{ post.created_at }}</span>
-                </div>
-                
-                <div class="engagement-section">
-                    <div class="engagement-item">
-                        {% if user.is_authenticated %}
-                        <form action="{% url 'like_post' post.pk %}" method="POST" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn-like-dislike">
-                                {% if user in post.likes.all %}
-                                <i class="fas fa-heart liked"></i>
-                                {% else %}
-                                <i class="far fa-heart"></i>
+                                {% if post.image %}
+                                <img src="{{ post.image.url }}" alt="{{ post.title }}" onclick="openImageModal('{{ post.image.url }}')">
                                 {% endif %}
-                            </button>
-                        </form>
-                        {% else %}
-                        <i class="far fa-heart"></i>
-                        {% endif %}
-                        <span>{{ post.total_likes }}</span>
-                    </div>
+                            </div>
 
-                    <div class="engagement-item">
-                        <a href="{% url 'post_detail' post.pk %}" class="comment-link">
-                            <i class="far fa-comment"></i> {{ post.comment_count }}
-                        </a>
+                            {% with post_images=post.images.all %}
+                            {% if post_images %}
+                            <div class="post-images">
+                                {% for img in post_images %}
+                                <img src="{{ img.image.url }}" alt="Post image" onclick="openImageModal('{{ img.image.url }}')">
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            {% endwith %}
+                        </div>
+
+                        <div class="post-card-footer">
+                            <div class="post-meta">
+                                <div class="post-meta-details">
+                                    <span><i class="fas fa-user-edit"></i> By <span class="post-author">{{ post.author.username }}</span></span>
+                                    <span><i class="fas fa-calendar-alt"></i> {{ post.created_at }}</span>
+                                </div>
+                                
+                                <div class="engagement-section">
+                                    <div class="engagement-item">
+                                        {% if user.is_authenticated %}
+                                        <form action="{% url 'like_post' post.pk %}" method="POST" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn-like-dislike">
+                                                {% if user in post.likes.all %}
+                                                <i class="fas fa-heart liked"></i>
+                                                {% else %}
+                                                <i class="far fa-heart"></i>
+                                                {% endif %}
+                                            </button>
+                                        </form>
+                                        {% else %}
+                                        <i class="far fa-heart btn-like-dislike"></i>
+                                        {% endif %}
+                                        <span class="engagement-count">{{ post.total_likes }}</span>
+                                    </div>
+
+                                    <div class="engagement-item">
+                                        <a href="{% url 'post_detail' post.pk %}" class="comment-link">
+                                            <i class="fas fa-comments"></i>
+                                        </a>
+                                        <span class="engagement-count">{{ post.comment_count }}</span>
+                                    </div>
+                                    
+                                    {% if post.author == user %}
+                                    <div class="post-actions-dropdown">
+                                        <button class="dropdown-toggle" onclick="toggleDropdown(this)">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="{% url 'delete_post' post.pk %}" class="dropdown-item danger" 
+                                               onclick="return confirm('Are you certain you wish to remove this piece from the salon? This action cannot be undone.')">
+                                                <i class="fas fa-trash-alt"></i> Remove Piece
+                                            </a>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    {% empty %}
+                    <div class="empty-state">
+                        <p>
+                            The salon awaits its first contribution. 
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'add_post' %}">Share your literary voice with the world!</a>
+                            {% else %}
+                            <a href="{% url 'signup' %}">Join our community</a> to begin the conversation!
+                            {% endif %}
+                        </p>
+                    </div>
+                    {% endfor %}
                 </div>
 
-                {% if post.author == user %}
-                <a href="{% url 'delete_post' post.pk %}" class="btn btn-delete">Delete Post</a>
-                {% endif %}
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-secondary">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </a>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-secondary">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </a>
+                    {% endif %}
+                </div>
             </div>
-        </div>
-        {% empty %}
-        <div class="empty-state">
-            <p>
-                No posts yet.
-                {% if user.is_authenticated %}
-                <a href="{% url 'add_post' %}">Be the first to chat!</a>
-                {% else %}
-                <a href="{% url 'signup' %}">Sign up</a> to be the first to chat!
-                {% endif %}
-            </p>
-        </div>
-        {% endfor %}
-
-        <div class="pagination">
-            {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-small">← Previous</a>
-            {% endif %}
-            {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-small">Next →</a>
-            {% endif %}
         </div>
     </div>
 
@@ -541,8 +1006,61 @@
             document.body.style.overflow = 'auto';
         }
 
+        function toggleDropdown(button) {
+            const dropdown = button.nextElementSibling;
+            const isOpen = dropdown.classList.contains('show');
+            
+            // Close all other dropdowns
+            document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+                menu.classList.remove('show');
+            });
+            
+            // Toggle current dropdown
+            if (!isOpen) {
+                dropdown.classList.add('show');
+            }
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.post-actions-dropdown')) {
+                document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+                    menu.classList.remove('show');
+                });
+            }
+        });
+
         document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') closeImageModal();
+            if (event.key === 'Escape') {
+                closeImageModal();
+                // Close all dropdowns
+                document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+                    menu.classList.remove('show');
+                });
+            }
+        });
+
+        // Add smooth scroll behavior for any anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add subtle parallax effect to header
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.header');
+            const speed = scrolled * 0.5;
+            if (parallax) {
+                parallax.style.transform = 'translateY(' + speed + 'px)';
+            }
         });
     </script>
 </body>
