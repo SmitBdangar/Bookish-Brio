@@ -862,7 +862,7 @@
                 <div class="post-actions">
                     {% if user.is_authenticated %}
                     <a href="{% url 'add_post' %}" class="btn btn-success">
-                        <i class="fas fa-pen-fancy"></i> Compose New Piece
+                         Write a Post
                     </a>
                     {% else %}
                     <p class="empty-state-text">
@@ -948,7 +948,7 @@
                                         <div class="dropdown-menu">
                                             <a href="{% url 'delete_post' post.pk %}" class="dropdown-item danger" 
                                                onclick="return confirm('Are you certain you wish to remove this piece from the salon? This action cannot be undone.')">
-                                                <i class="fas fa-trash-alt"></i> Remove Piece
+                                                <i class="fas fa-trash-alt"></i> Remove
                                             </a>
                                         </div>
                                     </div>

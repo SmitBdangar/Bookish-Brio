@@ -147,7 +147,6 @@
         }
 
         .header h1::before {
-            content: '✒️';
             margin-right: var(--spacing-sm);
             font-size: 1.8rem;
             opacity: 0.9;
@@ -361,13 +360,6 @@
             opacity: 0.8;
         }
 
-        .info-card h3.account::before {
-            content: '👤';
-        }
-
-        .info-card h3.activity::before {
-            content: '📊';
-        }
 
         .info-item {
             display: flex;
@@ -416,7 +408,6 @@
         }
 
         .posts-section h3::before {
-            content: '📝';
             font-size: 1.5rem;
             opacity: 0.8;
         }
@@ -634,13 +625,13 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>The Literary Salon</h1>
+            <h1>Bookish Brio</h1>
             <div class="nav-links">
                 <a href="{% url 'index' %}" class="btn">
-                    <i class="fas fa-home"></i> Salon Hall
+                    <i class="fas fa-home"></i> Return
                 </a>
                 <a href="{% url 'logout' %}" class="btn btn-ghost">
-                    <i class="fas fa-sign-out-alt"></i> Farewell
+                    <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
             </div>
         </div>
@@ -653,32 +644,32 @@
                         <h2>{{ user.first_name|default:user.username }}</h2>
                         <p class="member-since">
                             <i class="fas fa-calendar-alt"></i>
-                            Distinguished member since {{ user.date_joined|date:"F Y" }}
+                            member since {{ user.date_joined|date:"F Y" }}
                         </p>
                     </div>
                 </div>
 
                 <div class="info-grid">
                     <div class="info-card">
-                        <h3 class="account">Author Information</h3>
+                        <h3 class="account">User Information</h3>
                         <div class="info-item">
-                            <span class="info-label">Pen Name:</span>
+                            <span class="info-label">Name:</span>
                             <span class="info-value">{{ user.username }}</span>
                         </div>
                         <div class="info-item">
-                            <span class="info-label">Correspondence:</span>
+                            <span class="info-label">Email:</span>
                             <span class="info-value">{{ user.email|default:"Private" }}</span>
                         </div>
                         <div class="info-item">
-                            <span class="info-label">Joined Salon:</span>
+                            <span class="info-label">Joined:</span>
                             <span class="info-value">{{ user.date_joined|date:"F j, Y" }}</span>
                         </div>
                     </div>
 
                     <div class="info-card">
-                        <h3 class="activity">Literary Contributions</h3>
+                        <h3 class="activity">Contributions</h3>
                         <div class="info-item">
-                            <span class="info-label">Published Pieces:</span>
+                            <span class="info-label">Total Post:</span>
                             <span class="info-value">{{ user_posts.count }}</span>
                         </div>
                         <div class="info-item">
@@ -694,7 +685,7 @@
             </div>
 
             <div class="posts-section">
-                <h3>Recent Literary Works</h3>
+                <h3>Recent Post</h3>
                 {% if user_posts %}
                 {% for post in user_posts|slice:":5" %}
                 <div class="post-card">
@@ -717,18 +708,18 @@
                 {% endif %}
                 {% else %}
                 <div class="no-posts">
-                    <p>Your literary journey awaits its first chapter!</p>
-                    <p><a href="{% url 'add_post' %}">Compose your inaugural piece</a> and join our community of writers.</p>
+                    <p>Let's begin your writing journey.</p>
+                    <p><a href="{% url 'add_post' %}">Write your first post</a> and join our community of writers.</p>
                 </div>
                 {% endif %}
             </div>
 
             <div class="action-bar">
                 <a href="{% url 'add_post' %}" class="btn btn-action">
-                    <i class="fas fa-pen-fancy"></i> Compose New Work
+                     Write a Post
                 </a>
                 <a href="{% url 'index' %}" class="btn btn-primary">
-                    <i class="fas fa-book-open"></i> Browse Salon
+                     Browse
                 </a>
             </div>
         </div>
