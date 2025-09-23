@@ -1,40 +1,37 @@
 """
 Django settings for mysite project.
-Production-ready version.
+Production-ready version for Render + Cloudinary.
 """
 
 from pathlib import Path
 import os
 import dj_database_url
 from django.contrib.messages import constants as messages
+import environ
+from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get(
-    "SECRET_KEY",
-    "django-insecure-ces8i$+@x%-hl37cvr4^d3fxfcq3t#n6*33w)!ywnc=jqr$(ho",  # fallback for local dev
-)
-
-STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = os.environ.get("DEBUG", "False") == "True"
-DEBUG = True
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))  # explicitly point to .env
 
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# SECURITY
+SECRET_KEY = env("SECRET_KEY", default="django-insecure-local-dev-secret")
+DEBUG = env.bool("DEBUG", default=False)
+
+# Hosts
 ALLOWED_HOSTS = [
-    ".up.railway.app",   # allow all Railway subdomains
+    ".onrender.com",  # Render domain
     "localhost",
     "127.0.0.1",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.up.railway.app",
+    "https://*.onrender.com",
 ]
-
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
@@ -45,7 +42,7 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
 
-# Message framework configuration
+# Messages framework
 MESSAGE_TAGS = {
     messages.DEBUG: 'debug',
     messages.INFO: 'info',
@@ -54,7 +51,7 @@ MESSAGE_TAGS = {
     messages.ERROR: 'error',
 }
 
-# Application definition
+# Installed apps
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -63,8 +60,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "home",
+    "cloudinary",
+    "cloudinary_storage",
 ]
 
+# Middleware
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -95,13 +95,21 @@ TEMPLATES = [
 WSGI_APPLICATION = "mysite.wsgi.application"
 
 # Database
-# Default to SQLite, but use DATABASE_URL if provided (Render/Railway provide this)
 DATABASES = {
     "default": dj_database_url.config(
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=600,
     )
 }
+
+# Cloudinary media files
+CLOUDINARY_URL = env("CLOUDINARY_URL")  # format: cloudinary://API_KEY:API_SECRET@CLOUD_NAME
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+MEDIA_URL = '/media/'
+
+# Static files
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -117,9 +125,4 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
-# Static files
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
-
-# Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
