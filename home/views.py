@@ -10,6 +10,11 @@ from django.core.paginator import Paginator
 
 from .models import Post, Comment, PostImage
 from .forms import PostForm, CommentForm
+from django.http import HttpResponse
+
+def health_check(request):
+    return HttpResponse("OK")
+
 
 
 def index(request):
