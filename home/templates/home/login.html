@@ -147,7 +147,6 @@
         }
 
         .login-header h1::before {
-            content: '✒️';
             margin-right: var(--spacing-sm);
             font-size: 2rem;
             opacity: 0.9;
@@ -229,7 +228,6 @@
         }
 
         .form-group label::before {
-            content: '📝';
             margin-right: var(--spacing-xs);
             font-size: 1rem;
             opacity: 0.8;
@@ -423,14 +421,12 @@
 <body>
     <div class="container">
         <div class="login-header">
-            <h1>The Literary Salon</h1>
-            <p>Welcome back to our community of distinguished writers</p>
+            <h1>Bookish Brio</h1>
+            <p>Welcome back</p>
         </div>
 
         <div class="form-container">
-            <div class="welcome-message">
-                The salon doors await your return. Please present your credentials to rejoin our circle of literary minds and continue your journey through words and ideas.
-            </div>
+            
 
             {% if messages %}
             <div class="messages">
@@ -446,28 +442,27 @@
             <form method="post" id="loginForm">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="username">Literary Alias</label>
+                    <label for="username">Username</label>
                     <input type="text" id="username" name="username" class="form-control" 
-                           placeholder="Enter your pen name..." required autocomplete="username">
+                           placeholder="Enter your username..." required autocomplete="username">
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Secret Passphrase</label>
+                    <label for="password">Password</label>
                     <input type="password" id="password" name="password" class="form-control" 
-                           placeholder="Your private salon key..." required autocomplete="current-password">
+                           placeholder="Enter your password..." required autocomplete="current-password">
                 </div>
 
                 <button type="submit" class="btn-submit" id="submitBtn">
-                    <i class="fas fa-door-open"></i>
-                    Enter the Salon
+                    Login
                 </button>
             </form>
 
             <div class="links">
-                <p>New to our literary circle? <a href="{% url 'signup' %}">Request membership here</a></p>
+                <p>Join our community of writers.  <a href="{% url 'signup' %}">Request to join here</a></p>
                 <div class="divider">⚜ ⚜ ⚜</div>
                 <p><a href="{% url 'index' %}" class="back-link">
-                    <i class="fas fa-arrow-left"></i> Browse salon as guest
+                    <i class="fas fa-arrow-left"></i> Browse as guest
                 </a></p>
             </div>
         </div>

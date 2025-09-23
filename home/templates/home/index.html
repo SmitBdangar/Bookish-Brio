@@ -817,30 +817,30 @@
             <div class="header">
                 <div class="header-content">
                     <div class="logo-section">
-                        <i class="fas fa-feather-alt"></i>
-                        <h1>The Literary Salon</h1>
+                        
+                        <h1>Bookish Brio</h1>
                     </div>
 
                     {% if user.is_authenticated %}
                     <div class="user-info">
                         <div class="user-avatar">{{ user.username|first|upper }}</div>
-                        <span class="welcome-text">Welcome to the salon, {{ user.username }}</span>
+                        <span class="welcome-text">Welcome, {{ user.username }}</span>
                         <div class="auth-buttons">
                             <a href="{% url 'profile' %}" class="btn btn-ghost">
                                 <i class="fas fa-user-circle"></i> Profile
                             </a>
                             <a href="{% url 'logout' %}" class="btn btn-ghost">
-                                <i class="fas fa-sign-out-alt"></i> Farewell
+                                <i class="fas fa-sign-out-alt"></i> Logout
                             </a>
                         </div>
                     </div>
                     {% else %}
                     <div class="auth-buttons">
                         <a href="{% url 'login' %}" class="btn btn-ghost">
-                            <i class="fas fa-door-open"></i> Enter Salon
+                            <i class="fas fa-door-open"></i> Login
                         </a>
                         <a href="{% url 'signup' %}" class="btn btn-ghost">
-                            <i class="fas fa-quill-pen"></i> Join the Circle
+                            <i class="fas fa-quill-pen"></i> Sign up
                         </a>
                     </div>
                     {% endif %}
@@ -866,7 +866,7 @@
                     </a>
                     {% else %}
                     <p class="empty-state-text">
-                        Please <a href="{% url 'login' %}">join our literary salon</a> to share your thoughts and engage with fellow writers
+                        Please <a href="{% url 'login' %}">join our community </a> to share your thoughts and engage with fellow writers
                     </p>
                     {% endif %}
                 </div>
