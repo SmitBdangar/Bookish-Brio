@@ -219,7 +219,6 @@
         }
 
         label::before {
-            content: '✒️';
             margin-right: var(--spacing-xs);
             font-size: 1rem;
             opacity: 0.8;
@@ -489,43 +488,43 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Compose New Piece</h1>
-            <p class="header-subtitle">Share your literary voice with our distinguished community</p>
+            <h1>Create Post</h1>
+            <p class="header-subtitle">Share your writing with our community</p>
         </div>
 
         <div class="nav-container">
             <a href="{% url 'index' %}" class="back-link">
-                <i class="fas fa-arrow-left"></i> Return to Salon
+                <i class="fas fa-arrow-left"></i> Return
             </a>
         </div>
 
         <div class="form-container">
-            <div class="form-introduction">
-                <p>Welcome to your writing sanctuary. Craft your thoughts with care, for they shall grace the pages of our literary salon and inspire fellow wordsmiths.</p>
-            </div>
+            <!-- <div class="form-introduction">
+                <p>This is your space to write and share. Join our community of writers.</p>
+            </div> -->
 
             <form method="post" enctype="multipart/form-data" id="compositionForm">
                 {% csrf_token %}
                 
                 <div class="form-group">
-                    <label for="{{ form.title.id_for_label }}">Title of Your Piece</label>
+                    <label for="{{ form.title.id_for_label }}">Title</label>
                     {{ form.title }}
                 </div>
 
                 <div class="form-group">
-                    <label for="{{ form.content.id_for_label }}">Your Literary Composition</label>
+                    <label for="{{ form.content.id_for_label }}">Description</label>
                     {{ form.content }}
                     <div class="char-counter" id="charCounter">0 characters</div>
                 </div>
 
                 <div class="form-group">
-                    <label for="id_images">Visual Accompaniment</label>
+                    <label for="id_images">Upload Image</label>
                     <div class="file-upload-section" id="uploadSection">
                         <div class="upload-icon">
                             <i class="fas fa-camera-retro"></i>
                         </div>
                         <div class="upload-text">
-                            Select up to 8 images to complement your literary work
+                            Select up to 8 images or drag and drop them here
                         </div>
                         <input type="file" id="id_images" name="images" accept="image/*" multiple>
                     </div>
@@ -534,8 +533,8 @@
 
                 <div class="submit-section">
                     <button type="submit" class="btn-submit">
-                        <i class="fas fa-feather-alt"></i>
-                        Publish to Salon
+                        <!-- <i class="fas fa-feather-alt"></i> -->
+                        Publish
                     </button>
                 </div>
             </form>
@@ -633,12 +632,12 @@
         // Title placeholder enhancement
         const titleInput = document.querySelector('input[name="title"]');
         if (titleInput) {
-            titleInput.placeholder = "Enter an evocative title for your piece...";
+            titleInput.placeholder = "Write your title here...";
         }
 
         // Content placeholder enhancement
         if (textarea) {
-            textarea.placeholder = "Pour your thoughts onto this digital parchment. Let your words flow with the rhythm of your soul, painting vivid imagery and evoking deep emotions in your readers. Every great piece begins with a single, inspired sentence...";
+            textarea.placeholder = "Tell us a little about your writing...";
         }
 
         // Form submission enhancement
