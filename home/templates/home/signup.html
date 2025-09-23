@@ -147,7 +147,6 @@
         }
 
         .signup-header h1::before {
-            content: '🖋️';
             margin-right: var(--spacing-sm);
             font-size: 2rem;
             opacity: 0.9;
@@ -238,20 +237,19 @@
         }
 
         .form-group label::before {
-            content: '✏️';
             margin-right: var(--spacing-xs);
             font-size: 1rem;
             opacity: 0.8;
         }
 
-        .form-group label[for="email"]::before {
+        /* .form-group label[for="email"]::before {
             content: '✉️';
         }
 
         .form-group label[for="password"]::before,
         .form-group label[for="confirm_password"]::before {
             content: '🔐';
-        }
+        } */
 
         .form-control {
             width: 100%;
@@ -522,13 +520,13 @@
 <body>
     <div class="container">
         <div class="signup-header">
-            <h1>Join Our Circle</h1>
-            <p>Become part of our distinguished literary community</p>
+            <h1>Join Our community</h1>
+            <p>Become part of our community</p>
         </div>
 
         <div class="form-container">
             <div class="welcome-message">
-                Welcome, aspiring wordsmith! Join our exclusive salon where literary minds gather to share profound thoughts, engage in meaningful discourse, and celebrate the written word.
+                Ready to write? Welcome to our community where writers like you share ideas and inspire each other.
             </div>
 
             {% if messages %}
@@ -545,25 +543,25 @@
             <form method="post" id="signupForm">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="username">Choose Your Literary Alias</label>
+                    <label for="username">Create a Username</label>
                     <input type="text" id="username" name="username" class="form-control" 
-                           placeholder="Your distinguished pen name..." required autocomplete="username">
+                           placeholder="Enter your Username..." required autocomplete="username">
                     <div id="usernameValidation" class="validation-message" style="display: none;"></div>
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Correspondence Address</label>
+                    <label for="email">Enter your Email</label>
                     <input type="email" id="email" name="email" class="form-control" 
-                           placeholder="your.email@literary.salon" required autocomplete="email">
+                           placeholder="Enter your Email..." required autocomplete="email">
                     <div id="emailValidation" class="validation-message" style="display: none;"></div>
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Create Secret Passphrase</label>
+                    <label for="password">Create a Password</label>
                     <input type="password" id="password" name="password" class="form-control" 
-                           placeholder="A memorable yet secure phrase..." required autocomplete="new-password">
+                           placeholder="Enter Password..." required autocomplete="new-password">
                     <div class="password-requirements">
-                        Your passphrase should contain at least 8 characters for security
+                        Your Password should contain at least 8 characters for security
                     </div>
                     <div id="passwordStrength" class="password-strength" style="display: none;">
                         <div class="strength-bar">
@@ -574,23 +572,23 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="confirm_password">Confirm Your Passphrase</label>
+                    <label for="confirm_password">Confirm Password</label>
                     <input type="password" id="confirm_password" name="confirm_password" class="form-control" 
-                           placeholder="Repeat your chosen phrase..." required autocomplete="new-password">
+                           placeholder="Repeat your chosen Password..." required autocomplete="new-password">
                     <div id="confirmValidation" class="validation-message" style="display: none;"></div>
                 </div>
 
                 <button type="submit" class="btn-submit" id="submitBtn" disabled>
                     <i class="fas fa-quill-pen"></i>
-                    Request Salon Membership
+                    Create account
                 </button>
             </form>
 
             <div class="links">
-                <p>Already a distinguished member? <a href="{% url 'login' %}">Enter the salon here</a></p>
+                <p>Already have account? <a href="{% url 'login' %}">Login here</a></p>
                 <div class="divider">⚜ ⚜ ⚜</div>
                 <p><a href="{% url 'index' %}" class="back-link">
-                    <i class="fas fa-arrow-left"></i> Browse salon as guest
+                    <i class="fas fa-arrow-left"></i> Browse as guest
                 </a></p>
             </div>
         </div>
