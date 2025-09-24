@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Literary Salon</title>
+    <title>Bookish Brio</title>
     <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
     <link
         href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Source+Sans+Pro:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
@@ -968,9 +968,9 @@
                     {% empty %}
                     <div class="empty-state">
                         <p>
-                            The salon awaits its first contribution.
+                            The page is blank. Start writing!
                             {% if user.is_authenticated %}
-                            <a href="{% url 'add_post' %}">Share your literary voice with the world!</a>
+                            <a href="{% url 'add_post' %}">Share your writing with the world!</a>
                             {% else %}
                             <a href="{% url 'signup' %}">Join our community</a> to begin the conversation!
                             {% endif %}
