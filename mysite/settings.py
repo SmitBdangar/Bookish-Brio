@@ -1,48 +1,34 @@
-"""
-Django settings for mysite project.
-Production-ready version for Render + Cloudinary.
-"""
-
 from pathlib import Path
 import os
 import dj_database_url
 from django.contrib.messages import constants as messages
-import environ
-from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))  # explicitly point to .env
+# Security
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "your-default-secret-key")
+DEBUG = os.environ.get("DEBUG", "True") == "True"
 
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-# SECURITY
-SECRET_KEY = env("SECRET_KEY", default="django-insecure-local-dev-secret")
-DEBUG = env.bool("DEBUG", default=False)
-
-# Hosts
 ALLOWED_HOSTS = [
-    ".onrender.com",  # Render domain
+    ".railway.app",  # adjust if needed
     "localhost",
     "127.0.0.1",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.onrender.com",
+    "https://*.railway.app",
 ]
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = "Lax"
 
-# Login/Logout redirect URLs
+# Login URLs
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
 
-# Messages framework
+# Messages
 MESSAGE_TAGS = {
     messages.DEBUG: 'debug',
     messages.INFO: 'info',
@@ -60,14 +46,13 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "home",
-    "cloudinary",
-    "cloudinary_storage",
     "django.contrib.humanize",
 ]
 
 # Middleware
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # add this
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -96,21 +81,19 @@ TEMPLATES = [
 WSGI_APPLICATION = "mysite.wsgi.application"
 
 # Database
-DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+DATABASES = {}
+DATABASE_URL = os.environ.get("DATABASE_URL")
+if DATABASE_URL:
+    DATABASES['default'] = dj_database_url.config(
+        default=DATABASE_URL,
         conn_max_age=600,
+        ssl_require=True
     )
-}
-
-# Cloudinary media files
-CLOUDINARY_URL = env("CLOUDINARY_URL")  # format: cloudinary://API_KEY:API_SECRET@CLOUD_NAME
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-MEDIA_URL = '/media/'
-
-# Static files
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+else:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -126,4 +109,10 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+# Static files
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# Default primary key type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
