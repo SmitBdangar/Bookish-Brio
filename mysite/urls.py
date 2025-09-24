@@ -26,11 +26,10 @@ def health_check(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('home.urls')),  # include your app routes
-    path('healthz', health_check),   # health check endpoint for Render
+    path('', include('home.urls')), 
+    path('healthz', health_check), 
 ]
 
-# Serve media files in development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

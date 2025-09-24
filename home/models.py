@@ -46,7 +46,7 @@ class PostImage(models.Model):
         related_name='images'
     )
     image = models.ImageField(upload_to='posts/gallery/')
-    created_at = models.DateTimeField(auto_now_add=True)  # <-- add this
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Image for {self.post.title}"

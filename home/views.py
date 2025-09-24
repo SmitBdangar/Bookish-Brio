@@ -29,7 +29,7 @@ def index(request):
         post.preview_content = truncated
         post.show_read_more = truncated != post.content
 
-    paginator = Paginator(post_list, 50)  # 50 posts per page
+    paginator = Paginator(post_list, 20)  # 50 posts per page
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -41,12 +41,10 @@ def add_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            # Save main post (with optional cover image)
             post = form.save(commit=False)
             post.author = request.user
             post.save()
 
-            # Handle multiple images
             gallery_images = request.FILES.getlist('images')
             for img in gallery_images:
                 PostImage.objects.create(post=post, image=img)
@@ -173,7 +171,7 @@ def post_detail(request, pk):
     """
     post = get_object_or_404(Post, pk=pk)
     comments = post.comments.all()
-    images = post.images.all()  # all gallery images
+    images = post.images.all() 
 
     if request.method == "POST":
         comment_form = CommentForm(request.POST)
