@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "home",
     "cloudinary",
     "cloudinary_storage",
+    "django.contrib.humanize",
 ]
 
 # Middleware

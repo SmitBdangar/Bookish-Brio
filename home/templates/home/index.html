@@ -915,11 +915,19 @@
 
                         <div class="post-card-footer">
                             <div class="post-meta">
+                                {% load humanize %}
+
                                 <div class="post-meta-details">
-                                    <span><i class="fas fa-user-edit"></i> By <span class="post-author">{{
-                                            post.author.username }}</span></span>
-                                    <span><i class="fas fa-calendar-alt"></i> {{ post.created_at }}</span>
+                                    <span>
+                                        <i class="fas fa-user-edit"></i>
+                                        By <strong class="post-author">{{ post.author }}</strong>
+                                    </span>
+                                    <span>
+                                        <i class="fas fa-clock"></i>
+                                        {{ post.created_at|timesince }} ago
+                                    </span>
                                 </div>
+
 
                                 <div class="engagement-section">
                                     <div class="engagement-item">

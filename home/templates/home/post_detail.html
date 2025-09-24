@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ post.title }} - Bookish Brio</title>
     <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Source+Sans+Pro:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Source+Sans+Pro:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* --- Literary Magazine Color Palette & Variables --- */
@@ -31,18 +33,18 @@
             --color-border-warm: #d9d0c4;
             --color-shadow: rgba(44, 44, 44, 0.1);
             --color-shadow-warm: rgba(139, 38, 53, 0.15);
-            
+
             --font-serif: 'Crimson Text', 'Times New Roman', serif;
             --font-display: 'Playfair Display', 'Times New Roman', serif;
             --font-sans: 'Source Sans Pro', 'Helvetica Neue', sans-serif;
-            
+
             --border-radius: 8px;
             --border-radius-small: 4px;
             --shadow-subtle: 0 2px 8px var(--color-shadow);
             --shadow-paper: 0 4px 16px rgba(139, 38, 53, 0.08), 0 2px 8px rgba(44, 44, 44, 0.04);
             --shadow-elevated: 0 8px 32px rgba(139, 38, 53, 0.12), 0 4px 16px rgba(44, 44, 44, 0.06);
             --transition-elegant: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            
+
             --spacing-xs: 0.5rem;
             --spacing-sm: 1rem;
             --spacing-md: 1.5rem;
@@ -80,7 +82,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
+            background:
                 radial-gradient(circle at 20% 50%, rgba(139, 38, 53, 0.03) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(44, 95, 93, 0.03) 0%, transparent 50%),
                 radial-gradient(circle at 40% 80%, rgba(212, 165, 116, 0.02) 0%, transparent 50%);
@@ -728,7 +730,8 @@
                 <h2 class="post-title">{{ post.title }}</h2>
                 <div class="post-meta">
                     <span><i class="fas fa-user-edit"></i> By <span class="post-author">{{ post.author }}</span></span>
-                    <span class="post-date"><i class="fas fa-calendar-alt"></i> {{ post.created_at|date:"F j, Y" }}</span>
+                    <span class="post-date"><i class="fas fa-calendar-alt"></i> {{ post.created_at|date:"F j, Y"
+                        }}</span>
                 </div>
             </div>
 
@@ -777,8 +780,8 @@
                         <i class="fas fa-ellipsis-v"></i>
                     </button>
                     <div class="dropdown-menu">
-                        <a href="{% url 'delete_post' post.pk %}" class="dropdown-item danger" 
-                           onclick="return confirm('Are you certain you wish to remove this piece from the salon forever? This action cannot be undone.')">
+                        <a href="{% url 'delete_post' post.pk %}" class="dropdown-item danger"
+                            onclick="return confirm('Are you certain you wish to remove this piece from the salon forever? This action cannot be undone.')">
                             <i class="fas fa-trash-alt"></i> Remove
                         </a>
                     </div>
@@ -788,20 +791,21 @@
 
             <div class="comments-section">
                 <h3>Comments ({{ comments.count }})</h3>
-                
+
                 {% if user.is_authenticated %}
                 <div class="comment-form">
                     <form method="POST" action="{% url 'add_comment' post.pk %}">
                         {% csrf_token %}
                         <textarea name="content" placeholder="Share your thoughts..." required></textarea>
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-paper-plane"></i> Submit 
+                            <i class="fas fa-paper-plane"></i> Submit
                         </button>
                     </form>
                 </div>
                 {% else %}
                 <div class="login-prompt">
-                    Please <a href="{% url 'login' %}?next={{ request.path }}">join our literary salon</a> to share your thoughts and engage in discussion.
+                    Please <a href="{% url 'login' %}?next={{ request.path }}">join our literary salon</a> to share your
+                    thoughts and engage in discussion.
                 </div>
                 {% endif %}
 
@@ -812,12 +816,16 @@
                         <span class="comment-date">{{ comment.created_at|date:"F j, Y" }}</span>
                         {% if user.is_authenticated %}
                         {% if comment.author.id == user.id or post.author.id == user.id %}
-                        <button class="delete-comment-btn" 
-                                onclick="if(confirm('Remove this reflection from the discussion?')) { window.location.href='{% url 'delete_comment' comment.pk %}'; }">
-                            <i class="fas fa-times"></i>
-                        </button>
+                        <form action="{% url 'delete_comment' comment.pk %}" method="post" class="inline-form"
+                            onsubmit="return confirm('Remove this reflection from the discussion?');">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-comment-btn" aria-label="Delete comment">
+                                <i class="fas fa-times" aria-hidden="true"></i>
+                            </button>
+                        </form>
                         {% endif %}
                         {% endif %}
+
                     </div>
                     <div class="comment-content">
                         {{ comment.content|linebreaksbr }}
@@ -852,12 +860,12 @@
         function toggleDropdown(button) {
             const dropdown = button.nextElementSibling;
             const isOpen = dropdown.classList.contains('show');
-            
+
             // Close all other dropdowns
             document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
                 menu.classList.remove('show');
             });
-            
+
             // Toggle current dropdown
             if (!isOpen) {
                 dropdown.classList.add('show');
@@ -865,7 +873,7 @@
         }
 
         // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             if (!event.target.closest('.post-actions-dropdown')) {
                 document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
                     menu.classList.remove('show');
@@ -873,7 +881,7 @@
             }
         });
 
-        document.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape') {
                 closeImageModal();
                 // Close all dropdowns
@@ -897,7 +905,7 @@
         });
 
         // Add subtle parallax effect to header
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             const scrolled = window.pageYOffset;
             const parallax = document.querySelector('.header');
             const speed = scrolled * 0.3;
@@ -909,12 +917,12 @@
         // Enhanced comment form interaction
         const textarea = document.querySelector('.comment-form textarea');
         if (textarea) {
-            textarea.addEventListener('focus', function() {
+            textarea.addEventListener('focus', function () {
                 this.parentElement.style.transform = 'scale(1.01)';
                 this.parentElement.style.boxShadow = 'var(--shadow-elevated)';
             });
-            
-            textarea.addEventListener('blur', function() {
+
+            textarea.addEventListener('blur', function () {
                 this.parentElement.style.transform = 'scale(1)';
                 this.parentElement.style.boxShadow = 'var(--shadow-subtle)';
             });
