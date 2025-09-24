@@ -1,6 +1,6 @@
 """
 Django settings for mysite project.
-Production-ready version for Render + Cloudinary.
+Production-ready version for Railway + Cloudinary.
 """
 
 from pathlib import Path
@@ -8,15 +8,12 @@ import os
 import dj_database_url
 from django.contrib.messages import constants as messages
 import environ
-from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Environment
 env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))  # explicitly point to .env
-
-
-BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # SECURITY
 SECRET_KEY = env("SECRET_KEY", default="django-insecure-local-dev-secret")
@@ -24,25 +21,25 @@ DEBUG = env.bool("DEBUG", default=False)
 
 # Hosts
 ALLOWED_HOSTS = [
-    ".onrender.com",  # Render domain
+    ".up.railway.app",  # Railway project domain
     "localhost",
     "127.0.0.1",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.onrender.com",
+    "https://*.up.railway.app",
 ]
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = "Lax"
 
-# Login/Logout redirect URLs
+# Login/Logout
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
 
-# Messages framework
+# Messages
 MESSAGE_TAGS = {
     messages.DEBUG: 'debug',
     messages.INFO: 'info',
@@ -68,6 +65,7 @@ INSTALLED_APPS = [
 # Middleware
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # serve static files
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -96,15 +94,19 @@ TEMPLATES = [
 WSGI_APPLICATION = "mysite.wsgi.application"
 
 # Database
+import dj_database_url
+
 DATABASES = {
     "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        default=os.environ.get("DATABASE_URL"),
         conn_max_age=600,
+        ssl_require=True,  # ensures secure connection
     )
 }
+# If using SQLite for local development
 
 # Cloudinary media files
-CLOUDINARY_URL = env("CLOUDINARY_URL")  # format: cloudinary://API_KEY:API_SECRET@CLOUD_NAME
+CLOUDINARY_URL = env("CLOUDINARY_URL")
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 MEDIA_URL = '/media/'
 
