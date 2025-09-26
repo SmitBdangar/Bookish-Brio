@@ -1,12 +1,8 @@
-# Treat Python files as Python
 *.py linguist-language=Python
-
-# Treat other files correctly
 *.html linguist-language=HTML
 *.css linguist-language=CSS
 *.js linguist-language=JavaScript
 
-# Ignore static and template files from language stats
 templates/** linguist-vendored
 static/** linguist-vendored
 staticfiles/** linguist-vendored
