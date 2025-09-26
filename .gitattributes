@@ -1,12 +1,1 @@
-# Force GitHub to detect Python correctly
 *.py linguist-language=Python
-
-# Keep other languages visible
-*.html linguist-language=HTML
-*.css linguist-language=CSS
-*.js linguist-language=JavaScript
-
-# Ignore big folders that inflate HTML count
-templates/** linguist-vendored
-static/** linguist-vendored
-staticfiles/** linguist-vendored
