@@ -1,14 +1,10 @@
 # Bookish Brio
 
-[![Python](https://img.shields.io/badge/Python-3.13-blue?logo=python)](https://www.python.org/)
-[![Django](https://img.shields.io/badge/Django-4.3-green?logo=django)](https://www.djangoproject.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
 **Bookish Brio** is a Django-powered, community-driven web application that allows users to create posts with titles, descriptions, and optional images. It demonstrates a clean, modular, and scalable architecture, making it an excellent reference for developers exploring advanced Django patterns and social content platforms.
 
 ---
 
-## 🚀 Features
+## Features
 
 - Create posts with **titles, descriptions, and optional multimedia attachments**  
 - Comment on posts and interact with content  
@@ -19,7 +15,7 @@
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 home/
 ├── pycache/
