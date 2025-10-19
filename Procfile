@@ -1,1 +1,1 @@
-web: gunicorn Brio.wsgi --log-file -
+web: gunicorn <Brio>.wsgi

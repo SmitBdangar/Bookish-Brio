@@ -753,7 +753,7 @@
             {% endif %}
 
             <div class="post-content">
-                {{ post.content|linebreaks }}
+                {{ post.content|urlize|linebreaks }}
             </div>
 
             <div class="post-actions">

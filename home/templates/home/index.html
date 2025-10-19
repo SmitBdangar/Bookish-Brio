@@ -843,7 +843,7 @@
                     <div class="post-card-body">
                         <div class="post-card-content">
                             <div class="post-text">
-                                {{ post.preview_content|truncatechars:700|linebreaks }}
+                                {{ post.preview_content|truncatechars:700|urlize|linebreaks }}
                                 {% if post.show_read_more %}
                                 <div class="read-more-wrapper">
                                     <a href="{% url 'post_detail' post.pk %}" class="btn btn-read-more">
