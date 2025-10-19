@@ -646,6 +646,108 @@
             color: var(--primary-light);
         }
 
+        /* Footer */
+        .footer {
+            background: var(--text-dark);
+            color: var(--bg-light);
+            padding: 3rem 1.5rem 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255, 107, 53, 0.2);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            display: block;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            margin-bottom: 0.75rem;
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .footer-socials a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 107, 53, 0.2);
+            border-radius: 50%;
+            color: var(--primary);
+            margin-bottom: 0;
+            font-size: 1.1rem;
+        }
+
+        .footer-socials a:hover {
+            background: var(--primary);
+            color: var(--text-dark);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .footer-bottom p {
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                padding: 2rem 1rem 1.5rem;
+                margin-top: 3rem;
+            }
+
+            .footer-content {
+                gap: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .footer-section h3 {
+                font-size: 1rem;
+            }
+
+            .footer-section p,
+            .footer-section a {
+                font-size: 0.85rem;
+            }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .header-content {
@@ -795,6 +897,9 @@
                         <div class="user-avatar">{{ user.username|first|upper }}</div>
                         <span class="welcome-text">{{ user.username }}</span>
                     </div>
+                    <a href="{% url 'profile' %}" class="btn btn-secondary">
+                        Profile
+                    </a>
                     <a href="{% url 'logout' %}" class="btn btn-secondary">
                         Logout
                     </a>
@@ -833,18 +938,6 @@
             </div>
             {% endif %}
 
-                        <div class="post-card-body">
-                            <div class="post-card-content">
-                                <div class="post-text">
-                                    {{ post.preview_content|truncatechars:700|urlize|linebreaks }}
-                                    {% if post.show_read_more %}
-                                    <div class="read-more-wrapper">
-                                        <a href="{% url 'post_detail' post.pk %}" class="btn btn-read-more">
-                                            Read More <i class="fa fa-book"></i>
-                                        </a>
-                                    </div>
-                                    {% endif %}
-                                </div>
             <div class="posts-grid">
                 {% for post in page_obj %}
                 <div class="post-card">
@@ -855,7 +948,7 @@
                     <div class="post-card-body">
                         <div class="post-card-content">
                             <div class="post-text">
-                                {{ post.preview_content|truncatechars:700|urlize|linebreaks }}
+                                {{ post.preview_content|truncatechars:700|linebreaks }}
                                 {% if post.show_read_more %}
                                 <div class="read-more-wrapper">
                                     <a href="{% url 'post_detail' post.pk %}" class="btn btn-read-more">
@@ -975,6 +1068,49 @@
         <span class="close-modal">&times;</span>
         <img class="modal-content" id="modalImage">
     </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Bookish Brio</h3>
+                <p>A community for writers and book enthusiasts to share stories, connect with fellow authors, and celebrate the art of storytelling.</p>
+                <div class="footer-socials">
+                    <a href="https://github.com/SmitBdangar" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.instagram.com/smit_dangar06/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/smit-dangar-b4159b30a/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.youtube.com/@Smitdangar" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#home">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#posts">Explore Posts</a>
+                <a href="#contact">Contact</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <a href="#faq">FAQ</a>
+                <a href="#guide">Writing Guide</a>
+                <a href="#tips">Tips & Tricks</a>
+                <a href="#blog">Blog</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#cookies">Cookie Policy</a>
+                <a href="#support">Support</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 Bookish Brio. All rights reserved. | Crafted with <span style="color: var(--primary);">❤</span> for writers everywhere.</p>
+        </div>
+    </footer>
 
     <script>
         function openImageModal(imageSrc) {

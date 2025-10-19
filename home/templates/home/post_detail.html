@@ -7,225 +7,324 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ post.title }} - Bookish Brio</title>
     <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Source+Sans+Pro:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        :root {
-            --color-parchment: #faf7f2;
-            --color-cream: #f8f5f0;
-            --color-warm-white: #fefcf8;
-            --color-ink: #2c2c2c;
-            --color-ink-light: #4a4a4a;
-            --color-ink-lighter: #666666;
-            --color-burgundy: #8b2635;
-            --color-burgundy-light: #a73d4a;
-            --color-burgundy-dark: #6b1e29;
-            --color-teal: #2c5f5d;
-            --color-teal-light: #4a7b79;
-            --color-gold: #d4a574;
-            --color-gold-light: #e6c299;
-            --color-sage: #9caa9c;
-            --color-sage-light: #b8c4b8;
-            --color-border-subtle: #e8e2d8;
-            --color-border-warm: #d9d0c4;
-            --color-shadow: rgba(44, 44, 44, 0.1);
-            --color-shadow-warm: rgba(139, 38, 53, 0.15);
-
-            --font-serif: 'Crimson Text', 'Times New Roman', serif;
-            --font-display: 'Playfair Display', 'Times New Roman', serif;
-            --font-sans: 'Source Sans Pro', 'Helvetica Neue', sans-serif;
-
-            --border-radius: 8px;
-            --border-radius-small: 4px;
-            --shadow-subtle: 0 2px 8px var(--color-shadow);
-            --shadow-paper: 0 4px 16px rgba(139, 38, 53, 0.08), 0 2px 8px rgba(44, 44, 44, 0.04);
-            --shadow-elevated: 0 8px 32px rgba(139, 38, 53, 0.12), 0 4px 16px rgba(44, 44, 44, 0.06);
-            --transition-elegant: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-            --spacing-xs: 0.5rem;
-            --spacing-sm: 1rem;
-            --spacing-md: 1.5rem;
-            --spacing-lg: 2rem;
-            --spacing-xl: 3rem;
-            --spacing-xxl: 4rem;
-        }
-
-        /* --- Base Styles --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #ff6b35;
+            --primary-dark: #e55a24;
+            --primary-light: #ff8555;
+            --secondary: #1f2937;
+            --bg-light: #f9fafb;
+            --bg-white: #ffffff;
+            --text-dark: #111827;
+            --text-gray: #6b7280;
+            --border-light: #e5e7eb;
+            --success: #10b981;
+            --danger: #ef4444;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html, body {
+            height: 100%;
+        }
+
         body {
-            font-family: var(--font-serif);
-            background: linear-gradient(135deg, var(--color-parchment) 0%, var(--color-cream) 100%);
-            background-attachment: fixed;
-            min-height: 100vh;
-            color: var(--color-ink);
-            line-height: 1.8;
-            font-size: 17px;
-            font-weight: 400;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            letter-spacing: 0.01em;
-            padding: var(--spacing-lg);
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background:
-                radial-gradient(circle at 20% 50%, rgba(139, 38, 53, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(44, 95, 93, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(212, 165, 116, 0.02) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
+        .app-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            background: var(--color-warm-white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-paper);
-            overflow: hidden;
-            border: 1px solid var(--color-border-warm);
-        }
-
-        /* --- Header Section --- */
+        /* Header */
         .header {
-            background: linear-gradient(135deg, var(--color-burgundy) 0%, var(--color-burgundy-dark) 100%);
-            color: var(--color-warm-white);
-            padding: var(--spacing-lg) var(--spacing-xl);
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border-light);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: var(--spacing-md);
-            position: relative;
-            overflow: hidden;
+            gap: 1rem;
         }
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .header h1 {
-            font-family: var(--font-display);
-            font-size: 2rem;
+        .logo-section h1 {
+            font-size: 1.5rem;
             font-weight: 700;
-            font-style: italic;
-            margin: 0;
-            letter-spacing: -0.02em;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 2;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+            white-space: nowrap;
         }
 
-        .header h1::before {
-            margin-right: var(--spacing-sm);
-            font-size: 1.8rem;
-            opacity: 0.9;
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-shrink: 0;
+            margin-left: auto;
         }
 
-        /* --- Button Styles --- */
         .btn {
-            background: rgba(255, 255, 255, 0.15);
-            color: var(--color-warm-white);
-            padding: 12px 24px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: var(--border-radius-small);
-            cursor: pointer;
-            font-family: var(--font-sans);
-            font-size: 15px;
+            padding: 0.625rem 1rem;
+            border-radius: 0.5rem;
             font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
             text-decoration: none;
-            transition: all var(--transition-elegant);
             display: inline-flex;
             align-items: center;
-            gap: var(--spacing-xs);
-            backdrop-filter: blur(10px);
-            position: relative;
-            z-index: 2;
-        }
-
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-1px);
+            justify-content: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            font-family: 'Inter', sans-serif;
         }
 
         .btn-primary {
-            background: var(--color-teal);
-            color: var(--color-warm-white);
-            border: 2px solid transparent;
+            background: var(--primary);
+            color: white;
+            border-radius: 6px;
         }
 
         .btn-primary:hover {
-            background: var(--color-teal-light);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-subtle);
+            background: var(--primary-dark);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
         }
 
         .btn-secondary {
-            background: var(--color-warm-white);
-            color: var(--color-burgundy);
-            border: 2px solid var(--color-border-warm);
+            background: var(--bg-light);
+            color: var(--text-dark);
+            border: 1.5px solid var(--border-light);
+            border-radius: 6px;
         }
 
         .btn-secondary:hover {
-            background: var(--color-cream);
-            border-color: var(--color-burgundy);
-            transform: translateY(-1px);
+            background: var(--bg-white);
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
         }
 
-        /* --- Secure Delete Dropdown --- */
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Alerts */
+        .messages {
+            margin-bottom: 1.5rem;
+        }
+
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .alert-success {
+            background: #ecfdf5;
+            color: #047857;
+            border-left: 4px solid var(--success);
+        }
+
+        /* Post Header */
+        .post-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .post-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            flex-wrap: wrap;
+        }
+
+        .post-author {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Images */
+        .post-image-container {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .post-image-container img {
+            max-width: 100%;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
+        }
+
+        .post-image-container img:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .post-images-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
+        }
+
+        .gallery-image img:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Post Content */
+        .post-content {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-gray);
+            margin: 2rem 0;
+        }
+
+        .post-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Post Actions */
+        .post-actions {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--bg-white);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-light);
+        }
+
+        .engagement-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-like-dislike {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.3rem;
+            color: var(--text-gray);
+            transition: var(--transition);
+            padding: 0.5rem;
+        }
+
+        .btn-like-dislike:hover {
+            color: var(--danger);
+            transform: scale(1.15);
+        }
+
+        .btn-like-dislike .fas.fa-heart {
+            color: var(--danger);
+        }
+
+        .engagement-count {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* Dropdown */
         .post-actions-dropdown {
             position: relative;
             display: inline-block;
+            margin-left: auto;
         }
 
         .dropdown-toggle {
-            background: var(--color-sage);
-            color: var(--color-warm-white);
+            background: var(--bg-light);
+            color: var(--text-gray);
             border: none;
-            padding: 10px 14px;
-            border-radius: var(--border-radius-small);
+            padding: 0.5rem;
+            border-radius: 0.4rem;
             cursor: pointer;
             font-size: 1rem;
-            transition: all var(--transition-elegant);
+            transition: var(--transition);
         }
 
         .dropdown-toggle:hover {
-            background: var(--color-sage-light);
+            background: var(--border-light);
         }
 
         .dropdown-menu {
             display: none;
             position: absolute;
-            top: 100%;
+            top: -100px;
             right: 0;
-            background: var(--color-warm-white);
-            border: 1px solid var(--color-border-warm);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-elevated);
+            background: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-lg);
             z-index: 100;
-            min-width: 180px;
-            margin-top: 4px;
+            min-width: 140px;
         }
 
         .dropdown-menu.show {
@@ -234,13 +333,12 @@
 
         .dropdown-item {
             display: block;
-            padding: 12px 16px;
-            color: var(--color-ink);
+            padding: 0.75rem 1rem;
+            color: var(--text-dark);
             text-decoration: none;
-            border-bottom: 1px solid var(--color-border-subtle);
-            transition: all var(--transition-elegant);
+            transition: var(--transition);
             font-size: 0.9rem;
-            font-family: var(--font-sans);
+            border-bottom: 1px solid var(--border-light);
         }
 
         .dropdown-item:last-child {
@@ -248,354 +346,165 @@
         }
 
         .dropdown-item:hover {
-            background: var(--color-cream);
+            background: var(--bg-light);
         }
 
         .dropdown-item.danger {
-            color: var(--color-burgundy);
+            color: var(--danger);
         }
 
         .dropdown-item.danger:hover {
             background: #fef2f2;
-            color: var(--color-burgundy-dark);
         }
 
-        /* --- Main Content --- */
-        .main-content {
-            padding: var(--spacing-xxl) var(--spacing-xl);
-        }
-
-        .divider {
-            border: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent 0%, var(--color-border-warm) 50%, transparent 100%);
-            margin: var(--spacing-lg) 0;
-        }
-
-        /* --- Messages/Alerts --- */
-        .messages {
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .alert {
-            padding: var(--spacing-md) var(--spacing-lg);
-            border-radius: var(--border-radius);
-            margin-bottom: var(--spacing-md);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            font-family: var(--font-serif);
-            font-size: 1.05rem;
-        }
-
-        .alert-success {
-            background: linear-gradient(135deg, #f0f9f4 0%, #e6f7ed 100%);
-            color: var(--color-teal);
-            border-left: 4px solid var(--color-teal);
-            border: 1px solid #d1fae5;
-        }
-
-        .alert-error {
-            background: linear-gradient(135deg, #fef7f7 0%, #fef2f2 100%);
-            color: var(--color-burgundy);
-            border-left: 4px solid var(--color-burgundy);
-            border: 1px solid #fecaca;
-        }
-
-        /* --- Post Content --- */
-        .post-header {
-            margin-bottom: var(--spacing-xl);
-            padding-bottom: var(--spacing-lg);
-            border-bottom: 2px solid var(--color-border-subtle);
-        }
-
-        .post-title {
-            font-family: var(--font-display);
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--color-ink);
-            margin-bottom: var(--spacing-sm);
-            line-height: 1.2;
-            letter-spacing: -0.02em;
-        }
-
-        .post-meta {
-            color: var(--color-ink-lighter);
-            font-size: 1rem;
-            font-family: var(--font-sans);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-md);
-            flex-wrap: wrap;
-        }
-
-        .post-author {
-            color: var(--color-burgundy);
-            font-weight: 600;
-            font-family: var(--font-serif);
-        }
-
-        .post-date {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-        }
-
-        /* --- Images --- */
-        .post-image-container {
-            text-align: center;
-            margin: var(--spacing-xl) 0;
-        }
-
-        .post-image-container img {
-            max-width: 100%;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: all var(--transition-elegant);
-            box-shadow: var(--shadow-paper);
-            border: 1px solid var(--color-border-subtle);
-        }
-
-        .post-image-container img:hover {
-            transform: scale(1.02);
-            box-shadow: var(--shadow-elevated);
-        }
-
-        .post-images-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: var(--spacing-md);
-            margin: var(--spacing-xl) 0;
-        }
-
-        .gallery-image img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: all var(--transition-elegant);
-            box-shadow: var(--shadow-subtle);
-            border: 1px solid var(--color-border-subtle);
-        }
-
-        .gallery-image img:hover {
-            transform: scale(1.03);
-            box-shadow: var(--shadow-elevated);
-        }
-
-        .post-content {
-            font-family: var(--font-serif);
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--color-ink-light);
-            margin: var(--spacing-xl) 0;
-        }
-
-        .post-content p {
-            margin-bottom: var(--spacing-md);
-            text-align: justify;
-        }
-
-        /* --- Post Actions --- */
-        .post-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: var(--spacing-xl) 0;
-            padding: var(--spacing-lg);
-            background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-parchment) 100%);
-            border-radius: var(--border-radius);
-            border: 1px solid var(--color-border-subtle);
-        }
-
-        .engagement-item {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-        }
-
-        .btn-like-dislike {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.4rem;
-            color: var(--color-ink-lighter);
-            transition: all var(--transition-elegant);
-            padding: var(--spacing-xs);
-            border-radius: var(--border-radius-small);
-        }
-
-        .btn-like-dislike:hover {
-            transform: scale(1.15);
-            color: var(--color-burgundy);
-            background: rgba(139, 38, 53, 0.1);
-        }
-
-        .btn-like-dislike .fas.fa-heart {
-            color: var(--color-burgundy);
-        }
-
-        .engagement-count {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--color-ink);
-            font-family: var(--font-sans);
-        }
-
-        /* --- Comments Section --- */
+        /* Comments Section */
         .comments-section {
-            border-top: 3px solid var(--color-border-warm);
-            padding-top: var(--spacing-xl);
-            margin-top: var(--spacing-xl);
+            border-top: 2px solid var(--border-light);
+            padding-top: 2rem;
+            margin-top: 2rem;
         }
 
         .comments-section h3 {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            color: var(--color-ink);
-            margin-bottom: var(--spacing-lg);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            gap: var(--spacing-sm);
-        }
-
-        .comments-section h3::before {
-            font-size: 1.5rem;
-            opacity: 0.8;
+            gap: 0.75rem;
         }
 
         .comment-form {
-            margin-bottom: var(--spacing-xl);
-            padding: var(--spacing-lg);
-            background: linear-gradient(135deg, var(--color-parchment) 0%, var(--color-cream) 100%);
-            border-radius: var(--border-radius);
-            border: 1px solid var(--color-border-subtle);
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-white);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-light);
         }
 
         .comment-form textarea {
             width: 100%;
             min-height: 120px;
-            padding: var(--spacing-md);
-            border: 2px solid var(--color-border-warm);
-            border-radius: var(--border-radius);
-            font-family: var(--font-serif);
+            padding: 1rem;
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            font-family: 'Inter', sans-serif;
             font-size: 1rem;
             line-height: 1.6;
-            color: var(--color-ink);
-            background: var(--color-warm-white);
+            color: var(--text-dark);
+            background: var(--bg-white);
             resize: vertical;
-            transition: all var(--transition-elegant);
-            box-sizing: border-box;
+            transition: var(--transition);
         }
 
         .comment-form textarea:focus {
             outline: none;
-            border-color: var(--color-burgundy);
-            box-shadow: 0 0 0 3px rgba(139, 38, 53, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
         }
 
         .comment-form textarea::placeholder {
-            color: var(--color-ink-lighter);
-            font-style: italic;
+            color: var(--text-gray);
         }
 
         .comment-form button {
-            margin-top: var(--spacing-md);
+            margin-top: 1rem;
+            background: var(--primary);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .comment-form button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
         .comment {
-            background: var(--color-warm-white);
-            padding: var(--spacing-lg);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-subtle);
-            margin-bottom: var(--spacing-md);
-            position: relative;
-            border: 1px solid var(--color-border-subtle);
-            transition: all var(--transition-elegant);
+            background: var(--bg-white);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-light);
+            transition: var(--transition);
         }
 
         .comment:hover {
-            box-shadow: var(--shadow-paper);
-            border-color: var(--color-border-warm);
+            box-shadow: var(--shadow-md);
         }
 
         .comment-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: var(--spacing-sm);
+            margin-bottom: 0.75rem;
         }
 
         .comment-author {
             font-weight: 600;
-            color: var(--color-burgundy);
-            font-family: var(--font-serif);
-            font-size: 1.05rem;
+            color: var(--primary);
+            font-size: 1rem;
         }
 
         .comment-date {
-            font-size: 0.9rem;
-            color: var(--color-ink-lighter);
-            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: var(--text-gray);
         }
 
         .comment-content {
-            font-family: var(--font-serif);
             line-height: 1.7;
-            color: var(--color-ink-light);
+            color: var(--text-gray);
         }
 
         .delete-comment-btn {
             background: none;
             border: none;
-            color: var(--color-sage);
+            color: var(--text-gray);
             cursor: pointer;
             font-size: 1rem;
-            transition: all var(--transition-elegant);
-            padding: var(--spacing-xs);
-            border-radius: var(--border-radius-small);
+            transition: var(--transition);
+            padding: 0.5rem;
         }
 
         .delete-comment-btn:hover {
-            color: var(--color-burgundy);
-            background: rgba(139, 38, 53, 0.1);
+            color: var(--danger);
         }
 
         .no-comments {
             font-style: italic;
-            color: var(--color-ink-lighter);
+            color: var(--text-gray);
             text-align: center;
-            padding: var(--spacing-xl);
-            font-family: var(--font-serif);
-            font-size: 1.1rem;
+            padding: 2rem;
+            font-size: 1rem;
         }
 
         .login-prompt {
             font-style: italic;
-            color: var(--color-ink-lighter);
+            color: var(--text-gray);
             text-align: center;
-            padding: var(--spacing-lg);
-            font-family: var(--font-serif);
-            font-size: 1.1rem;
-            background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-parchment) 100%);
-            border-radius: var(--border-radius);
-            border: 1px solid var(--color-border-subtle);
+            padding: 1.5rem;
+            font-size: 1rem;
+            background: var(--bg-white);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-light);
         }
 
         .login-prompt a {
-            color: var(--color-burgundy);
+            color: var(--primary);
             text-decoration: none;
             font-weight: 600;
-            border-bottom: 2px solid transparent;
-            transition: all var(--transition-elegant);
         }
 
         .login-prompt a:hover {
-            border-bottom-color: var(--color-burgundy);
+            text-decoration: underline;
         }
 
-        /* --- Image Modal --- */
+        /* Image Modal */
         .image-modal {
             display: none;
             position: fixed;
@@ -604,9 +513,8 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(44, 44, 44, 0.95);
+            background-color: rgba(0, 0, 0, 0.9);
             cursor: pointer;
-            backdrop-filter: blur(8px);
         }
 
         .modal-content {
@@ -614,106 +522,208 @@
             margin: auto;
             max-width: 90%;
             max-height: 90%;
-            margin-top: 2%;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-elevated);
-            border: 2px solid var(--color-warm-white);
+            margin-top: 5%;
+            border-radius: 0.5rem;
         }
 
         .close-modal {
             position: absolute;
-            top: 30px;
-            right: 50px;
-            color: var(--color-warm-white);
-            font-size: 36px;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 32px;
             font-weight: 300;
             cursor: pointer;
-            transition: all var(--transition-elegant);
-            background: rgba(139, 38, 53, 0.8);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(10px);
+            transition: var(--transition);
         }
 
         .close-modal:hover {
-            color: var(--color-gold);
-            background: rgba(139, 38, 53, 0.9);
-            transform: rotate(90deg);
+            color: var(--primary-light);
         }
 
-        /* --- Responsive Design --- */
+        /* Footer */
+        .footer {
+            background: var(--text-dark);
+            color: var(--bg-light);
+            padding: 3rem 1.5rem 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255, 107, 53, 0.2);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            display: block;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            margin-bottom: 0.75rem;
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .footer-socials a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 107, 53, 0.2);
+            border-radius: 50%;
+            color: var(--primary);
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .footer-socials a:hover {
+            background: var(--primary);
+            color: var(--text-dark);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            body {
-                padding: var(--spacing-md);
+            .header-content {
+                gap: 0.75rem;
             }
 
-            .header {
-                flex-direction: column;
-                text-align: center;
-                padding: var(--spacing-lg);
-            }
-
-            .header h1 {
-                font-size: 1.8rem;
+            .nav-right {
+                gap: 0.5rem;
             }
 
             .main-content {
-                padding: var(--spacing-lg);
+                padding: 1rem;
             }
 
             .post-title {
-                font-size: 2rem;
+                font-size: 1.6rem;
             }
 
-            .post-actions {
-                flex-direction: column;
-                gap: var(--spacing-md);
-                align-items: stretch;
+            .post-meta {
+                gap: 1rem;
+                font-size: 0.9rem;
             }
 
             .post-images-gallery {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .footer-content {
+                gap: 1.5rem;
             }
         }
 
         @media (max-width: 480px) {
+            .post-title {
+                font-size: 1.4rem;
+            }
+
             .post-images-gallery {
                 grid-template-columns: 1fr;
             }
 
             .post-meta {
                 flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .post-actions {
+                flex-direction: column;
                 align-items: flex-start;
-                gap: var(--spacing-xs);
             }
 
-            .header h1 {
-                font-size: 1.5rem;
+            .post-actions-dropdown {
+                margin-left: 0;
+                width: 100%;
             }
 
-            .post-title {
-                font-size: 1.8rem;
+            .comment-form textarea {
+                min-height: 100px;
+                font-size: 0.95rem;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
+    <div class="app-wrapper">
         <div class="header">
-            <h1>Bookish Brio</h1>
-            <a href="{% url 'index' %}" class="btn">
-                <i class="fas fa-arrow-left"></i> Return
-            </a>
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1>Bookish Brio</h1>
+                </div>
+
+                <div class="nav-right">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'add_post' %}" class="btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; padding: 0.7rem 1.2rem; font-weight: 600; border-radius: 6px; box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: var(--transition);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 20px rgba(255, 107, 53, 0.4)'; this.style.background='linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(255, 107, 53, 0.3)'; this.style.background='linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)';">
+                        Write Post
+                    </a>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.9rem;">{{ user.username|first|upper }}</div>
+                        <span style="color: var(--text-gray); font-size: 0.95rem;">{{ user.username }}</span>
+                    </div>
+                    <a href="{% url 'profile' %}" class="btn btn-secondary" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';">
+                        Profile
+                    </a>
+                    <a href="{% url 'logout' %}" class="btn btn-secondary" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';">
+                        Logout
+                    </a>
+                    <a href="{% url 'index' %}" class="btn btn-secondary" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-secondary">
+                        Login
+                    </a>
+                    <a href="{% url 'signup' %}" class="btn btn-primary">
+                        Sign up
+                    </a>
+                    <a href="{% url 'index' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
         </div>
 
         <div class="main-content">
-            <hr class="divider">
-
             {% if messages %}
             <div class="messages">
                 {% for message in messages %}
@@ -728,11 +738,8 @@
             <div class="post-header">
                 <h2 class="post-title">{{ post.title }}</h2>
                 <div class="post-meta">
-                    <span><i class="fas fa-user-edit"></i> By <span class="post-author">{{ post.author }}</span></span>
-                    <span>
-                        <i class="fas fa-clock"></i>
-                        {{ post.created_at|timesince }} ago
-                    </span>
+                    <span><i class="fas fa-user"></i> By <span class="post-author">{{ post.author }}</span></span>
+                    <span><i class="fas fa-clock"></i> {{ post.created_at|timesince }} ago</span>
                 </div>
             </div>
 
@@ -782,7 +789,7 @@
                     </button>
                     <div class="dropdown-menu">
                         <a href="{% url 'delete_post' post.pk %}" class="dropdown-item danger"
-                            onclick="return confirm('Are you certain you wish to remove this piece from the salon forever? This action cannot be undone.')">
+                            onclick="return confirm('Are you certain you wish to remove this piece? This action cannot be undone.')">
                             <i class="fas fa-trash-alt"></i> Remove
                         </a>
                     </div>
@@ -791,42 +798,42 @@
             </div>
 
             <div class="comments-section">
-                <h3>Comments ({{ comments.count }})</h3>
+                <h3><i class="fas fa-comments"></i> Comments ({{ comments.count }})</h3>
 
                 {% if user.is_authenticated %}
                 <div class="comment-form">
                     <form method="POST" action="{% url 'add_comment' post.pk %}">
                         {% csrf_token %}
                         <textarea name="content" placeholder="Share your thoughts..." required></textarea>
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit">
                             <i class="fas fa-paper-plane"></i> Submit
                         </button>
                     </form>
                 </div>
                 {% else %}
                 <div class="login-prompt">
-                    Please <a href="{% url 'login' %}?next={{ request.path }}">join our literary salon</a> to share your
-                    thoughts and engage in discussion.
+                    Please <a href="{% url 'login' %}?next={{ request.path }}">login</a> to share your thoughts.
                 </div>
                 {% endif %}
 
                 {% for comment in comments %}
                 <div class="comment">
                     <div class="comment-header">
-                        <span class="comment-author">{{ comment.author.username }}</span>
-                        <span class="comment-date">{{ comment.created_at|date:"F j, Y" }}</span>
+                        <span>
+                            <span class="comment-author">{{ comment.author.username }}</span>
+                            <span class="comment-date">• {{ comment.created_at|date:"M d, Y" }}</span>
+                        </span>
                         {% if user.is_authenticated %}
                         {% if comment.author.id == user.id or post.author.id == user.id %}
-                        <form action="{% url 'delete_comment' comment.pk %}" method="post" class="inline-form"
-                            onsubmit="return confirm('Remove this reflection from the discussion?');">
+                        <form action="{% url 'delete_comment' comment.pk %}" method="post" style="display:inline;"
+                            onsubmit="return confirm('Remove this comment?');">
                             {% csrf_token %}
                             <button type="submit" class="delete-comment-btn" aria-label="Delete comment">
-                                <i class="fas fa-times" aria-hidden="true"></i>
+                                <i class="fas fa-times"></i>
                             </button>
                         </form>
                         {% endif %}
                         {% endif %}
-
                     </div>
                     <div class="comment-content">
                         {{ comment.content|linebreaksbr }}
@@ -834,11 +841,54 @@
                 </div>
                 {% empty %}
                 <div class="no-comments">
-                    No Comment yet.
+                    No comments yet. Be the first to share your thoughts!
                 </div>
                 {% endfor %}
             </div>
         </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Bookish Brio</h3>
+                    <p>A community for writers and book enthusiasts to share stories, connect with fellow authors, and celebrate the art of storytelling.</p>
+                    <div class="footer-socials">
+                        <a href="https://github.com/SmitBdangar" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://www.instagram.com/smit_dangar06/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/smit-dangar-b4159b30a/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.youtube.com/@Smitdangar" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="#home">Home</a>
+                    <a href="#about">About Us</a>
+                    <a href="#posts">Explore Posts</a>
+                    <a href="#contact">Contact</a>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <a href="#faq">FAQ</a>
+                    <a href="#guide">Writing Guide</a>
+                    <a href="#tips">Tips & Tricks</a>
+                    <a href="#blog">Blog</a>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#cookies">Cookie Policy</a>
+                    <a href="#support">Support</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Bookish Brio. All rights reserved. | Crafted with <span style="color: var(--primary);">❤</span> for writers everywhere.</p>
+            </div>
+        </footer>
     </div>
 
     <div id="imageModal" class="image-modal" onclick="closeImageModal()">
@@ -861,23 +911,18 @@
         function toggleDropdown(button) {
             const dropdown = button.nextElementSibling;
             const isOpen = dropdown.classList.contains('show');
-
-            // Close all other dropdowns
-            document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
-                menu.classList.remove('show');
+            document.querySelectorAll('.dropdown-menu.show').forEach(m => {
+                m.classList.remove('show');
             });
-
-            // Toggle current dropdown
             if (!isOpen) {
                 dropdown.classList.add('show');
             }
         }
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', function (event) {
             if (!event.target.closest('.post-actions-dropdown')) {
-                document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
-                    menu.classList.remove('show');
+                document.querySelectorAll('.dropdown-menu.show').forEach(m => {
+                    m.classList.remove('show');
                 });
             }
         });
@@ -885,49 +930,11 @@
         document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape') {
                 closeImageModal();
-                // Close all dropdowns
-                document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
-                    menu.classList.remove('show');
+                document.querySelectorAll('.dropdown-menu.show').forEach(m => {
+                    m.classList.remove('show');
                 });
             }
         });
-
-        // Add smooth scroll behavior for any anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Add subtle parallax effect to header
-        window.addEventListener('scroll', function () {
-            const scrolled = window.pageYOffset;
-            const parallax = document.querySelector('.header');
-            const speed = scrolled * 0.3;
-            if (parallax) {
-                parallax.style.transform = 'translateY(' + speed + 'px)';
-            }
-        });
-
-        // Enhanced comment form interaction
-        const textarea = document.querySelector('.comment-form textarea');
-        if (textarea) {
-            textarea.addEventListener('focus', function () {
-                this.parentElement.style.transform = 'scale(1.01)';
-                this.parentElement.style.boxShadow = 'var(--shadow-elevated)';
-            });
-
-            textarea.addEventListener('blur', function () {
-                this.parentElement.style.transform = 'scale(1)';
-                this.parentElement.style.boxShadow = 'var(--shadow-subtle)';
-            });
-        }
     </script>
 </body>
 
