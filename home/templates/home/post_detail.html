@@ -1,4 +1,48 @@
-{% load static %}
+.user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .welcome-text {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            flex-shrink: 0;
+        }
+
+        .write-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            border-radius: 8px;
+            padding: 0.7rem 1.2rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+            flex-shrink: 0;
+        }
+
+        .write-btn:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -75,30 +119,6 @@
             gap: 1rem;
         }
 
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            flex-shrink: 0;
-            min-width: fit-content;
-        }
-
-        .logo-section h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            letter-spacing: -0.5px;
-            white-space: nowrap;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-shrink: 0;
-            margin-left: auto;
-        }
-
         .btn {
             padding: 0.625rem 1rem;
             border-radius: 0.5rem;
@@ -114,6 +134,7 @@
             gap: 0.5rem;
             white-space: nowrap;
             font-family: 'Inter', sans-serif;
+            flex-shrink: 0;
         }
 
         .btn-primary {
@@ -145,10 +166,18 @@
         /* Main Content */
         .main-content {
             flex: 1;
-            max-width: 900px;
+            max-width: 1200px;
             width: 100%;
             margin: 0 auto;
             padding: 2rem 1.5rem;
+        }
+
+        .post-container {
+            background: var(--bg-white);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
         }
 
         /* Alerts */
@@ -702,13 +731,11 @@
 
                 <div class="nav-right">
                     {% if user.is_authenticated %}
-                    <a href="{% url 'add_post' %}" class="btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; padding: 0.7rem 1.2rem; font-weight: 600; border-radius: 6px; box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: var(--transition);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 20px rgba(255, 107, 53, 0.4)'; this.style.background='linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(255, 107, 53, 0.3)'; this.style.background='linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)';">
+                    <a href="{% url 'add_post' %}" class="btn" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; padding: 0.7rem 1.2rem; font-weight: 600; border-radius: 6px; box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: var(--transition); flex-shrink: 0;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 20px rgba(255, 107, 53, 0.4)'; this.style.background='linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(255, 107, 53, 0.3)'; this.style.background='linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)';">
                         Write Post
                     </a>
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.9rem;">{{ user.username|first|upper }}</div>
-                        <span style="color: var(--text-gray); font-size: 0.95rem;">{{ user.username }}</span>
-                    </div>
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.9rem; flex-shrink: 0;">{{ user.username|first|upper }}</div>
+                    <span style="color: var(--text-gray); font-size: 0.95rem; flex-shrink: 0;">{{ user.username }}</span>
                     <a href="{% url 'profile' %}" class="btn btn-secondary" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';">
                         Profile
                     </a>
@@ -745,115 +772,117 @@
             </div>
             {% endif %}
 
-            <div class="post-header">
-                <h2 class="post-title">{{ post.title }}</h2>
-                <div class="post-meta">
-                    <span><i class="fas fa-user"></i> By <span class="post-author">{{ post.author }}</span></span>
-                    <span><i class="fas fa-clock"></i> {{ post.created_at|timesince }} ago</span>
-                </div>
-            </div>
-
-            {% if post.image %}
-            <div class="post-image-container">
-                <img src="{{ post.image.url }}" alt="{{ post.title }}" onclick="openImageModal('{{ post.image.url }}')">
-            </div>
-            {% endif %}
-
-            {% if images %}
-            <div class="post-images-gallery">
-                {% for img in images %}
-                <div class="gallery-image">
-                    <img src="{{ img.image.url }}" alt="Gallery image" onclick="openImageModal('{{ img.image.url }}')">
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            <div class="post-content">
-                {{ post.content|urlize|linebreaks }}
-            </div>
-
-            <div class="post-actions">
-                <div class="engagement-item">
-                    {% if user.is_authenticated %}
-                    <form action="{% url 'like_post' post.pk %}" method="POST" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn-like-dislike">
-                            {% if user in post.likes.all %}
-                            <i class="fas fa-heart"></i>
-                            {% else %}
-                            <i class="far fa-heart"></i>
-                            {% endif %}
-                        </button>
-                    </form>
-                    {% else %}
-                    <i class="far fa-heart btn-like-dislike"></i>
-                    {% endif %}
-                    <span class="engagement-count">{{ post.total_likes }}</span>
-                </div>
-
-                {% if post.author == user %}
-                <div class="post-actions-dropdown">
-                    <button class="dropdown-toggle" onclick="toggleDropdown(this)">
-                        <i class="fas fa-ellipsis-v"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                        <a href="{% url 'delete_post' post.pk %}" class="dropdown-item danger"
-                            onclick="return confirm('Are you certain you wish to remove this piece? This action cannot be undone.')">
-                            <i class="fas fa-trash-alt"></i> Remove
-                        </a>
+            <div class="post-container">
+                <div class="post-header">
+                    <h2 class="post-title">{{ post.title }}</h2>
+                    <div class="post-meta">
+                        <span><i class="fas fa-user"></i> By <span class="post-author">{{ post.author }}</span></span>
+                        <span><i class="fas fa-clock"></i> {{ post.created_at|timesince }} ago</span>
                     </div>
                 </div>
-                {% endif %}
-            </div>
 
-            <div class="comments-section">
-                <h3><i class="fas fa-comments"></i> Comments ({{ comments.count }})</h3>
-
-                {% if user.is_authenticated %}
-                <div class="comment-form">
-                    <form method="POST" action="{% url 'add_comment' post.pk %}">
-                        {% csrf_token %}
-                        <textarea name="content" placeholder="Share your thoughts..." required></textarea>
-                        <button type="submit">
-                            <i class="fas fa-paper-plane"></i> Submit
-                        </button>
-                    </form>
-                </div>
-                {% else %}
-                <div class="login-prompt">
-                    Please <a href="{% url 'login' %}?next={{ request.path }}">login</a> to share your thoughts.
+                {% if post.image %}
+                <div class="post-image-container">
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}" onclick="openImageModal('{{ post.image.url }}')">
                 </div>
                 {% endif %}
 
-                {% for comment in comments %}
-                <div class="comment">
-                    <div class="comment-header">
-                        <span>
-                            <span class="comment-author">{{ comment.author.username }}</span>
-                            <span class="comment-date">• {{ comment.created_at|date:"M d, Y" }}</span>
-                        </span>
+                {% if images %}
+                <div class="post-images-gallery">
+                    {% for img in images %}
+                    <div class="gallery-image">
+                        <img src="{{ img.image.url }}" alt="Gallery image" onclick="openImageModal('{{ img.image.url }}')">
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="post-content">
+                    {{ post.content|urlize|linebreaks }}
+                </div>
+
+                <div class="post-actions">
+                    <div class="engagement-item">
                         {% if user.is_authenticated %}
-                        {% if comment.author.id == user.id or post.author.id == user.id %}
-                        <form action="{% url 'delete_comment' comment.pk %}" method="post" style="display:inline;"
-                            onsubmit="return confirm('Remove this comment?');">
+                        <form action="{% url 'like_post' post.pk %}" method="POST" style="display:inline;">
                             {% csrf_token %}
-                            <button type="submit" class="delete-comment-btn" aria-label="Delete comment">
-                                <i class="fas fa-times"></i>
+                            <button type="submit" class="btn-like-dislike">
+                                {% if user in post.likes.all %}
+                                <i class="fas fa-heart"></i>
+                                {% else %}
+                                <i class="far fa-heart"></i>
+                                {% endif %}
                             </button>
                         </form>
+                        {% else %}
+                        <i class="far fa-heart btn-like-dislike"></i>
                         {% endif %}
-                        {% endif %}
+                        <span class="engagement-count">{{ post.total_likes }}</span>
                     </div>
-                    <div class="comment-content">
-                        {{ comment.content|linebreaksbr }}
+
+                    {% if post.author == user %}
+                    <div class="post-actions-dropdown">
+                        <button class="dropdown-toggle" onclick="toggleDropdown(this)">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="{% url 'delete_post' post.pk %}" class="dropdown-item danger"
+                                onclick="return confirm('Are you certain you wish to remove this piece? This action cannot be undone.')">
+                                <i class="fas fa-trash-alt"></i> Remove
+                            </a>
+                        </div>
                     </div>
+                    {% endif %}
                 </div>
-                {% empty %}
-                <div class="no-comments">
-                    No comments yet. Be the first to share your thoughts!
+
+                <div class="comments-section">
+                    <h3><i class="fas fa-comments"></i> Comments ({{ comments.count }})</h3>
+
+                    {% if user.is_authenticated %}
+                    <div class="comment-form">
+                        <form method="POST" action="{% url 'add_comment' post.pk %}">
+                            {% csrf_token %}
+                            <textarea name="content" placeholder="Share your thoughts..." required></textarea>
+                            <button type="submit">
+                                <i class="fas fa-paper-plane"></i> Submit
+                            </button>
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="login-prompt">
+                        Please <a href="{% url 'login' %}?next={{ request.path }}">login</a> to share your thoughts.
+                    </div>
+                    {% endif %}
+
+                    {% for comment in comments %}
+                    <div class="comment">
+                        <div class="comment-header">
+                            <span>
+                                <span class="comment-author">{{ comment.author.username }}</span>
+                                <span class="comment-date">• {{ comment.created_at|date:"M d, Y" }}</span>
+                            </span>
+                            {% if user.is_authenticated %}
+                            {% if comment.author.id == user.id or post.author.id == user.id %}
+                            <form action="{% url 'delete_comment' comment.pk %}" method="post" style="display:inline;"
+                                onsubmit="return confirm('Remove this comment?');">
+                                {% csrf_token %}
+                                <button type="submit" class="delete-comment-btn" aria-label="Delete comment">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </form>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="comment-content">
+                            {{ comment.content|linebreaksbr }}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="no-comments">
+                        No comments yet. Be the first to share your thoughts!
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
         </div>
 
