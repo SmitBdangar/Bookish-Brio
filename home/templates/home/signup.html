@@ -5,596 +5,640 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookish Brio</title>
+    <title>Sign Up - Bookish Brio</title>
     <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Source+Sans+Pro:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        :root {
-            --color-parchment: #faf7f2;
-            --color-cream: #f8f5f0;
-            --color-warm-white: #fefcf8;
-            --color-ink: #2c2c2c;
-            --color-ink-light: #4a4a4a;
-            --color-ink-lighter: #666666;
-            --color-burgundy: #8b2635;
-            --color-burgundy-light: #a73d4a;
-            --color-burgundy-dark: #6b1e29;
-            --color-teal: #2c5f5d;
-            --color-teal-light: #4a7b79;
-            --color-gold: #d4a574;
-            --color-gold-light: #e6c299;
-            --color-sage: #9caa9c;
-            --color-sage-light: #b8c4b8;
-            --color-border-subtle: #e8e2d8;
-            --color-border-warm: #d9d0c4;
-            --color-shadow: rgba(44, 44, 44, 0.1);
-            --color-shadow-warm: rgba(139, 38, 53, 0.15);
-            
-            --font-serif: 'Crimson Text', 'Times New Roman', serif;
-            --font-display: 'Playfair Display', 'Times New Roman', serif;
-            --font-sans: 'Source Sans Pro', 'Helvetica Neue', sans-serif;
-            
-            --border-radius: 8px;
-            --border-radius-small: 4px;
-            --shadow-subtle: 0 2px 8px var(--color-shadow);
-            --shadow-paper: 0 4px 16px rgba(139, 38, 53, 0.08), 0 2px 8px rgba(44, 44, 44, 0.04);
-            --shadow-elevated: 0 8px 32px rgba(139, 38, 53, 0.12), 0 4px 16px rgba(44, 44, 44, 0.06);
-            --transition-elegant: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            
-            --spacing-xs: 0.5rem;
-            --spacing-sm: 1rem;
-            --spacing-md: 1.5rem;
-            --spacing-lg: 2rem;
-            --spacing-xl: 3rem;
-            --spacing-xxl: 4rem;
-        }
-
-        /* --- Base Styles --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #ff6b35;
+            --primary-dark: #e55a24;
+            --primary-light: #ff8555;
+            --secondary: #1f2937;
+            --bg-light: #f9fafb;
+            --bg-white: #ffffff;
+            --text-dark: #111827;
+            --text-gray: #6b7280;
+            --border-light: #e5e7eb;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         body {
-            font-family: var(--font-serif);
-            background: linear-gradient(135deg, var(--color-parchment) 0%, var(--color-cream) 100%);
-            background-attachment: fixed;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
             min-height: 100vh;
-            color: var(--color-ink);
-            line-height: 1.7;
-            font-size: 16px;
-            font-weight: 400;
+            color: var(--text-dark);
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            letter-spacing: 0.01em;
-            padding: var(--spacing-lg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header matching index page */
+        .header {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border-light);
+            padding: 1rem 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-section i {
+            color: var(--primary);
+            font-size: 1.75rem;
+        }
+
+        .logo-section h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.625rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary {
+            background: var(--bg-light);
+            color: var(--text-dark);
+            border: 1.5px solid var(--border-light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-white);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Main Content Area */
+        .main-wrapper {
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 3rem 1.5rem;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(139, 38, 53, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(44, 95, 93, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(212, 165, 116, 0.02) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .container {
-            max-width: 550px;
+        .signup-layout {
+            max-width: 1100px;
             width: 100%;
-            background: var(--color-warm-white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-elevated);
-            overflow: hidden;
-            border: 1px solid var(--color-border-warm);
-            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
         }
 
-        /* --- Header Section --- */
-        .signup-header {
-            background: linear-gradient(135deg, var(--color-teal) 0%, var(--color-teal-light) 100%);
-            color: var(--color-warm-white);
-            padding: var(--spacing-xl);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+        /* Left Side - Welcome Section */
+        .welcome-section {
+            padding: 2rem;
         }
 
-        .signup-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .signup-header::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            left: -10%;
-            width: 120px;
-            height: 120px;
-            background: radial-gradient(circle, rgba(212, 165, 116, 0.2) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .signup-header h1 {
-            font-family: var(--font-display);
-            font-size: 2.2rem;
-            font-weight: 700;
-            font-style: italic;
-            margin: 0 0 var(--spacing-sm);
-            letter-spacing: -0.02em;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 2;
-        }
-
-        .signup-header h1::before {
-            margin-right: var(--spacing-sm);
-            font-size: 2rem;
-            opacity: 0.9;
-        }
-
-        .signup-header p {
-            font-family: var(--font-serif);
-            font-size: 1.1rem;
-            opacity: 0.95;
-            font-style: italic;
-            margin: 0;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* --- Form Container --- */
-        .form-container {
-            padding: var(--spacing-xl);
-        }
-
-        /* --- Welcome Message --- */
-        .welcome-message {
-            background: linear-gradient(135deg, var(--color-parchment) 0%, var(--color-cream) 100%);
-            padding: var(--spacing-lg);
-            border-left: 4px solid var(--color-teal);
-            border-radius: var(--border-radius);
-            margin-bottom: var(--spacing-xl);
-            font-family: var(--font-serif);
-            font-style: italic;
-            color: var(--color-ink-light);
-            font-size: 1.05rem;
-            line-height: 1.6;
-            border: 1px solid var(--color-border-subtle);
-            text-align: center;
-        }
-
-        .welcome-message::before {
-            content: '📚';
+        .welcome-section h2 {
             font-size: 2.5rem;
-            display: block;
-            margin-bottom: var(--spacing-sm);
-            opacity: 0.8;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            line-height: 1.2;
         }
 
-        /* --- Messages/Alerts --- */
+        .welcome-section h2 span {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .welcome-section p {
+            font-size: 1.125rem;
+            color: var(--text-gray);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--bg-white);
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-light);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .feature-card i {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* Right Side - Signup Form */
+        .signup-form-container {
+            background: var(--bg-white);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-light);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-header h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        /* Messages */
         .messages {
-            margin-bottom: var(--spacing-lg);
+            margin-bottom: 1.5rem;
         }
 
         .alert {
-            padding: var(--spacing-md) var(--spacing-lg);
-            border-radius: var(--border-radius);
-            margin-bottom: var(--spacing-md);
+            padding: 0.875rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: var(--spacing-sm);
-            font-family: var(--font-serif);
-            font-size: 1.05rem;
+            gap: 0.625rem;
+            font-size: 0.875rem;
         }
 
         .alert-success {
-            background: linear-gradient(135deg, #f0f9f4 0%, #e6f7ed 100%);
-            color: var(--color-teal);
-            border-left: 4px solid var(--color-teal);
-            border: 1px solid #d1fae5;
+            background: #ecfdf5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
         }
 
         .alert-error {
-            background: linear-gradient(135deg, #fef7f7 0%, #fef2f2 100%);
-            color: var(--color-burgundy);
-            border-left: 4px solid var(--color-burgundy);
+            background: #fef2f2;
+            color: #dc2626;
             border: 1px solid #fecaca;
         }
 
-        /* --- Form Elements --- */
+        /* Form Elements */
         .form-group {
-            margin-bottom: var(--spacing-lg);
+            margin-bottom: 1.25rem;
         }
 
         .form-group label {
             display: block;
-            font-family: var(--font-display);
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: var(--color-ink);
-            margin-bottom: var(--spacing-sm);
-            letter-spacing: 0.02em;
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
         }
-
-        .form-group label::before {
-            margin-right: var(--spacing-xs);
-            font-size: 1rem;
-            opacity: 0.8;
-        }
-
-        /* .form-group label[for="email"]::before {
-            content: '✉️';
-        }
-
-        .form-group label[for="password"]::before,
-        .form-group label[for="confirm_password"]::before {
-            content: '🔐';
-        } */
 
         .form-control {
             width: 100%;
-            padding: var(--spacing-md) var(--spacing-lg);
-            font-family: var(--font-serif);
-            font-size: 1.05rem;
-            color: var(--color-ink);
-            background: var(--color-warm-white);
-            border: 2px solid var(--color-border-warm);
-            border-radius: var(--border-radius);
-            transition: all var(--transition-elegant);
-            box-sizing: border-box;
+            padding: 0.75rem 1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            background: var(--bg-light);
+            border: 1.5px solid var(--border-light);
+            border-radius: 0.5rem;
+            transition: var(--transition);
         }
 
         .form-control:focus {
             outline: none;
-            border-color: var(--color-teal);
-            box-shadow: 0 0 0 4px rgba(44, 95, 93, 0.1);
-            background: var(--color-cream);
+            border-color: var(--primary);
+            background: var(--bg-white);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
         }
 
         .form-control::placeholder {
-            color: var(--color-ink-lighter);
-            font-style: italic;
+            color: #9ca3af;
         }
 
         .form-control.valid {
-            border-color: var(--color-teal);
+            border-color: var(--success);
         }
 
         .form-control.invalid {
-            border-color: var(--color-burgundy);
+            border-color: var(--danger);
         }
 
-        /* --- Password Requirements --- */
+        /* Validation Messages */
+        .validation-message {
+            font-size: 0.8rem;
+            margin-top: 0.375rem;
+            padding: 0.375rem 0.625rem;
+            border-radius: 0.375rem;
+            display: none;
+        }
+
+        .validation-message.success {
+            color: var(--success);
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+        }
+
+        .validation-message.error {
+            color: var(--danger);
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+        }
+
+        /* Password Requirements */
         .password-requirements {
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-            color: var(--color-ink-lighter);
-            font-style: italic;
-            margin-top: var(--spacing-xs);
-            padding: var(--spacing-sm);
-            background: var(--color-cream);
-            border-radius: var(--border-radius-small);
-            border: 1px solid var(--color-border-subtle);
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            margin-top: 0.375rem;
+            padding: 0.5rem 0.75rem;
+            background: var(--bg-light);
+            border-radius: 0.375rem;
+            border: 1px solid var(--border-light);
         }
 
         .password-strength {
-            margin-top: var(--spacing-xs);
-            font-family: var(--font-sans);
-            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
         }
 
         .strength-bar {
             height: 4px;
             border-radius: 2px;
-            background: var(--color-border-warm);
-            margin-top: var(--spacing-xs);
+            background: var(--border-light);
             overflow: hidden;
+            margin-bottom: 0.375rem;
         }
 
         .strength-fill {
             height: 100%;
-            transition: all var(--transition-elegant);
-            border-radius: 2px;
+            transition: var(--transition);
         }
 
         .strength-weak .strength-fill {
             width: 33%;
-            background: var(--color-burgundy);
+            background: var(--danger);
         }
 
         .strength-medium .strength-fill {
             width: 66%;
-            background: var(--color-gold);
+            background: var(--warning);
         }
 
         .strength-strong .strength-fill {
             width: 100%;
-            background: var(--color-teal);
+            background: var(--success);
         }
 
-        /* --- Submit Button --- */
+        .strength-text {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+        }
+
+        /* Submit Button */
         .btn-submit {
             width: 100%;
-            background: linear-gradient(135deg, var(--color-burgundy) 0%, var(--color-burgundy-light) 100%);
-            color: var(--color-warm-white);
-            font-family: var(--font-display);
-            font-size: 1.2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
             font-weight: 600;
-            padding: var(--spacing-md) var(--spacing-xl);
+            padding: 0.875rem 1.5rem;
             border: none;
-            border-radius: var(--border-radius);
+            border-radius: 0.5rem;
             cursor: pointer;
-            transition: all var(--transition-elegant);
-            box-shadow: var(--shadow-subtle);
-            letter-spacing: 0.02em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-lg);
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.25);
+            margin-top: 0.5rem;
         }
 
-        .btn-submit:hover {
+        .btn-submit:hover:not(:disabled) {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
             transform: translateY(-2px);
-            box-shadow: var(--shadow-elevated);
-            background: linear-gradient(135deg, var(--color-burgundy-light) 0%, var(--color-burgundy) 100%);
+            box-shadow: 0 6px 16px rgba(255, 107, 53, 0.35);
         }
 
         .btn-submit:disabled {
-            opacity: 0.6;
+            opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
         }
 
         .btn-submit:active {
             transform: translateY(0);
         }
 
-        .btn-submit i {
-            font-size: 1.1rem;
-        }
-
-        /* --- Links Section --- */
-        .links {
+        /* Links */
+        .form-footer {
             text-align: center;
-            padding-top: var(--spacing-lg);
-            border-top: 1px solid var(--color-border-subtle);
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-light);
         }
 
-        .links p {
-            font-family: var(--font-serif);
-            color: var(--color-ink-light);
-            margin-bottom: var(--spacing-md);
-            font-size: 1rem;
+        .form-footer p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
         }
 
-        .links a {
-            color: var(--color-teal);
+        .form-footer a {
+            color: var(--primary);
             text-decoration: none;
             font-weight: 600;
-            border-bottom: 2px solid transparent;
-            transition: all var(--transition-elegant);
         }
 
-        .links a:hover {
-            border-bottom-color: var(--color-teal);
-            color: var(--color-teal-light);
+        .form-footer a:hover {
+            text-decoration: underline;
         }
 
-        .divider {
+        /* Footer */
+        .footer {
+            background: var(--secondary);
+            color: var(--bg-light);
+            padding: 2rem 1.5rem;
             text-align: center;
-            margin: var(--spacing-md) 0;
-            color: var(--color-ink-lighter);
-            font-family: var(--font-serif);
-            font-style: italic;
-            position: relative;
+            border-top: 1px solid rgba(255, 107, 53, 0.2);
         }
 
-        .divider::before,
-        .divider::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 60px;
-            height: 1px;
-            background: var(--color-border-warm);
+        .footer p {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        .divider::before {
-            left: calc(50% - 80px);
-        }
-
-        .divider::after {
-            right: calc(50% - 80px);
-        }
-
-        /* --- Back Link --- */
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-            color: var(--color-ink-lighter);
-            text-decoration: none;
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-            padding: var(--spacing-xs) var(--spacing-sm);
-            border-radius: var(--border-radius-small);
-            transition: all var(--transition-elegant);
-        }
-
-        .back-link:hover {
-            color: var(--color-teal);
-            background: rgba(44, 95, 93, 0.1);
-            transform: translateX(-2px);
-        }
-
-        /* --- Form Validation --- */
-        .validation-message {
-            font-family: var(--font-sans);
-            font-size: 0.85rem;
-            margin-top: var(--spacing-xs);
-            padding: var(--spacing-xs) var(--spacing-sm);
-            border-radius: var(--border-radius-small);
-        }
-
-        .validation-message.success {
-            color: var(--color-teal);
-            background: rgba(44, 95, 93, 0.1);
-        }
-
-        .validation-message.error {
-            color: var(--color-burgundy);
-            background: rgba(139, 38, 53, 0.1);
-        }
-
-        /* --- Loading State --- */
-        .btn-submit.loading {
-            opacity: 0.8;
-            cursor: not-allowed;
-        }
-
-        .btn-submit.loading i {
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* --- Responsive Design --- */
-        @media (max-width: 600px) {
-            body {
-                padding: var(--spacing-md);
+        /* Responsive */
+        @media (max-width: 968px) {
+            .signup-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
             }
 
-            .signup-header {
-                padding: var(--spacing-lg);
+            .welcome-section {
+                text-align: center;
             }
 
-            .signup-header h1 {
-                font-size: 1.8rem;
+            .welcome-section h2 {
+                font-size: 2rem;
             }
 
-            .form-container {
-                padding: var(--spacing-lg);
+            .features-grid {
+                max-width: 500px;
+                margin: 0 auto;
             }
         }
 
-        @media (max-width: 400px) {
-            .signup-header h1 {
-                font-size: 1.6rem;
+        @media (max-width: 640px) {
+            .header-content {
+                padding: 0 1rem;
             }
 
-            .form-control {
+            .logo-section h1 {
+                font-size: 1.25rem;
+            }
+
+            .logo-section i {
+                font-size: 1.5rem;
+            }
+
+            .main-wrapper {
+                padding: 2rem 1rem;
+            }
+
+            .welcome-section h2 {
+                font-size: 1.75rem;
+            }
+
+            .welcome-section p {
                 font-size: 1rem;
             }
 
-            .btn-submit {
-                font-size: 1.1rem;
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .signup-form-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .form-header h3 {
+                font-size: 1.5rem;
+            }
+
+            .nav-links {
+                gap: 0.5rem;
+            }
+
+            .btn {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.85rem;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="signup-header">
-            <h1>Join Our community</h1>
-            <p>Become part of our community</p>
-        </div>
-
-        <div class="form-container">
-            <div class="welcome-message">
-                Ready to write? Welcome to our community where writers like you share ideas and inspire each other.
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <i class="fas fa-book"></i>
+                <h1>Bookish Brio</h1>
             </div>
-
-            {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    <i class="fas fa-info-circle"></i>
-                    {{ message }}
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            <form method="post" id="signupForm">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="username">Create a Username</label>
-                    <input type="text" id="username" name="username" class="form-control" 
-                           placeholder="Enter your Username..." required autocomplete="username">
-                    <div id="usernameValidation" class="validation-message" style="display: none;"></div>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Enter your Email</label>
-                    <input type="email" id="email" name="email" class="form-control" 
-                           placeholder="Enter your Email..." required autocomplete="email">
-                    <div id="emailValidation" class="validation-message" style="display: none;"></div>
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Create a Password</label>
-                    <input type="password" id="password" name="password" class="form-control" 
-                           placeholder="Enter Password..." required autocomplete="new-password">
-                    <div class="password-requirements">
-                        Your Password should contain at least 8 characters for security
-                    </div>
-                    <div id="passwordStrength" class="password-strength" style="display: none;">
-                        <div class="strength-bar">
-                            <div class="strength-fill"></div>
-                        </div>
-                        <span id="strengthText"></span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="confirm_password">Confirm Password</label>
-                    <input type="password" id="confirm_password" name="confirm_password" class="form-control" 
-                           placeholder="Repeat your chosen Password..." required autocomplete="new-password">
-                    <div id="confirmValidation" class="validation-message" style="display: none;"></div>
-                </div>
-
-                <button type="submit" class="btn-submit" id="submitBtn" disabled>
-                    <i class="fas fa-quill-pen"></i>
-                    Create account
-                </button>
-            </form>
-
-            <div class="links">
-                <p>Already have account? <a href="{% url 'login' %}">Login here</a></p>
-                <div class="divider">⚜ ⚜ ⚜</div>
-                <p><a href="{% url 'index' %}" class="back-link">
-                    <i class="fas fa-arrow-left"></i> Browse as guest
-                </a></p>
+            <div class="nav-links">
+                <a href="{% url 'index' %}" class="btn btn-secondary">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="{% url 'login' %}" class="btn btn-primary">
+                    Login
+                </a>
             </div>
         </div>
     </div>
 
+    <!-- Main Content -->
+    <div class="main-wrapper">
+        <div class="signup-layout">
+            <!-- Left Side - Welcome Section -->
+            <div class="welcome-section">
+                <h2>Start Your <span>Writing Journey</span></h2>
+                <p>Join thousands of writers sharing their stories, connecting with readers, and building a creative community together.</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-pen-fancy"></i>
+                        <h4>Share Stories</h4>
+                        <p>Publish your creative work and reach an engaged audience</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-users"></i>
+                        <h4>Connect</h4>
+                        <p>Build relationships with fellow writers and readers</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-comments"></i>
+                        <h4>Get Feedback</h4>
+                        <p>Receive thoughtful comments and constructive insights</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-heart"></i>
+                        <h4>Grow Together</h4>
+                        <p>Improve your craft in a supportive community</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side - Signup Form -->
+            <div class="signup-form-container">
+                <div class="form-header">
+                    <h3>Create your account</h3>
+                    <p>Fill in your details to get started</p>
+                </div>
+
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% else %}check-circle{% endif %}"></i>
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form method="post" id="signupForm">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" class="form-control" 
+                               placeholder="Choose a username" required autocomplete="username">
+                        <div id="usernameValidation" class="validation-message"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" class="form-control" 
+                               placeholder="Enter your email" required autocomplete="email">
+                        <div id="emailValidation" class="validation-message"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" class="form-control" 
+                               placeholder="Create a password" required autocomplete="new-password">
+                        <div class="password-requirements">
+                            Use at least 8 characters for better security
+                        </div>
+                        <div id="passwordStrength" class="password-strength">
+                            <div class="strength-bar">
+                                <div class="strength-fill"></div>
+                            </div>
+                            <span id="strengthText" class="strength-text"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm Password</label>
+                        <input type="password" id="confirm_password" name="confirm_password" class="form-control" 
+                               placeholder="Confirm your password" required autocomplete="new-password">
+                        <div id="confirmValidation" class="validation-message"></div>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="submitBtn" disabled>
+                        Create Account
+                    </button>
+                </form>
+
+                <div class="form-footer">
+                    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Bookish Brio. All rights reserved.</p>
+    </footer>
+
     <script>
-        // Form elements
         const form = document.getElementById('signupForm');
         const submitBtn = document.getElementById('submitBtn');
         const usernameInput = document.getElementById('username');
@@ -602,17 +646,14 @@
         const passwordInput = document.getElementById('password');
         const confirmPasswordInput = document.getElementById('confirm_password');
         
-        // Validation elements
         const usernameValidation = document.getElementById('usernameValidation');
         const emailValidation = document.getElementById('emailValidation');
         const confirmValidation = document.getElementById('confirmValidation');
         const passwordStrength = document.getElementById('passwordStrength');
         const strengthText = document.getElementById('strengthText');
 
-        // Auto-focus on username field
         usernameInput.focus();
 
-        // Real-time validation
         usernameInput.addEventListener('input', validateUsername);
         emailInput.addEventListener('input', validateEmail);
         passwordInput.addEventListener('input', validatePassword);
@@ -624,7 +665,7 @@
                 hideValidation(usernameValidation);
                 usernameInput.classList.remove('valid', 'invalid');
             } else if (value.length < 3) {
-                showValidation(usernameValidation, 'Alias must be at least 3 characters', 'error');
+                showValidation(usernameValidation, 'Username must be at least 3 characters', 'error');
                 usernameInput.classList.add('invalid');
                 usernameInput.classList.remove('valid');
             } else if (!/^[a-zA-Z0-9_]+$/.test(value)) {
@@ -632,7 +673,7 @@
                 usernameInput.classList.add('invalid');
                 usernameInput.classList.remove('valid');
             } else {
-                showValidation(usernameValidation, 'Excellent choice for a literary alias!', 'success');
+                showValidation(usernameValidation, 'Great username!', 'success');
                 usernameInput.classList.add('valid');
                 usernameInput.classList.remove('invalid');
             }
@@ -647,11 +688,11 @@
                 hideValidation(emailValidation);
                 emailInput.classList.remove('valid', 'invalid');
             } else if (!emailRegex.test(value)) {
-                showValidation(emailValidation, 'Please provide a valid correspondence address', 'error');
+                showValidation(emailValidation, 'Please enter a valid email address', 'error');
                 emailInput.classList.add('invalid');
                 emailInput.classList.remove('valid');
             } else {
-                showValidation(emailValidation, 'Perfect for salon correspondence!', 'success');
+                showValidation(emailValidation, 'Email looks good!', 'success');
                 emailInput.classList.add('valid');
                 emailInput.classList.remove('invalid');
             }
@@ -678,7 +719,6 @@
                 }
             }
             
-            // Re-validate confirm password if it has a value
             if (confirmPasswordInput.value) {
                 validatePasswordConfirm();
             }
@@ -694,11 +734,11 @@
                 hideValidation(confirmValidation);
                 confirmPasswordInput.classList.remove('valid', 'invalid');
             } else if (password !== confirm) {
-                showValidation(confirmValidation, 'Passphrases do not match', 'error');
+                showValidation(confirmValidation, 'Passwords do not match', 'error');
                 confirmPasswordInput.classList.add('invalid');
                 confirmPasswordInput.classList.remove('valid');
             } else {
-                showValidation(confirmValidation, 'Passphrases match perfectly!', 'success');
+                showValidation(confirmValidation, 'Passwords match!', 'success');
                 confirmPasswordInput.classList.add('valid');
                 confirmPasswordInput.classList.remove('invalid');
             }
@@ -725,8 +765,8 @@
             
             const messages = {
                 weak: 'Weak - Consider adding more characters',
-                medium: 'Good - A solid choice for security',
-                strong: 'Excellent - Worthy of a literary master!'
+                medium: 'Good - Secure enough',
+                strong: 'Excellent - Very secure!'
             };
             
             strengthText.textContent = messages[strength];
@@ -750,7 +790,6 @@
                 confirmPasswordInput.classList.contains('valid');
             
             submitBtn.disabled = !isValid;
-            submitBtn.style.opacity = isValid ? '1' : '0.6';
         }
 
         form.addEventListener('submit', function(e) {
@@ -759,33 +798,21 @@
 
             if (password !== confirmPassword) {
                 e.preventDefault();
-                showValidation(confirmValidation, 'Passphrases must match to proceed', 'error');
+                showValidation(confirmValidation, 'Passwords must match', 'error');
                 confirmPasswordInput.focus();
                 return false;
             }
 
             if (password.length < 8) {
                 e.preventDefault();
-                showValidation(confirmValidation, 'Passphrase must be at least 8 characters', 'error');
+                showValidation(confirmValidation, 'Password must be at least 8 characters', 'error');
                 passwordInput.focus();
                 return false;
             }
 
-            submitBtn.classList.add('loading');
-            submitBtn.innerHTML = '<i class="fas fa-spinner"></i> Processing Request...';
+            submitBtn.textContent = 'Creating account...';
             submitBtn.disabled = true;
         });
-
-        [usernameInput, emailInput, passwordInput, confirmPasswordInput].forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'scale(1.02)';
-            });
-            
-            input.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'scale(1)';
-            });
-        });
-
 
         usernameInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
