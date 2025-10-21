@@ -20,12 +20,12 @@
             --primary: #ff6b35;
             --primary-dark: #e55a24;
             --primary-light: #ff8555;
+            --secondary: #1f2937;
             --bg-light: #f9fafb;
             --bg-white: #ffffff;
             --text-dark: #111827;
             --text-gray: #6b7280;
             --border-light: #e5e7eb;
-            --success: #10b981;
             --danger: #ef4444;
             
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -34,25 +34,18 @@
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        html, body {
-            height: 100%;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg-light);
             color: var(--text-dark);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        .app-wrapper {
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
         }
 
+        /* Header */
         .header {
             background: var(--bg-white);
             border-bottom: 1px solid var(--border-light);
@@ -70,7 +63,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 1rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-section i {
+            color: var(--primary);
+            font-size: 1.75rem;
         }
 
         .logo-section h1 {
@@ -78,61 +81,12 @@
             font-weight: 700;
             color: var(--primary);
             letter-spacing: -0.5px;
-            white-space: nowrap;
         }
 
-        .nav-right {
+        .nav-links {
             display: flex;
-            align-items: center;
             gap: 0.75rem;
-            flex-shrink: 0;
-            margin-left: auto;
-        }
-
-        .write-btn {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            border-radius: 8px;
-            padding: 0.7rem 1.2rem;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            text-decoration: none;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
-            flex-shrink: 0;
-        }
-
-        .write-btn:hover {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-        }
-
-        .welcome-text {
-            color: var(--text-gray);
-            font-size: 0.95rem;
-            flex-shrink: 0;
         }
 
         .btn {
@@ -148,74 +102,97 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            white-space: nowrap;
-            font-family: 'Inter', sans-serif;
-            flex-shrink: 0;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            border-radius: 6px;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
         }
 
         .btn-secondary {
             background: var(--bg-light);
             color: var(--text-dark);
             border: 1.5px solid var(--border-light);
-            border-radius: 6px;
         }
 
         .btn-secondary:hover {
             background: var(--bg-white);
             border-color: var(--primary);
             color: var(--primary);
-            transform: translateY(-2px);
         }
 
-        .main-content {
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Main Content */
+        .main-wrapper {
             flex: 1;
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
             padding: 2rem 1.5rem;
         }
 
-        .post-container {
+        .post-layout {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Post Article */
+        .post-article {
             background: var(--bg-white);
-            border-radius: 0.75rem;
-            padding: 2rem;
-            box-shadow: var(--shadow-sm);
+            border-radius: 1rem;
+            padding: 3rem;
+            box-shadow: var(--shadow-md);
             border: 1px solid var(--border-light);
+            margin-bottom: 2rem;
         }
 
         .post-header {
             margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border-light);
         }
 
         .post-title {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 700;
             color: var(--text-dark);
-            margin-bottom: 1rem;
             line-height: 1.3;
+            margin-bottom: 1.5rem;
         }
 
         .post-meta {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 2rem;
+            padding: 1.25rem;
+            background: var(--bg-light);
+            border-radius: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             color: var(--text-gray);
             font-size: 0.95rem;
-            flex-wrap: wrap;
+        }
+
+        .meta-item i {
+            color: var(--primary);
         }
 
         .post-author {
@@ -223,136 +200,135 @@
             font-weight: 600;
         }
 
-        .post-image-container {
-            text-align: center;
+        /* Post Images */
+        .post-featured-image {
             margin: 2rem 0;
-        }
-
-        .post-image-container img {
-            max-width: 100%;
             border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .post-featured-image img {
+            width: 100%;
+            height: auto;
+            display: block;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-light);
         }
 
-        .post-image-container img:hover {
+        .post-featured-image img:hover {
             transform: scale(1.02);
-            box-shadow: var(--shadow-lg);
         }
 
-        .post-images-gallery {
+        .post-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
             margin: 2rem 0;
         }
 
-        .gallery-image img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
+        .gallery-item {
             border-radius: 0.5rem;
+            overflow: hidden;
+            aspect-ratio: 1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-light);
         }
 
-        .gallery-image img:hover {
+        .gallery-item img:hover {
             transform: scale(1.05);
-            box-shadow: var(--shadow-lg);
         }
 
+        /* Post Content */
         .post-content {
-            font-size: 1.05rem;
+            font-size: 1.125rem;
             line-height: 1.8;
             color: var(--text-gray);
-            margin: 2rem 0;
+            margin: 2.5rem 0;
         }
 
         .post-content p {
             margin-bottom: 1.5rem;
         }
 
-        .post-actions {
+        /* Engagement Section */
+        .engagement-bar {
             display: flex;
-            justify-content: flex-start;
             align-items: center;
             gap: 2rem;
-            margin: 2rem 0;
             padding: 1.5rem;
-            background: var(--bg-white);
+            background: var(--bg-light);
             border-radius: 0.75rem;
-            border: 1px solid var(--border-light);
+            margin: 2rem 0;
         }
 
         .engagement-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
         }
 
-        .btn-like-dislike {
+        .like-btn {
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             color: var(--text-gray);
             transition: var(--transition);
             padding: 0.5rem;
-            border-radius: 0.4rem;
+            border-radius: 0.5rem;
         }
 
-        .btn-like-dislike:hover {
-            color: var(--danger);
+        .like-btn:hover {
             background: rgba(239, 68, 68, 0.1);
-            transform: scale(1.15);
+            color: var(--danger);
+            transform: scale(1.1);
         }
 
-        .btn-like-dislike .fas.fa-heart {
+        .like-btn .fa-heart.fas {
             color: var(--danger);
         }
 
         .engagement-count {
-            font-size: 1rem;
+            font-size: 1.125rem;
             font-weight: 600;
             color: var(--text-dark);
         }
 
-        .post-actions-dropdown {
-            position: relative;
-            display: inline-block;
+        .post-actions {
             margin-left: auto;
         }
 
         .dropdown-toggle {
-            background: var(--bg-light);
-            color: var(--text-gray);
-            border: none;
-            padding: 0.5rem;
-            border-radius: 0.4rem;
+            background: var(--bg-white);
+            border: 1.5px solid var(--border-light);
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
             cursor: pointer;
-            font-size: 1rem;
+            color: var(--text-gray);
             transition: var(--transition);
         }
 
         .dropdown-toggle:hover {
-            background: var(--border-light);
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
         .dropdown-menu {
             display: none;
             position: absolute;
-            top: -100px;
-            right: 0;
             background: var(--bg-white);
             border: 1px solid var(--border-light);
             border-radius: 0.5rem;
             box-shadow: var(--shadow-lg);
+            min-width: 150px;
             z-index: 100;
-            min-width: 140px;
+            margin-top: 0.5rem;
         }
 
         .dropdown-menu.show {
@@ -366,11 +342,6 @@
             text-decoration: none;
             transition: var(--transition);
             font-size: 0.9rem;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .dropdown-item:last-child {
-            border-bottom: none;
         }
 
         .dropdown-item:hover {
@@ -385,41 +356,61 @@
             background: #fef2f2;
         }
 
+        /* Comments Section */
         .comments-section {
-            border-top: 2px solid var(--border-light);
-            padding-top: 2rem;
-            margin-top: 2rem;
+            background: var(--bg-white);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
         }
 
-        .comments-section h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 1.5rem;
+        .comments-header {
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-light);
         }
 
+        .comments-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .comments-header i {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .comment-count {
+            margin-left: auto;
+            background: var(--bg-light);
+            color: var(--primary);
+            padding: 0.375rem 0.875rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Comment Form */
         .comment-form {
             margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: var(--bg-white);
-            border-radius: 0.75rem;
-            border: 1px solid var(--border-light);
         }
 
         .comment-form textarea {
             width: 100%;
             min-height: 120px;
             padding: 1rem;
-            border: 1px solid var(--border-light);
-            border-radius: 0.5rem;
+            border: 1.5px solid var(--border-light);
+            border-radius: 0.75rem;
             font-family: 'Inter', sans-serif;
             font-size: 1rem;
             line-height: 1.6;
             color: var(--text-dark);
-            background: var(--bg-white);
+            background: var(--bg-light);
             resize: vertical;
             transition: var(--transition);
         }
@@ -427,6 +418,7 @@
         .comment-form textarea:focus {
             outline: none;
             border-color: var(--primary);
+            background: var(--bg-white);
             box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
         }
 
@@ -438,31 +430,41 @@
             margin-top: 1rem;
             background: var(--primary);
             color: white;
-            padding: 0.7rem 1.5rem;
+            padding: 0.75rem 1.75rem;
             border-radius: 0.5rem;
             border: none;
             cursor: pointer;
             font-weight: 600;
+            font-size: 1rem;
             transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .comment-form button:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Comments List */
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
         }
 
         .comment {
-            background: var(--bg-white);
             padding: 1.5rem;
+            background: var(--bg-light);
             border-radius: 0.75rem;
-            box-shadow: var(--shadow-sm);
-            margin-bottom: 1rem;
             border: 1px solid var(--border-light);
             transition: var(--transition);
         }
 
         .comment:hover {
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-sm);
         }
 
         .comment-header {
@@ -478,13 +480,14 @@
             font-size: 1rem;
         }
 
-        .comment-date {
-            font-size: 0.85rem;
-            color: var(--text-gray);
+        .comment-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
 
-        .comment-content {
-            line-height: 1.7;
+        .comment-date {
+            font-size: 0.875rem;
             color: var(--text-gray);
         }
 
@@ -495,30 +498,36 @@
             cursor: pointer;
             font-size: 1rem;
             transition: var(--transition);
-            padding: 0.5rem;
+            padding: 0.375rem;
+            border-radius: 0.375rem;
         }
 
         .delete-comment-btn:hover {
             color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
         }
 
-        .no-comments {
-            font-style: italic;
+        .comment-content {
+            line-height: 1.7;
             color: var(--text-gray);
-            text-align: center;
-            padding: 2rem;
             font-size: 1rem;
+        }
+
+        /* Empty States */
+        .empty-state {
+            text-align: center;
+            padding: 2.5rem;
+            color: var(--text-gray);
+            font-style: italic;
         }
 
         .login-prompt {
-            font-style: italic;
-            color: var(--text-gray);
             text-align: center;
-            padding: 1.5rem;
-            font-size: 1rem;
-            background: var(--bg-white);
+            padding: 2rem;
+            background: var(--bg-light);
             border-radius: 0.75rem;
-            border: 1px solid var(--border-light);
+            border: 1px dashed var(--border-light);
+            color: var(--text-gray);
         }
 
         .login-prompt a {
@@ -531,6 +540,7 @@
             text-decoration: underline;
         }
 
+        /* Image Modal */
         .image-modal {
             display: none;
             position: fixed;
@@ -558,7 +568,6 @@
             right: 30px;
             color: white;
             font-size: 32px;
-            font-weight: 300;
             cursor: pointer;
             transition: var(--transition);
         }
@@ -567,386 +576,166 @@
             color: var(--primary-light);
         }
 
-        .footer {
-            background: var(--text-dark);
-            color: var(--bg-light);
-            padding: 3rem 1.5rem 2rem;
-            margin-top: 4rem;
-            border-top: 1px solid rgba(255, 107, 53, 0.2);
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .footer-section p {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-section a {
-            display: block;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            margin-bottom: 0.75rem;
-            transition: var(--transition);
-        }
-
-        .footer-section a:hover {
-            color: var(--primary);
-        }
-
-        .footer-socials {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .footer-socials a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 107, 53, 0.2);
-            border-radius: 50%;
-            color: var(--primary);
-            font-size: 1.1rem;
-            transition: var(--transition);
-        }
-
-        .footer-socials a:hover {
-            background: var(--primary);
-            color: var(--text-dark);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 2rem;
-            text-align: center;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
+        /* Responsive */
         @media (max-width: 768px) {
             .header-content {
-                gap: 0.75rem;
-            }
-
-            .nav-right {
-                gap: 0.5rem;
-            }
-
-            .nav-right > .welcome-text {
-                display: none;
-            }
-
-            .write-btn {
-                padding: 0.6rem 1rem;
-                font-size: 0.85rem;
-            }
-
-            .main-content {
-                padding: 1rem;
-            }
-
-            .post-container {
-                padding: 1.5rem;
-            }
-
-            .post-title {
-                font-size: 1.6rem;
-            }
-
-            .post-meta {
-                gap: 1rem;
-                font-size: 0.9rem;
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .post-images-gallery {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 1rem;
-            }
-
-            .gallery-image img {
-                height: 150px;
-            }
-
-            .post-content {
-                font-size: 1rem;
-            }
-
-            .post-actions {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-
-            .post-actions-dropdown {
-                margin-left: 0;
-                width: 100%;
-            }
-
-            .comment-form textarea {
-                min-height: 100px;
-                font-size: 0.95rem;
-            }
-
-            .comments-section h3 {
-                font-size: 1.3rem;
-            }
-
-            .footer-content {
-                gap: 1.5rem;
-            }
-
-            .footer-section h3 {
-                font-size: 1rem;
-            }
-
-            .footer-section p,
-            .footer-section a {
-                font-size: 0.85rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header {
-                padding: 0.75rem 0;
-            }
-
-            .header-content {
-                gap: 0.5rem;
                 padding: 0 1rem;
             }
 
             .logo-section h1 {
-                font-size: 1.1rem;
+                font-size: 1.25rem;
             }
 
-            .nav-right {
-                gap: 0.25rem;
+            .logo-section i {
+                font-size: 1.5rem;
             }
 
-            .nav-right > .user-avatar {
-                display: none;
-            }
-
-            .nav-right > .btn:not(:last-child) {
-                display: none;
-            }
-
-            .write-btn {
-                padding: 0.5rem 0.75rem;
-                font-size: 0.75rem;
-            }
-
-            .nav-right > .btn:last-child {
-                padding: 0.4rem 0.6rem;
-                font-size: 0.7rem;
-            }
-
-            .main-content {
-                padding: 0.75rem;
-            }
-
-            .post-container {
-                padding: 1rem;
-            }
-
-            .post-header {
-                margin-bottom: 1rem;
-                padding-bottom: 1rem;
-            }
-
-            .post-title {
-                font-size: 1.3rem;
-                margin-bottom: 0.75rem;
-            }
-
-            .post-meta {
+            .nav-links {
                 gap: 0.5rem;
+            }
+
+            .nav-links .user-avatar {
+                display: none;
+            }
+
+            .btn {
+                padding: 0.5rem 0.75rem;
                 font-size: 0.85rem;
             }
 
-            .post-images-gallery {
-                grid-template-columns: 1fr;
+            .main-wrapper {
+                padding: 1.5rem 1rem;
+            }
+
+            .post-article {
+                padding: 2rem 1.5rem;
+            }
+
+            .post-title {
+                font-size: 1.75rem;
+            }
+
+            .post-meta {
+                flex-direction: column;
+                align-items: flex-start;
                 gap: 0.75rem;
             }
 
-            .gallery-image img {
-                height: 200px;
+            .post-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .post-content {
+                font-size: 1rem;
+            }
+
+            .engagement-bar {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .post-actions {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .comments-section {
+                padding: 1.75rem 1.25rem;
+            }
+
+            .comments-header {
+                flex-wrap: wrap;
+            }
+
+            .comment-count {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .post-article {
+                padding: 1.5rem 1rem;
+            }
+
+            .post-title {
+                font-size: 1.5rem;
             }
 
             .post-content {
                 font-size: 0.95rem;
-                line-height: 1.7;
-                margin: 1rem 0;
-            }
-
-            .post-actions {
-                padding: 1rem;
-                gap: 0.75rem;
-            }
-
-            .engagement-count {
-                font-size: 0.8rem;
-            }
-
-            .comments-section {
-                padding-top: 1rem;
-                margin-top: 1rem;
-            }
-
-            .comments-section h3 {
-                font-size: 1.1rem;
-            }
-
-            .comment-form {
-                margin-bottom: 1rem;
-                padding: 1rem;
             }
 
             .comment-form textarea {
-                min-height: 80px;
-                padding: 0.75rem;
-                font-size: 0.9rem;
-            }
-
-            .comment-form button {
-                width: 100%;
-                padding: 0.6rem;
-                font-size: 0.85rem;
+                min-height: 100px;
             }
 
             .comment {
                 padding: 1rem;
-                margin-bottom: 0.75rem;
-            }
-
-            .comment-author {
-                font-size: 0.95rem;
-            }
-
-            .comment-date {
-                font-size: 0.8rem;
-            }
-
-            .comment-content {
-                font-size: 0.9rem;
-            }
-
-            .no-comments {
-                padding: 1.5rem;
-                font-size: 0.95rem;
-            }
-
-            .login-prompt {
-                padding: 1rem;
-                font-size: 0.9rem;
-            }
-
-            .footer {
-                padding: 2rem 1rem 1.5rem;
-                margin-top: 2rem;
-            }
-
-            .footer-content {
-                gap: 1rem;
-                margin-bottom: 1rem;
-            }
-
-            .footer-section h3 {
-                font-size: 0.95rem;
-                margin-bottom: 0.75rem;
-            }
-
-            .footer-section p,
-            .footer-section a {
-                font-size: 0.8rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .footer-socials {
-                gap: 0.75rem;
-            }
-
-            .footer-socials a {
-                width: 36px;
-                height: 36px;
-                font-size: 1rem;
-            }
-
-            .footer-bottom {
-                padding-top: 1rem;
-                font-size: 0.8rem;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="app-wrapper">
-        <div class="header">
-            <div class="header-content">
-                <div class="logo-section">
-                    <h1>Bookish Brio</h1>
-                </div>
-
-                <div class="nav-right">
-                    {% if user.is_authenticated %}
-                    <a href="{% url 'add_post' %}" class="write-btn">Write Post</a>
-                    <div class="user-avatar">{{ user.username|first|upper }}</div>
-                    <span class="welcome-text">{{ user.username }}</span>
-                    <a href="{% url 'profile' %}" class="btn btn-secondary">Profile</a>
-                    <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
-                    <a href="{% url 'index' %}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back</a>
-                    {% else %}
-                    <a href="{% url 'login' %}" class="btn btn-secondary">Login</a>
-                    <a href="{% url 'signup' %}" class="btn btn-primary">Sign up</a>
-                    <a href="{% url 'index' %}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back</a>
-                    {% endif %}
-                </div>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <i class="fas fa-book"></i>
+                <h1>Bookish Brio</h1>
+            </div>
+            <div class="nav-links">
+                {% if user.is_authenticated %}
+                <div class="user-avatar">{{ user.username|first|upper }}</div>
+                <a href="{% url 'index' %}" class="btn btn-secondary">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="{% url 'profile' %}" class="btn btn-secondary">
+                    Profile
+                </a>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-secondary">Login</a>
+                <a href="{% url 'index' %}" class="btn btn-secondary">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                {% endif %}
             </div>
         </div>
+    </div>
 
-        <div class="main-content">
-            <div class="post-container">
-                <div class="post-header">
-                    <h2 class="post-title">{{ post.title }}</h2>
+    <!-- Main Content -->
+    <div class="main-wrapper">
+        <div class="post-layout">
+            <!-- Post Article -->
+            <article class="post-article">
+                <header class="post-header">
+                    <h1 class="post-title">{{ post.title }}</h1>
                     <div class="post-meta">
-                        <span><i class="fas fa-user"></i> By <span class="post-author">{{ post.author }}</span></span>
-                        <span><i class="fas fa-clock"></i> {{ post.created_at|timesince }} ago</span>
+                        <span class="meta-item">
+                            <i class="fas fa-user"></i>
+                            By <span class="post-author">{{ post.author }}</span>
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            {{ post.created_at|date:"F d, Y" }}
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            {{ post.created_at|timesince }} ago
+                        </span>
                     </div>
-                </div>
+                </header>
 
                 {% if post.image %}
-                <div class="post-image-container">
+                <div class="post-featured-image">
                     <img src="{{ post.image.url }}" alt="{{ post.title }}" onclick="openImageModal('{{ post.image.url }}')">
                 </div>
                 {% endif %}
 
                 {% if images %}
-                <div class="post-images-gallery">
+                <div class="post-gallery">
                     {% for img in images %}
-                    <div class="gallery-image">
+                    <div class="gallery-item">
                         <img src="{{ img.image.url }}" alt="Gallery image" onclick="openImageModal('{{ img.image.url }}')">
                     </div>
                     {% endfor %}
@@ -957,12 +746,12 @@
                     {{ post.content|urlize|linebreaks }}
                 </div>
 
-                <div class="post-actions">
+                <div class="engagement-bar">
                     <div class="engagement-item">
                         {% if user.is_authenticated %}
                         <form action="{% url 'like_post' post.pk %}" method="POST" style="display:inline;">
                             {% csrf_token %}
-                            <button type="submit" class="btn-like-dislike">
+                            <button type="submit" class="like-btn">
                                 {% if user in post.likes.all %}
                                 <i class="fas fa-heart"></i>
                                 {% else %}
@@ -971,41 +760,134 @@
                             </button>
                         </form>
                         {% else %}
-                        <i class="far fa-heart btn-like-dislike"></i>
+                        <button class="like-btn" onclick="window.location.href='{% url 'login' %}'">
+                            <i class="far fa-heart"></i>
+                        </button>
                         {% endif %}
                         <span class="engagement-count">{{ post.total_likes }}</span>
                     </div>
 
                     {% if post.author == user %}
-                    <div class="post-actions-dropdown">
+                    <div class="post-actions" style="position: relative;">
                         <button class="dropdown-toggle" onclick="toggleDropdown(this)">
                             <i class="fas fa-ellipsis-v"></i>
                         </button>
                         <div class="dropdown-menu">
                             <a href="{% url 'delete_post' post.pk %}" class="dropdown-item danger"
-                                onclick="return confirm('Are you certain you wish to remove this piece? This action cannot be undone.')">
-                                <i class="fas fa-trash-alt"></i> Remove
+                                onclick="return confirm('Are you sure you want to delete this post?')">
+                                <i class="fas fa-trash-alt"></i> Delete Post
                             </a>
                         </div>
                     </div>
                     {% endif %}
                 </div>
+            </article>
 
-                <div class="comments-section">
-                    <h3><i class="fas fa-comments"></i> Comments ({{ comments.count }})</h3>
+            <!-- Comments Section -->
+            <section class="comments-section">
+                <div class="comments-header">
+                    <i class="fas fa-comments"></i>
+                    <h3>Comments</h3>
+                    <span class="comment-count">{{ comments.count }}</span>
+                </div>
 
-                    {% if user.is_authenticated %}
-                    <div class="comment-form">
-                        <form method="POST" action="{% url 'add_comment' post.pk %}">
-                            {% csrf_token %}
-                            <textarea name="content" placeholder="Share your thoughts..." required></textarea>
-                            <button type="submit">
-                                <i class="fas fa-paper-plane"></i> Submit
-                            </button>
-                        </form>
+                {% if user.is_authenticated %}
+                <div class="comment-form">
+                    <form method="POST" action="{% url 'add_comment' post.pk %}">
+                        {% csrf_token %}
+                        <textarea name="content" placeholder="Share your thoughts on this post..." required></textarea>
+                        <button type="submit">
+                            <i class="fas fa-paper-plane"></i>
+                            Post Comment
+                        </button>
+                    </form>
+                </div>
+                {% else %}
+                <div class="login-prompt">
+                    Please <a href="{% url 'login' %}?next={{ request.path }}">login</a> to join the conversation
+                </div>
+                {% endif %}
+
+                {% if comments %}
+                <div class="comments-list">
+                    {% for comment in comments %}
+                    <div class="comment">
+                        <div class="comment-header">
+                            <span class="comment-author">{{ comment.author }}</span>
+                            <div class="comment-actions">
+                                <span class="comment-date">{{ comment.created_at|timesince }} ago</span>
+                                {% if comment.author == user %}
+                                <form method="POST" action="{% url 'delete_comment' comment.pk %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="delete-comment-btn" 
+                                            onclick="return confirm('Delete this comment?')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="comment-content">{{ comment.content|linebreaks }}</div>
                     </div>
-                    {% else %}
-                    <div class="login-prompt">
-                        Please <a href="{% url 'login' %}?next={{ request.path }}">login</a> to share your thoughts.
-                    </div>
-                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    No comments yet. Be the first to share your thoughts!
+                </div>
+                {% endif %}
+            </section>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <script>
+        function openImageModal(imageSrc) {
+            document.getElementById('imageModal').style.display = 'block';
+            document.getElementById('modalImage').src = imageSrc;
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            document.getElementById('imageModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function toggleDropdown(button) {
+            const dropdown = button.nextElementSibling;
+            const isOpen = dropdown.classList.contains('show');
+
+            document.querySelectorAll('.dropdown-menu.show').forEach(m => {
+                m.classList.remove('show');
+            });
+
+            if (!isOpen) {
+                dropdown.classList.add('show');
+            }
+        }
+
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.post-actions')) {
+                document.querySelectorAll('.dropdown-menu.show').forEach(m => {
+                    m.classList.remove('show');
+                });
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeImageModal();
+                document.querySelectorAll('.dropdown-menu.show').forEach(m => {
+                    m.classList.remove('show');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
