@@ -4,32 +4,47 @@ from pathlib import Path
 import dj_database_url
 from django.contrib.messages import constants as messages
 
-# Base directory
+# -------------------------
+# BASE DIRECTORY
+# -------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# -------------------------
 # SECURITY
+# -------------------------
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "your-default-secret-key")
 DEBUG = os.environ.get("DEBUG", "True") == "True"
 
-# Hosts
-DEBUG = False
-ALLOWED_HOSTS = ["bookishbrio.up.railway.app", ".railway.app"]
+# -------------------------
+# ALLOWED HOSTS
+# -------------------------
+if DEBUG:
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+else:
+    ALLOWED_HOSTS = [
+        "bookishbrio.up.railway.app",
+        ".railway.app",  # allow any Railway subdomain
+    ]
 
-
-
-# CSRF & Session cookies
+# -------------------------
+# CSRF & SESSION COOKIES
+# -------------------------
 CSRF_TRUSTED_ORIGINS = ["https://*.railway.app"]
 
 CSRF_COOKIE_SECURE = not DEBUG
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SAMESITE = "Lax"
 
-# Login URLs
+# -------------------------
+# LOGIN SETTINGS
+# -------------------------
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
 
-# Messages
+# -------------------------
+# MESSAGE TAGS
+# -------------------------
 MESSAGE_TAGS = {
     messages.DEBUG: 'debug',
     messages.INFO: 'info',
@@ -38,7 +53,9 @@ MESSAGE_TAGS = {
     messages.ERROR: 'error',
 }
 
-# Installed apps
+# -------------------------
+# INSTALLED APPS
+# -------------------------
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -50,7 +67,9 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
 ]
 
-# Middleware
+# -------------------------
+# MIDDLEWARE
+# -------------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -62,10 +81,14 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-# Root URL config
+# -------------------------
+# URL CONFIGURATION
+# -------------------------
 ROOT_URLCONF = "Brio.urls"
 
-# Templates
+# -------------------------
+# TEMPLATES
+# -------------------------
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -81,19 +104,35 @@ TEMPLATES = [
     },
 ]
 
+# -------------------------
 # WSGI
+# -------------------------
 WSGI_APPLICATION = "Brio.wsgi.application"
 
-# Database configuration
-DATABASES = {
-    'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-        ssl_require=not DEBUG
-    )
-}
+# -------------------------
+# DATABASE
+# -------------------------
+if os.environ.get("DATABASE_URL"):
+    # Production / Railway
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.environ.get("DATABASE_URL"),
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
+else:
+    # Local development fallback
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
-# Password validation
+# -------------------------
+# PASSWORD VALIDATION
+# -------------------------
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -101,16 +140,39 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-# Internationalization
+# -------------------------
+# INTERNATIONALIZATION
+# -------------------------
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
-# Static files
+# -------------------------
+# STATIC FILES
+# -------------------------
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# Default primary key type
+# -------------------------
+# DEFAULT PRIMARY KEY TYPE
+# -------------------------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# -------------------------
+# LOGGING
+# -------------------------
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'ERROR',
+    },
+}
