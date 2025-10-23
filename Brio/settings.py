@@ -24,7 +24,6 @@ if DEBUG:
     ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 else:
     ALLOWED_HOSTS = [
-        "handsome-mercy.up.railway.app",
         ".railway.app",
     ]
 
