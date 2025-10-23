@@ -15,7 +15,11 @@ DEBUG = os.environ.get("DEBUG", "True") == "True"
 if DEBUG:
     ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 else:
-    ALLOWED_HOSTS = [".railway.app"]
+    ALLOWED_HOSTS = [
+        ".railway.app",  # allows all subdomains of railway.app
+        "bookishbrio.up.railway.app",  # explicitly allow your project domain
+    ]
+
 
 # CSRF & Session cookies
 CSRF_TRUSTED_ORIGINS = ["https://*.railway.app"]
