@@ -18,12 +18,8 @@ DEBUG = os.environ.get("DEBUG", "True") == "True"
 # -------------------------
 # ALLOWED HOSTS
 # -------------------------
-if DEBUG:
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-else:
-    ALLOWED_HOSTS = [
-        "bookishbrio.up.railway.app",
-        ".railway.app",  # allow any Railway subdomain
+ALLOWED_HOSTS = [
+    ".railway.app",  # allow any Railway subdomain
     ]
 
 # -------------------------
