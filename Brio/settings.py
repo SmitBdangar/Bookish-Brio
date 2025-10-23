@@ -1,26 +1,27 @@
-from pathlib import Path
+# settings.py
 import os
+from pathlib import Path
 import dj_database_url
 from django.contrib.messages import constants as messages
 
+# Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Security
+# SECURITY
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "your-default-secret-key")
 DEBUG = os.environ.get("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = [
-    ".railway.app",
-    "localhost",
-    "127.0.0.1",
-]
+# Hosts
+if DEBUG:
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+else:
+    ALLOWED_HOSTS = [".railway.app"]
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://*.railway.app",
-]
+# CSRF & Session cookies
+CSRF_TRUSTED_ORIGINS = ["https://*.railway.app"]
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SAMESITE = "Lax"
 
 # Login URLs
@@ -61,8 +62,10 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+# Root URL config
 ROOT_URLCONF = "Brio.urls"
 
+# Templates
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -78,23 +81,17 @@ TEMPLATES = [
     },
 ]
 
+# WSGI
 WSGI_APPLICATION = "Brio.wsgi.application"
 
-import dj_database_url
-
+# Database configuration
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=600,
-        ssl_require=True
+        ssl_require=not DEBUG
     )
 }
-
-# else:
-#     DATABASES['default'] = {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -117,5 +114,3 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
