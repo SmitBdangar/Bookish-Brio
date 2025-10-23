@@ -18,9 +18,16 @@ DEBUG = os.environ.get("DEBUG", "True") == "True"
 # -------------------------
 # ALLOWED HOSTS
 # -------------------------
-ALLOWED_HOSTS = [
-    ".railway.app",  # allow any Railway subdomain
+DEBUG = os.environ.get("DEBUG", "True") == "True"
+
+if DEBUG:
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+else:
+    ALLOWED_HOSTS = [
+        "handsome-mercy.up.railway.app",
+        ".railway.app",
     ]
+
 
 # -------------------------
 # CSRF & SESSION COOKIES
@@ -108,23 +115,15 @@ WSGI_APPLICATION = "Brio.wsgi.application"
 # -------------------------
 # DATABASE
 # -------------------------
-if os.environ.get("DATABASE_URL"):
-    # Production / Railway
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=os.environ.get("DATABASE_URL"),
-            conn_max_age=600,
-            ssl_require=True
-        )
+# settings.py
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-else:
-    # Local development fallback
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+}
+
 
 # -------------------------
 # PASSWORD VALIDATION
