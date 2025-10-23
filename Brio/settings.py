@@ -12,13 +12,9 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "your-default-secret-key")
 DEBUG = os.environ.get("DEBUG", "True") == "True"
 
 # Hosts
-if DEBUG:
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-else:
-    ALLOWED_HOSTS = [
-        ".railway.app",  # allows all subdomains of railway.app
-        "bookishbrio.up.railway.app",  # explicitly allow your project domain
-    ]
+DEBUG = False
+ALLOWED_HOSTS = ["bookishbrio.up.railway.app", ".railway.app"]
+
 
 
 # CSRF & Session cookies
