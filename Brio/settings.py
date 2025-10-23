@@ -18,14 +18,14 @@ DEBUG = os.environ.get("DEBUG", "True") == "True"
 # -------------------------
 # ALLOWED HOSTS
 # -------------------------
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "your-default-secret-key")
 DEBUG = os.environ.get("DEBUG", "True") == "True"
 
-if DEBUG:
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-else:
-    ALLOWED_HOSTS = [
-        ".railway.app",
-    ]
+ALLOWED_HOSTS = [
+    ".railway.app",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 # -------------------------
