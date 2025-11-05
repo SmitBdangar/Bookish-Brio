@@ -4,7 +4,6 @@
 
 ![Python](https://img.shields.io/badge/Python-3.13-blue)
 ![Django](https://img.shields.io/badge/Django-5.2-green)
-![License](https://img.shields.io/badge/License-MIT-yellow)
 
 ---
 
@@ -213,34 +212,6 @@ Bookish-Brio/
 ├── runtime.txt               # Python version for deployment
 ├── Procfile                  # Production server configuration
 └── README.md                 # This file
-```
-
----
-
-## 🎯 Usage Guide
-
-### For Writers
-
-1. **Sign Up** - Create an account with username, email, and password
-2. **Write a Post** - Click "Write" button in navigation
-3. **Add Content** - Enter title, write your story, add images (optional)
-4. **Publish** - Click "Publish Post" to share with community
-5. **Manage Posts** - View, edit, or delete your posts from profile
-
-### For Readers
-
-1. **Browse Posts** - View all posts on home page
-2. **Read Stories** - Click on any post to read full content
-3. **Engage** - Like posts and leave thoughtful comments
-4. **Discover** - Use pagination to explore more content
-5. **Connect** - Follow authors and engage in discussions
-
-### For Administrators
-
-1. **Access Admin Panel** - `/admin/` with superuser credentials
-2. **Manage Users** - View and moderate user accounts
-3. **Moderate Content** - Review and manage posts and comments
-4. **Monitor Activity** - Track site usage and engagement
 
 ---
 
@@ -338,36 +309,6 @@ Contributions are welcome! Here's how you can help:
 4. **Push to branch** (`git push origin feature/AmazingFeature`)
 5. **Open a Pull Request**
 
-### Development Guidelines
-- Follow PEP 8 style guide for Python
-- Write descriptive commit messages
-- Add comments for complex logic
-- Test thoroughly before submitting
-- Update documentation as needed
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- Django Software Foundation for the amazing framework
-- Font Awesome for the icon library
-- Google Fonts for the Inter typeface
-- The open-source community for inspiration and support
-
----
-
-## 📧 Contact & Support
-
-- **Issues**: [GitHub Issues](https://github.com/yourusername/bookish-brio/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/bookish-brio/discussions)
-- **Email**: your.email@example.com
-
 ---
 
 ## 🔮 Roadmap
@@ -401,8 +342,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <div align="center">
-
-**Made with ❤️ by the Bookish Brio Team**
 
 [⬆ Back to Top](#-bookish-brio)
 
