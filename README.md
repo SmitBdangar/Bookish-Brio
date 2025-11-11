@@ -174,11 +174,3 @@ Bookish-Brio/
 ├── runtime.txt               # Python version for deployment
 ├── Procfile                  # Production server configuration
 └── README.md                 # This file
-
----
-
-<div align="center">
-
-[⬆ Back to Top](#-bookish-brio)
-
-</div>
