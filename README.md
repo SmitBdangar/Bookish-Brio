@@ -12,7 +12,7 @@ A clean, modern blogging platform for writers and readers to share stories and c
 
 <img src="mDEAL/home.png" width="700" alt="Home Page">
 
----
+--
 
 ## Features
 
@@ -41,7 +41,7 @@ A clean, modern blogging platform for writers and readers to share stories and c
 </tr>
 </table>
 
----
+--
 
 ## Tech Stack
 
@@ -51,7 +51,7 @@ A clean, modern blogging platform for writers and readers to share stories and c
 
 **Django 5.2.6** • **SQLite** • **Whitenoise** • **Gunicorn**
 
----
+--
 
 ## Getting Started
 
@@ -79,7 +79,7 @@ python manage.py runserver
 
 Visit `http://127.0.0.1:8000/` in your browser
 
----
+--
 
 ## Screenshots
 
@@ -89,7 +89,7 @@ Visit `http://127.0.0.1:8000/` in your browser
 ### User Profile
 <img src="mDEAL/Profile.png" width="700" alt="User Profile">
 
----
+--
 
 ## Contributing
 
@@ -101,13 +101,13 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
----
+--
 
 ##License
 
 Distributed under the MIT License. See `LICENSE` file for more information.
 
----
+--
 
 ## Contact
 
@@ -115,7 +115,7 @@ Distributed under the MIT License. See `LICENSE` file for more information.
 
 Project Link: [https://github.com/SmitBdangar/Bookish-Brio](https://github.com/SmitBdangar/Bookish-Brio)
 
----
+--
 
 <p>
 Made by <a href="https://github.com/SmitBdangar">Smit Bdangar</a>
