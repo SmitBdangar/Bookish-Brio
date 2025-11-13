@@ -12,20 +12,26 @@ A clean, modern blogging platform for writers and readers to share stories and c
 
 <img src="mDEAL/home.png" width="700" alt="Home Page">
 
---
 
 # Features
 <table>
-
-Create & Share: Write posts with rich text and images
-Engage: Like posts and comment on stories
-Connect: Build a community of writers and readers
-User Profiles: Track your posts and activity
-
+  <tr>
+    <th>Features</th>
+  </tr>
+  <tr>
+    <td>Create & Share: Write posts with rich text and images</td>
+  </tr>
+  <tr>
+    <td>Engage: Like posts and comment on stories</td>
+  </tr>
+  <tr>
+    <td>Connect: Build a community of writers and readers</td>
+  </tr>
+  <tr>
+    <td>User Profiles: Track your posts and activity</td>
+  </tr>
 </table>
 
-
---
 
 ## Tech Stack
 
@@ -35,7 +41,6 @@ User Profiles: Track your posts and activity
 
 **Django 5.2.6** • **SQLite** • **Whitenoise** • **Gunicorn**
 
---
 
 ## Quick Start
 
@@ -59,7 +64,6 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
---
 
 <p>
 Made by <a href="https://github.com/SmitBdangar">Smit Bdangar</a>
