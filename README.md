@@ -14,32 +14,16 @@ A clean, modern blogging platform for writers and readers to share stories and c
 
 --
 
-## Features
-
+# Features
 <table>
-<tr>
-<td align="center" width="25%">
-<img src="https://img.icons8.com/fluency/96/create-new.png" width="64" alt="Create"/>
-<br><b>Create & Share</b>
-<br>Write posts with rich text and images
-</td>
-<td align="center" width="25%">
-<img src="https://img.icons8.com/fluency/96/heart.png" width="64" alt="Engage"/>
-<br><b>Engage</b>
-<br>Like and comment on stories
-</td>
-<td align="center" width="25%">
-<img src="https://img.icons8.com/fluency/96/group.png" width="64" alt="Connect"/>
-<br><b>Connect</b>
-<br>Build a community
-</td>
-<td align="center" width="25%">
-<img src="https://img.icons8.com/fluency/96/user-male-circle.png" width="64" alt="Profile"/>
-<br><b>User Profiles</b>
-<br>Track your activity
-</td>
-</tr>
+
+Create & Share: Write posts with rich text and images
+Engage: Like posts and comment on stories
+Connect: Build a community of writers and readers
+User Profiles: Track your posts and activity
+
 </table>
+
 
 --
 
@@ -53,15 +37,13 @@ A clean, modern blogging platform for writers and readers to share stories and c
 
 --
 
-## Getting Started
-
-### Installation
+## Quick Start
 
 ```bash
 # Clone the repository
 git clone https://github.com/SmitBdangar/Bookish-Brio.git
 
-# Navigate to directory
+# Navigate to project directory
 cd Bookish-Brio
 
 # Install dependencies
@@ -73,47 +55,9 @@ python manage.py migrate
 # Create superuser
 python manage.py createsuperuser
 
-# Start server
+# Start the development server
 python manage.py runserver
 ```
-
-Visit `http://127.0.0.1:8000/` in your browser
-
---
-
-## Screenshots
-
-### Create Post
-<img src="mDEAL/CreatePost.png" width="700" alt="Create Post">
-
-### User Profile
-<img src="mDEAL/Profile.png" width="700" alt="User Profile">
-
---
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
---
-
-##License
-
-Distributed under the MIT License. See `LICENSE` file for more information.
-
---
-
-## Contact
-
-**Smit Bdangar** - [@SmitBdangar](https://github.com/SmitBdangar)
-
-Project Link: [https://github.com/SmitBdangar/Bookish-Brio](https://github.com/SmitBdangar/Bookish-Brio)
 
 --
 
