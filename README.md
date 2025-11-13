@@ -1,61 +1,57 @@
-# Bookish Brio
+<h1 align="center">Bookish Brio</h1>
 
+<p align="center">
 A clean, modern blogging platform for writers and readers to share stories and connect.
+</p>
 
-![Home Page](mDEAL/home.png)
+<p align="center">
+  <img src="mDEAL/home.png" width="700" alt="Home Page">
+</p>
 
-## Features
-
-- **Create & Share**: Write posts with rich text and images
-- **Engage**: Like posts and comment on stories
-- **Connect**: Build a community of writers and readers
-- **User Profiles**: Track your posts and activity
-
-## Screenshots
-
+<h1 align="center">Features</h1>
 <div align="center">
 
-### Create Posts
-<img src="mDEAL/CreatePost.png" width="700" alt="Create Post">
-
-### User Profile
-<img src="mDEAL/Profile.png" width="700" alt="User Profile">
+- **Create & Share**: Write posts with rich text and images  
+- **Engage**: Like posts and comment on stories  
+- **Connect**: Build a community of writers and readers  
+- **User Profiles**: Track your posts and activity  
 
 </div>
 
-## Tech Stack
+<h1 align="center">Create Posts</h1>
 
+<p align="center">
+Write and publish your stories with an intuitive editor. Add images to make your posts more engaging.
+</p>
+
+
+<p align="center">
+  <img src="mDEAL/CreatePost.png" width="700" alt="Create Post">
+</p>
+
+<h1 align="center">User Profile</h1>
+<p align="center">
+View your posts, track your activity, and manage your account in one place.
+</p>
+
+<p align="center">
+  <img src="mDEAL/Profile.png" width="700" alt="User Profile">
+</p>
+
+<h1 align="center">Tech Stack</h1>
+<div align="center">
 - Django 5.2.6
 - SQLite database
 - Whitenoise for static files
 - Gunicorn for deployment
-
-## Quick Start
+</div>
+<h1 align="center">Quick Start</h1>
 
 ```bash
-# Clone repository
 git clone https://github.com/SmitBdangar/Bookish-Brio.git
 cd Bookish-Brio
 
-# Install dependencies
 pip install -r requirements.txt
-
-# Run migrations
 python manage.py migrate
-
-# Create superuser (optional)
 python manage.py createsuperuser
-
-# Start server
 python manage.py runserver
-```
-
-Visit `http://localhost:8000`
-
-## Deployment
-
-Configured for Railway deployment with Procfile and runtime.txt included.
-
-## License
-
-Open source project - feel free to use and modify.
