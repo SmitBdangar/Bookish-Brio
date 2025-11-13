@@ -1,7 +1,6 @@
-# settings.py
 import os
 from pathlib import Path
-import dj_database_url
+import environ
 from django.contrib.messages import constants as messages
 
 # -------------------------
@@ -10,23 +9,24 @@ from django.contrib.messages import constants as messages
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # -------------------------
-# SECURITY
+# ENVIRONMENT
 # -------------------------
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "your-default-secret-key")
-DEBUG = os.environ.get("DEBUG", "True") == "True"
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # -------------------------
-# ALLOWED HOSTS
+# SECURITY
 # -------------------------
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "your-default-secret-key")
+# SECURITY
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY") or "dev-secret-key"
 DEBUG = os.environ.get("DEBUG", "True") == "True"
+
 
 ALLOWED_HOSTS = [
     ".railway.app",
     "localhost",
     "127.0.0.1",
 ]
-
 
 # -------------------------
 # CSRF & SESSION COOKIES
@@ -114,12 +114,10 @@ WSGI_APPLICATION = "Brio.wsgi.application"
 # -------------------------
 # DATABASE
 # -------------------------
-# settings.py
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": env.db("DATABASE_URL") if os.environ.get("DATABASE_URL") else {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -145,28 +143,26 @@ USE_TZ = True
 # -------------------------
 # STATIC FILES
 # -------------------------
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # -------------------------
 # DEFAULT PRIMARY KEY TYPE
 # -------------------------
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # -------------------------
 # LOGGING
 # -------------------------
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {"class": "logging.StreamHandler"},
     },
-    'root': {
-        'handlers': ['console'],
-        'level': 'ERROR',
+    "root": {
+        "handlers": ["console"],
+        "level": "ERROR",
     },
 }
