@@ -13,16 +13,15 @@ A clean, modern blogging platform for writers and readers to share stories and c
 
 ## Screenshots
 
+<div align="center">
+
 ### Create Posts
-![Create Post](mDEAL/CreatePost.png)
-
-### Post Details & Comments
-![Post Info](mDEAL/PostInfo.png)
-
-![Comments](mDEAL/Comments.png)
+<img src="mDEAL/CreatePost.png" width="700" alt="Create Post">
 
 ### User Profile
-![Profile](mDEAL/Profile.png)
+<img src="mDEAL/Profile.png" width="700" alt="User Profile">
+
+</div>
 
 ## Tech Stack
 
