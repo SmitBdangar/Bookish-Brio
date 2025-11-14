@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "home",
-    "storages",
+    # "storages",
     "django.contrib.humanize",
 ]
 
