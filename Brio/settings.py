@@ -28,6 +28,9 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 
+DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024      # 50MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024      # 50MB
+
 # -------------------------
 # CSRF & SESSION COOKIES
 # -------------------------
@@ -66,6 +69,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "home",
+    "storages",
     "django.contrib.humanize",
 ]
 
@@ -166,3 +170,5 @@ LOGGING = {
         "level": "ERROR",
     },
 }
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
