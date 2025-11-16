@@ -14,12 +14,13 @@ A clean, modern blogging platform for writers and readers to share stories and c
 
 # Features
 
-<table>
-  <tr><td>Write posts with rich text and images</td></tr>
-  <tr><td>Like posts and comment on stories</td></tr>
-  <tr><td>Build a community of writers and readers</td></tr>
-  <tr><td>User profiles with activity tracking</td></tr>
-</table>
+<!-- Modern centered feature list -->
+<ul style="list-style: none; padding: 0; text-align: center; line-height: 1.8;">
+  <li>• Write posts with rich text and images</li>
+  <li>• Like posts and comment on stories</li>
+  <li>• Build a community of writers and readers</li>
+  <li>• User profiles with activity tracking</li>
+</ul>
 
 ## Tech Stack
 
@@ -31,7 +32,6 @@ A clean, modern blogging platform for writers and readers to share stories and c
 
 ## Quick Start
 
-<!-- Centered code block -->
 <pre style="text-align: left; display: inline-block; padding: 20px; background: #1e1e1e; color: #ffffff; border-radius: 8px; width: 80%; max-width: 700px;">
 
 # Clone the repository
