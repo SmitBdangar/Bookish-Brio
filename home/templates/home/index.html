@@ -1001,3 +1001,25 @@
                     <h3>
                         <i class="fas fa-users"></i>
                         Community Stats
+                    </h3>
+                </div>
+            </aside>
+        </div>
+    </div>
+    <script>
+        function toggleDropdown(button){
+            console.log('testing')
+            const dropdown = button.nextElementSibling;
+            const isOpen = dropdown.classList.contains('show');
+
+            document.querySelectorAll('.dropdown-menu.show').forEach(m => {
+                m.classList.remove('show');
+            });
+
+            if (!isOpen) {
+                dropdown.classList.add('show');
+            }
+
+        }
+    </script>
+</body>
