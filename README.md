@@ -3,49 +3,37 @@
 # Bookish Brio
 
 <p>
-  <img src="https://img.shields.io/badge/Django-5.2.6-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django"/>
-  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
-  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=PostgreSQL&logoColor=white" alt="PostgreSQL"/>
+  <img src="https://img.shields.io/badge/Django-5.2.6-092E20?style=for-the-badge&logo=django&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
+  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=PostgreSQL&logoColor=white"/>
 </p>
-
 
 A clean, modern blogging platform for writers and readers to share stories and connect.
 
-<img src="mDEAL/home.png" width="700" alt="Home Page">
-
+<img src="mDEAL/home.png" width="700" alt="Home Page"/>
 
 # Features
-<table>
-  <tr>
-    <th>Features</th>
-  </tr>
-  <tr>
-    <td>Create & Share: Write posts with rich text and images</td>
-  </tr>
-  <tr>
-    <td>Engage: Like posts and comment on stories</td>
-  </tr>
-  <tr>
-    <td>Connect: Build a community of writers and readers</td>
-  </tr>
-  <tr>
-    <td>User Profiles: Track your posts and activity</td>
-  </tr>
-</table>
 
+<table>
+  <tr><td>Write posts with rich text and images</td></tr>
+  <tr><td>Like posts and comment on stories</td></tr>
+  <tr><td>Build a community of writers and readers</td></tr>
+  <tr><td>User profiles with activity tracking</td></tr>
+</table>
 
 ## Tech Stack
 
 <p>
-<img src="https://skillicons.dev/icons?i=django,python,sqlite" alt="Tech Stack"/>
+<img src="https://skillicons.dev/icons?i=django,python,sqlite"/>
 </p>
 
 **Django 5.2.6** • **SQLite** • **Whitenoise** • **Gunicorn**
 
-
 ## Quick Start
 
-```bash
+<!-- Centered code block -->
+<pre style="text-align: left; display: inline-block; padding: 20px; background: #1e1e1e; color: #ffffff; border-radius: 8px; width: 80%; max-width: 700px;">
+
 # Clone the repository
 git clone https://github.com/SmitBdangar/Bookish-Brio.git
 
@@ -63,12 +51,12 @@ python manage.py createsuperuser
 
 # Start the development server
 python manage.py runserver
-```
 
+</pre>
 
-<p>
+<br>
+
 Made by <a href="https://github.com/SmitBdangar">Smit Bdangar</a>
-</p>
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=100&section=footer" width="100%"/>
 
