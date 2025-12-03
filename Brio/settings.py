@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 import environ
+
 from django.contrib.messages import constants as messages
 
 # -------------------------
@@ -17,10 +18,8 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 # -------------------------
 # SECURITY
 # -------------------------
-# SECURITY
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY") or "dev-secret-key"
 DEBUG = os.environ.get("DEBUG", "True") == "True"
-
 
 ALLOWED_HOSTS = [
     ".railway.app",
@@ -69,7 +68,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "home",
-    # "storages",
     "django.contrib.humanize",
 ]
 
@@ -118,13 +116,19 @@ WSGI_APPLICATION = "Brio.wsgi.application"
 # -------------------------
 # DATABASE
 # -------------------------
-DATABASES = {
-    "default": env.db("DATABASE_URL") if os.environ.get("DATABASE_URL") else {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+# Use PostgreSQL in production (when DATABASE_URL is set)
+# Use SQLite in local development
+if os.environ.get("DATABASE_URL"):
+    DATABASES = {
+        "default": env.db("DATABASE_URL")
     }
-}
-
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # -------------------------
 # PASSWORD VALIDATION
@@ -152,6 +156,19 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # -------------------------
+# MEDIA FILES (Images, etc.)
+# -------------------------
+MEDIA_URL = '/media/'
+
+# Use Railway volume in production, local folder in development
+if os.environ.get("RAILWAY_ENVIRONMENT"):
+    # Production: Use Railway volume mount
+    MEDIA_ROOT = '/data/media'
+else:
+    # Local development: Use local media folder
+    MEDIA_ROOT = BASE_DIR / 'media'
+
+# -------------------------
 # DEFAULT PRIMARY KEY TYPE
 # -------------------------
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -170,5 +187,3 @@ LOGGING = {
         "level": "ERROR",
     },
 }
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
