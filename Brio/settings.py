@@ -13,19 +13,31 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ENVIRONMENT
 # -------------------------
 env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+# Read .env file if it exists (optional for local development)
+env_file = os.path.join(BASE_DIR, ".env")
+if os.path.exists(env_file):
+    environ.Env.read_env(env_file)
 
 # -------------------------
 # SECURITY
 # -------------------------
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY") or "dev-secret-key"
-DEBUG = os.environ.get("DEBUG", "True") == "True"
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
+# Allow Railway domains and custom domains
 ALLOWED_HOSTS = [
-    ".railway.app",
+    ".railway.app",  # Matches all *.railway.app subdomains
     "localhost",
     "127.0.0.1",
 ]
+
+# Add Railway's public domain if provided
+if "RAILWAY_PUBLIC_DOMAIN" in os.environ:
+    ALLOWED_HOSTS.append(os.environ["RAILWAY_PUBLIC_DOMAIN"])
+
+# Allow custom domain from environment if set
+if "ALLOWED_HOST" in os.environ:
+    ALLOWED_HOSTS.append(os.environ["ALLOWED_HOST"])
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024      # 50MB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024      # 50MB
@@ -33,7 +45,24 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024      # 50MB
 # -------------------------
 # CSRF & SESSION COOKIES
 # -------------------------
-CSRF_TRUSTED_ORIGINS = ["https://*.railway.app"]
+# CSRF trusted origins - Railway domains
+CSRF_TRUSTED_ORIGINS = []
+
+# Add Railway's public domain if provided
+if "RAILWAY_PUBLIC_DOMAIN" in os.environ:
+    domain = os.environ["RAILWAY_PUBLIC_DOMAIN"]
+    CSRF_TRUSTED_ORIGINS.append(f"https://{domain}")
+
+# Add Railway URL if provided
+if "RAILWAY_STATIC_URL" in os.environ:
+    CSRF_TRUSTED_ORIGINS.append(os.environ["RAILWAY_STATIC_URL"])
+
+# For local development
+if DEBUG:
+    CSRF_TRUSTED_ORIGINS.extend([
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+    ])
 
 CSRF_COOKIE_SECURE = not DEBUG
 SESSION_COOKIE_SECURE = not DEBUG
@@ -116,19 +145,13 @@ WSGI_APPLICATION = "Brio.wsgi.application"
 # -------------------------
 # DATABASE
 # -------------------------
-# Use PostgreSQL in production (when DATABASE_URL is set)
-# Use SQLite in local development
-if os.environ.get("DATABASE_URL"):
-    DATABASES = {
-        "default": env.db("DATABASE_URL")
+# Use SQLite database
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+}
 
 # -------------------------
 # PASSWORD VALIDATION
@@ -161,12 +184,9 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 MEDIA_URL = '/media/'
 
 # Use Railway volume in production, local folder in development
-if os.environ.get("RAILWAY_ENVIRONMENT"):
-    # Production: Use Railway volume mount
-    MEDIA_ROOT = '/data/media'
-else:
+
     # Local development: Use local media folder
-    MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # -------------------------
 # DEFAULT PRIMARY KEY TYPE
