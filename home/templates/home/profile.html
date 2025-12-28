@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - Bookish Brio</title>
+    <title>{{ profile_user.username }}'s Profile - Bookish Brio</title>
     <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -19,19 +19,15 @@
         :root {
             --primary: #ff6b35;
             --primary-dark: #e55a24;
-            --primary-light: #ff8555;
             --secondary: #1f2937;
             --bg-light: #f9fafb;
             --bg-white: #ffffff;
             --text-dark: #111827;
             --text-gray: #6b7280;
             --border-light: #e5e7eb;
-            --success: #10b981;
-            
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.3s ease;
         }
 
         body {
@@ -39,21 +35,15 @@
             background: var(--bg-light);
             color: var(--text-dark);
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
         }
 
-        /* Header */
         .header {
             background: var(--bg-white);
-            border-bottom: 1px solid var(--border-light);
             padding: 1rem 0;
+            box-shadow: var(--shadow-sm);
             position: sticky;
             top: 0;
             z-index: 50;
-            box-shadow: var(--shadow-sm);
         }
 
         .header-content {
@@ -69,50 +59,30 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-        }
-
-        .logo-section i {
             color: var(--primary);
-            font-size: 1.75rem;
         }
 
         .logo-section h1 {
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary);
-            letter-spacing: -0.5px;
         }
 
-        .nav-links {
-            display: flex;
-            gap: 0.75rem;
+        .logo-section i {
+            font-size: 1.75rem;
         }
 
         .btn {
             padding: 0.625rem 1rem;
             border-radius: 0.5rem;
             font-weight: 500;
-            font-size: 0.9rem;
             cursor: pointer;
             border: none;
             transition: var(--transition);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 0.5rem;
-        }
-
-        .btn-secondary {
-            background: var(--bg-light);
-            color: var(--text-dark);
-            border: 1.5px solid var(--border-light);
-        }
-
-        .btn-secondary:hover {
-            background: var(--bg-white);
-            border-color: var(--primary);
-            color: var(--primary);
         }
 
         .btn-primary {
@@ -122,36 +92,54 @@
 
         .btn-primary:hover {
             background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
         }
 
-        /* Main Content */
+        .btn-secondary {
+            background: var(--bg-light);
+            color: var(--text-dark);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-white);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline-primary {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
         .main-wrapper {
-            flex: 1;
             padding: 2rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .profile-layout {
-            max-width: 1200px;
-            margin: 0 auto;
             display: grid;
             grid-template-columns: 350px 1fr;
             gap: 2rem;
-            align-items: start;
         }
 
         /* Profile Sidebar */
         .profile-sidebar {
             position: sticky;
-            top: calc(1rem + 60px);
+            top: 90px;
         }
 
         .profile-card {
             background: var(--bg-white);
             border-radius: 1rem;
             padding: 2rem;
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-md);
             border: 1px solid var(--border-light);
             text-align: center;
         }
@@ -160,41 +148,67 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 3rem;
             font-weight: 700;
-            margin: 0 auto 1.5rem;
-            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.25);
+            margin: 0 auto 1rem;
+            object-fit: cover;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .user-name {
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
         }
 
         .user-username {
             color: var(--text-gray);
-            font-size: 1rem;
-            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
         }
 
-        .member-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 133, 85, 0.05));
-            color: var(--primary);
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.875rem;
-            font-weight: 500;
+        .user-bio {
+            font-size: 0.95rem;
+            color: var(--text-dark);
             margin-bottom: 1.5rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-link {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-light);
+            color: var(--text-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
         }
 
         .stats-grid {
@@ -202,288 +216,117 @@
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
             margin-bottom: 1.5rem;
-        }
-
-        .stat-item {
-            background: var(--bg-light);
-            padding: 1rem;
-            border-radius: 0.75rem;
-            border: 1px solid var(--border-light);
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            padding: 1rem 0;
         }
 
         .stat-number {
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary);
             display: block;
-            margin-bottom: 0.25rem;
         }
 
         .stat-label {
-            font-size: 0.875rem;
+            font-size: 0.85rem;
             color: var(--text-gray);
         }
 
-        .profile-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .profile-actions .btn {
-            width: 100%;
-        }
-
-        /* Info Cards */
-        .info-section {
+        /* Edit Form */
+        .edit-profile-section {
             background: var(--bg-white);
             border-radius: 1rem;
             padding: 2rem;
             box-shadow: var(--shadow-md);
             border: 1px solid var(--border-light);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--border-light);
-        }
-
-        .section-header h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-
-        .section-header i {
-            color: var(--primary);
-            font-size: 1.5rem;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.25rem;
-        }
-
-        .info-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.375rem;
-        }
-
-        .info-label {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--text-gray);
-            text-transform: uppercase;
-            letter-spacing: 0.025em;
-        }
-
-        .info-value {
-            font-size: 1rem;
-            color: var(--text-dark);
-            font-weight: 500;
-        }
-
-        /* Posts Section */
-        .posts-grid {
-            display: grid;
-            gap: 1.25rem;
-        }
-
-        .post-card {
-            background: var(--bg-white);
-            padding: 1.75rem;
-            border-radius: 0.75rem;
-            border: 1px solid var(--border-light);
-            transition: var(--transition);
-            border-left: 4px solid var(--primary);
-        }
-
-        .post-card:hover {
-            box-shadow: var(--shadow-md);
-            transform: translateX(4px);
-        }
-
-        .post-card h3 {
+        .section-title {
             font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 0.75rem;
-            line-height: 1.4;
-        }
-
-        .post-excerpt {
-            font-size: 0.95rem;
-            color: var(--text-gray);
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        .post-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border-light);
-        }
-
-        .post-date {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: var(--text-gray);
-            font-size: 0.875rem;
         }
 
-        .post-date i {
-            color: var(--primary);
+        .form-group {
+            margin-bottom: 1.25rem;
         }
 
-        .post-link {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.875rem;
-            display: flex;
-            align-items: center;
-            gap: 0.375rem;
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            font-family: inherit;
             transition: var(--transition);
         }
 
-        .post-link:hover {
-            gap: 0.625rem;
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
         }
 
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 3rem 2rem;
-            background: var(--bg-white);
-            border-radius: 0.75rem;
-            border: 2px dashed var(--border-light);
-        }
-
-        .empty-state i {
-            font-size: 3rem;
-            color: var(--primary);
-            opacity: 0.5;
-            margin-bottom: 1rem;
-        }
-
-        .empty-state h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .empty-state p {
+        .help-text {
+            font-size: 0.8rem;
             color: var(--text-gray);
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
+            margin-top: 0.25rem;
         }
 
-        /* Responsive */
-        @media (max-width: 968px) {
+        /* Posts */
+        .post-card {
+            background: var(--bg-white);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-light);
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .post-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .post-title a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .post-meta {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 900px) {
             .profile-layout {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
             }
 
             .profile-sidebar {
                 position: static;
-            }
-
-            .profile-actions {
-                flex-direction: row;
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .header-content {
-                padding: 0 1rem;
-            }
-
-            .logo-section h1 {
-                font-size: 1.25rem;
-            }
-
-            .logo-section i {
-                font-size: 1.5rem;
-            }
-
-            .nav-links {
-                gap: 0.5rem;
-            }
-
-            .btn {
-                padding: 0.5rem 0.75rem;
-                font-size: 0.85rem;
-            }
-
-            .main-wrapper {
-                padding: 1.5rem 1rem;
-            }
-
-            .profile-card {
-                padding: 1.75rem 1.25rem;
-            }
-
-            .user-avatar {
-                width: 100px;
-                height: 100px;
-                font-size: 2.5rem;
-            }
-
-            .user-name {
-                font-size: 1.5rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .profile-actions {
-                flex-direction: column;
-            }
-
-            .info-section {
-                padding: 1.5rem;
-            }
-
-            .section-header h2 {
-                font-size: 1.25rem;
-            }
-
-            .post-card {
-                padding: 1.25rem;
-            }
-
-            .post-card h3 {
-                font-size: 1.125rem;
-            }
-
-            .post-footer {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.75rem;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Header -->
     <div class="header">
         <div class="header-content">
             <div class="logo-section">
@@ -491,28 +334,60 @@
                 <h1>Bookish Brio</h1>
             </div>
             <div class="nav-links">
+                {% if user.is_authenticated %}
                 <a href="{% url 'index' %}" class="btn btn-secondary">
                     <i class="fas fa-home"></i> Home
                 </a>
-                <a href="{% url 'logout' %}" class="btn btn-secondary">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
+                <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-secondary">Login</a>
+                <a href="{% url 'signup' %}" class="btn btn-primary">Sign Up</a>
+                {% endif %}
             </div>
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="main-wrapper">
+        {% if messages %}
+        {% for message in messages %}
+        <div
+            style="background: #ecfdf5; color: #047857; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; border: 1px solid #10b981;">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
         <div class="profile-layout">
-            <!-- Profile Sidebar -->
+            <!-- Sidebar Info -->
             <div class="profile-sidebar">
                 <div class="profile-card">
-                    <div class="user-avatar">{{ user.username|first|upper }}</div>
-                    <h1 class="user-name">{{ user.first_name|default:user.username }}</h1>
-                    <p class="user-username">@{{ user.username }}</p>
-                    <div class="member-badge">
-                        <i class="fas fa-calendar-check"></i>
-                        Member since {{ user.date_joined|date:"M Y" }}
+                    <div class="user-avatar">
+                        {% if profile_user.profile.avatar %}
+                        <img src="{{ profile_user.profile.avatar.url }}" alt="Avatar">
+                        {% else %}
+                        {{ profile_user.username|first|upper }}
+                        {% endif %}
+                    </div>
+                    <h2 class="user-name">{{ profile_user.first_name }} {{ profile_user.last_name }}</h2>
+                    <p class="user-username">@{{ profile_user.username }}</p>
+
+                    {% if profile_user.profile.bio %}
+                    <p class="user-bio">{{ profile_user.profile.bio }}</p>
+                    {% endif %}
+
+                    <div class="social-links">
+                        {% if profile_user.profile.twitter_link %}
+                        <a href="{{ profile_user.profile.twitter_link }}" class="social-link" target="_blank"><i
+                                class="fab fa-twitter"></i></a>
+                        {% endif %}
+                        {% if profile_user.profile.instagram_link %}
+                        <a href="{{ profile_user.profile.instagram_link }}" class="social-link" target="_blank"><i
+                                class="fab fa-instagram"></i></a>
+                        {% endif %}
+                        {% if profile_user.profile.linkedin_link %}
+                        <a href="{{ profile_user.profile.linkedin_link }}" class="social-link" target="_blank"><i
+                                class="fab fa-linkedin-in"></i></a>
+                        {% endif %}
                     </div>
 
                     <div class="stats-grid">
@@ -521,92 +396,101 @@
                             <span class="stat-label">Posts</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-number">{{ user.date_joined|timesince|truncatewords:1 }}</span>
-                            <span class="stat-label">Active</span>
+                            <span class="stat-number">{{ profile_user.date_joined|timesince|truncatewords:1 }}</span>
+                            <span class="stat-label">Member</span>
                         </div>
                     </div>
 
-                    <div class="profile-actions">
-                        <a href="{% url 'add_post' %}" class="btn btn-primary">
-                            <i class="fas fa-pen"></i> Write Post
-                        </a>
-                        <a href="{% url 'index' %}" class="btn btn-secondary">
-                            <i class="fas fa-home"></i> Home
-                        </a>
-                    </div>
+                    {% if user.is_authenticated and user != profile_user %}
+                    <a href="{% url 'follow_user' profile_user.username %}"
+                        class="btn {% if is_following %}btn-secondary{% else %}btn-primary{% endif %}"
+                        style="width: 100%;">
+                        {% if is_following %}
+                        <i class="fas fa-user-minus"></i> Unfollow
+                        {% else %}
+                        <i class="fas fa-user-plus"></i> Follow
+                        {% endif %}
+                    </a>
+                    {% endif %}
                 </div>
             </div>
 
-            <!-- Main Content Area -->
+            <!-- Main Content -->
             <div class="profile-main">
-                <!-- Account Info -->
-                <div class="info-section">
-                    <div class="section-header">
-                        <i class="fas fa-user-circle"></i>
-                        <h2>Account Information</h2>
+                <!-- Edit Profile Form (Only for owner) -->
+                {% if user == profile_user %}
+                <div class="edit-profile-section">
+                    <div class="section-title">
+                        <i class="fas fa-user-edit"></i> Update Profile
                     </div>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <span class="info-label">Username</span>
-                            <span class="info-value">{{ user.username }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Email</span>
-                            <span class="info-value">{{ user.email|default:"Not provided" }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Joined Date</span>
-                            <span class="info-value">{{ user.date_joined|date:"F d, Y" }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Last Login</span>
-                            <span class="info-value">{{ user.last_login|date:"F d, Y"|default:"Today" }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Recent Posts -->
-                <div class="info-section">
-                    <div class="section-header">
-                        <i class="fas fa-pen-fancy"></i>
-                        <h2>Recent Posts</h2>
-                    </div>
-
-                    {% if user_posts %}
-                    <div class="posts-grid">
-                        {% for post in user_posts|slice:":5" %}
-                        <div class="post-card">
-                            <h3>{{ post.title }}</h3>
-                            <p class="post-excerpt">{{ post.content|truncatewords:25 }}</p>
-                            <div class="post-footer">
-                                <span class="post-date">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    {{ post.created_at|date:"F d, Y" }}
-                                </span>
-                                <a href="{% url 'post_detail' post.pk %}" class="post-link">
-                                    Read more <i class="fas fa-arrow-right"></i>
-                                </a>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label>Username</label>
+                                {{ u_form.username }}
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                {{ u_form.email }}
                             </div>
                         </div>
-                        {% endfor %}
-                    </div>
 
-                    {% if user_posts.count > 5 %}
-                    <p style="text-align: center; margin-top: 1.5rem; color: var(--text-gray); font-size: 0.9rem;">
-                        Showing 5 of {{ user_posts.count }} posts • <a href="{% url 'index' %}" style="color: var(--primary); text-decoration: none; font-weight: 600;">View all posts</a>
+                        <div class="form-group">
+                            <label>Bio</label>
+                            {{ p_form.bio }}
+                        </div>
+
+                        <div class="form-group">
+                            <label>Profile Picture</label>
+                            {{ p_form.avatar }}
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                            <div class="form-group">
+                                <label><i class="fab fa-twitter"></i> Twitter</label>
+                                {{ p_form.twitter_link }}
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fab fa-instagram"></i> Instagram</label>
+                                {{ p_form.instagram_link }}
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fab fa-linkedin"></i> LinkedIn</label>
+                                {{ p_form.linkedin_link }}
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            Update Profile
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+
+                <!-- Recent Posts -->
+                <div>
+                    <h3 style="margin-bottom: 1rem; font-size: 1.25rem;">Recent Posts</h3>
+                    {% for post in user_posts %}
+                    <div class="post-card">
+                        <h3 class="post-title">
+                            <a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
+                        </h3>
+                        <div class="post-meta">
+                            <i class="far fa-clock"></i> {{ post.created_at|timesince }} ago
+                            &nbsp;•&nbsp;
+                            <i class="far fa-comment"></i> {{ post.comments.count }} comments
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p style="text-align: center; color: var(--text-gray);">
+                        {% if user == profile_user %}
+                        You haven't posted anything yet.
+                        {% else %}
+                        This user hasn't posted anything yet.
+                        {% endif %}
                     </p>
-                    {% endif %}
-
-                    {% else %}
-                    <div class="empty-state">
-                        <i class="fas fa-pen-nib"></i>
-                        <h3>No posts yet</h3>
-                        <p>Start sharing your thoughts with the community!</p>
-                        <a href="{% url 'add_post' %}" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Create Your First Post
-                        </a>
-                    </div>
-                    {% endif %}
+                    {% endfor %}
                 </div>
             </div>
         </div>

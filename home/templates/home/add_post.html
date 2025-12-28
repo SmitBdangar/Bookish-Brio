@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,8 @@
     <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Quill CSS -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -26,7 +29,7 @@
             --text-gray: #6b7280;
             --border-light: #e5e7eb;
             --success: #10b981;
-            
+
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -189,8 +192,7 @@
             font-size: 1rem;
         }
 
-        input[type="text"],
-        textarea {
+        input[type="text"] {
             width: 100%;
             padding: 0.875rem 1rem;
             font-family: 'Inter', sans-serif;
@@ -202,18 +204,35 @@
             transition: var(--transition);
         }
 
-        input[type="text"]:focus,
-        textarea:focus {
+        input[type="text"]:focus {
             outline: none;
             border-color: var(--primary);
             background: var(--bg-white);
             box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
         }
 
-        textarea {
-            min-height: 200px;
-            resize: vertical;
-            line-height: 1.6;
+        /* Quill Editor overrides */
+        .ql-toolbar {
+            border-radius: 0.5rem 0.5rem 0 0;
+            border-color: var(--border-light) !important;
+            background: var(--bg-light);
+        }
+
+        .ql-container {
+            border-radius: 0 0 0.5rem 0.5rem;
+            border-color: var(--border-light) !important;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            min-height: 250px;
+        }
+
+        .ql-editor {
+            min-height: 250px;
+        }
+
+        .ql-editor.ql-blank::before {
+            color: var(--text-gray);
+            font-style: normal;
         }
 
         .char-counter {
@@ -470,10 +489,6 @@
                 font-size: 1.5rem;
             }
 
-            textarea {
-                min-height: 150px;
-            }
-
             .file-upload-section {
                 padding: 1.5rem;
             }
@@ -538,7 +553,7 @@
 
                 <form method="post" enctype="multipart/form-data" id="compositionForm">
                     {% csrf_token %}
-                    
+
                     <div class="form-group">
                         <label for="{{ form.title.id_for_label }}">
                             <i class="fas fa-heading"></i> Title
@@ -550,15 +565,28 @@
                         <label for="{{ form.content.id_for_label }}">
                             <i class="fas fa-pen-fancy"></i> Content
                         </label>
-                        {{ form.content }}
+                        <!-- Quill Editor Container -->
+                        <div id="editor-container"></div>
+                        <!-- Hidden underlying textarea -->
+                        <div style="display:none;">
+                            {{ form.content }}
+                        </div>
                         <div class="char-counter" id="charCounter">0 characters</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.tags_input.id_for_label }}">
+                            <i class="fas fa-tags"></i> Tags
+                        </label>
+                        {{ form.tags_input }}
                     </div>
 
                     <div class="form-group">
                         <label for="id_images">
                             <i class="fas fa-image"></i> Images (Optional)
                         </label>
-                        <div class="file-upload-section" id="uploadSection" onclick="document.getElementById('id_images').click()">
+                        <div class="file-upload-section" id="uploadSection"
+                            onclick="document.getElementById('id_images').click()">
                             <div class="upload-icon">
                                 <i class="fas fa-cloud-upload-alt"></i>
                             </div>
@@ -590,7 +618,7 @@
                         </li>
                         <li>
                             <i class="fas fa-check"></i>
-                            Use clear paragraphs to organize your thoughts
+                            Use headings and formatting
                         </li>
                         <li>
                             <i class="fas fa-check"></i>
@@ -612,7 +640,10 @@
         </div>
     </div>
 
+    <!-- Quill JS -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script>
+        // File Upload Logic
         const input = document.getElementById('id_images');
         const previewContainer = document.getElementById('previewContainer');
         const uploadSection = document.getElementById('uploadSection');
@@ -629,10 +660,10 @@
 
         function updatePreview() {
             previewContainer.innerHTML = '';
-            
+
             selectedFiles.forEach((file, index) => {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     const previewItem = document.createElement('div');
                     previewItem.className = 'preview-item';
                     previewItem.innerHTML = `
@@ -660,46 +691,71 @@
             input.files = dt.files;
         }
 
-        uploadSection.addEventListener('dragover', function(e) {
+        uploadSection.addEventListener('dragover', function (e) {
             e.preventDefault();
             e.stopPropagation();
             uploadSection.classList.add('dragover');
         });
 
-        uploadSection.addEventListener('dragleave', function(e) {
+        uploadSection.addEventListener('dragleave', function (e) {
             e.preventDefault();
             e.stopPropagation();
             uploadSection.classList.remove('dragover');
         });
 
-        uploadSection.addEventListener('drop', function(e) {
+        uploadSection.addEventListener('drop', function (e) {
             e.preventDefault();
             e.stopPropagation();
             uploadSection.classList.remove('dragover');
-            
-            const files = Array.from(e.dataTransfer.files).filter(file => 
+
+            const files = Array.from(e.dataTransfer.files).filter(file =>
                 file.type.startsWith('image/')
             ).slice(0, 8);
-            
+
             selectedFiles = files;
             updateFileInput();
             updatePreview();
         });
 
+        // Quill Logic
+        var quill = new Quill('#editor-container', {
+            theme: 'snow',
+            placeholder: "What's on your mind?",
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    ['blockquote', 'code-block'],
+                    ['link'],
+                    ['clean']
+                ]
+            }
+        });
+
         const textarea = document.querySelector('textarea[name="content"]');
         const charCounter = document.getElementById('charCounter');
 
-        if (textarea && charCounter) {
-            textarea.addEventListener('input', function() {
-                const count = this.value.length;
-                charCounter.textContent = `${count} characters`;
-            });
+        // Set initial content if editing
+        if (textarea.value) {
+            quill.root.innerHTML = textarea.value;
         }
+
+        quill.on('text-change', function () {
+            const text = quill.getText();
+            // Update char counter (text length - 1 for newline)
+            charCounter.textContent = `${Math.max(0, text.length - 1)} characters`;
+            // Update hidden textarea
+            textarea.value = quill.root.innerHTML;
+        });
 
         const form = document.getElementById('compositionForm');
         const submitBtn = document.querySelector('.btn-submit');
 
-        form.addEventListener('submit', function() {
+        form.addEventListener('submit', function () {
+            // Ensure textarea is synced one last time
+            textarea.value = quill.root.innerHTML;
+
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publishing...';
             submitBtn.disabled = true;
         });

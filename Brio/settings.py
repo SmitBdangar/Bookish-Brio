@@ -185,7 +185,7 @@ MEDIA_URL = '/media/'
 
 # Use Railway volume in production, local folder in development
 
-    # Local development: Use local media folder
+# Local development: Use local media folder
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # -------------------------

@@ -22,4 +22,6 @@ urlpatterns = [
 
     # User profile
     path('profile/', views.profile_view, name='profile'),
+    path('profile/<str:username>/', views.public_profile, name='public_profile'),
+    path('profile/<str:username>/follow/', views.follow_user, name='follow_user'),
 ]

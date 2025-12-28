@@ -27,7 +27,7 @@
             --text-gray: #6b7280;
             --border-light: #e5e7eb;
             --danger: #ef4444;
-            
+
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -81,6 +81,51 @@
             font-weight: 700;
             color: var(--primary);
             letter-spacing: -0.5px;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 2rem;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            background: var(--bg-light);
+            border: 1.5px solid var(--border-light);
+            border-radius: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            transition: var(--transition);
+        }
+
+        .search-form:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .search-form input {
+            border: none;
+            background: transparent;
+            padding: 0.5rem;
+            font-size: 0.95rem;
+            width: 100%;
+            outline: none;
+            color: var(--text-dark);
+        }
+
+        .search-form button {
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .search-form button:hover {
+            color: var(--primary);
         }
 
         .nav-links {
@@ -684,6 +729,16 @@
                 <i class="fas fa-book"></i>
                 <h1>Bookish Brio</h1>
             </div>
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <form action="{% url 'index' %}" method="get" class="search-form">
+                    <input type="text" name="q" placeholder="Search posts..." value="{{ request.GET.q|default:'' }}">
+                    <button type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+
             <div class="nav-links">
                 {% if user.is_authenticated %}
                 <div class="user-avatar">{{ user.username|first|upper }}</div>
@@ -713,7 +768,8 @@
                     <div class="post-meta">
                         <span class="meta-item">
                             <i class="fas fa-user"></i>
-                            By <span class="post-author">{{ post.author }}</span>
+                            By <span class="post-author"><a href="{% url 'public_profile' post.author.username %}"
+                                    style="color: inherit; text-decoration: none;">{{ post.author.username }}</a></span>
                         </span>
                         <span class="meta-item">
                             <i class="fas fa-calendar-alt"></i>
@@ -723,12 +779,17 @@
                             <i class="fas fa-clock"></i>
                             {{ post.created_at|timesince }} ago
                         </span>
+                        <span class="meta-item">
+                            <i class="fas fa-book-open"></i>
+                            {{ post.reading_time }}
+                        </span>
                     </div>
                 </header>
 
                 {% if post.image %}
                 <div class="post-featured-image">
-                    <img src="{{ post.image.url }}" alt="{{ post.title }}" onclick="openImageModal('{{ post.image.url }}')">
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}"
+                        onclick="openImageModal('{{ post.image.url }}')">
                 </div>
                 {% endif %}
 
@@ -736,20 +797,34 @@
                 <div class="post-gallery">
                     {% for img in images %}
                     <div class="gallery-item">
-                        <img src="{{ img.image.url }}" alt="Gallery image" onclick="openImageModal('{{ img.image.url }}')">
+                        <img src="{{ img.image.url }}" alt="Gallery image"
+                            onclick="openImageModal('{{ img.image.url }}')">
                     </div>
                     {% endfor %}
                 </div>
                 {% endif %}
 
                 <div class="post-content">
-                    {{ post.content|urlize|linebreaks }}
+                    {{ post.content|safe }}
                 </div>
+
+                {% if post.tags.all %}
+                <div class="post-tags" style="margin-bottom: 2rem;">
+                    {% for tag in post.tags.all %}
+                    <span class="tag"
+                        style="background: #f3f4f6; color: #4b5563; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 500; margin-right: 0.5rem; display: inline-block;">
+                        <i class="fas fa-hashtag"
+                            style="font-size: 0.75rem; color: #ff6b35; margin-right: 0.25rem;"></i>{{ tag.name }}
+                    </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
 
                 <div class="engagement-bar">
                     <div class="engagement-item">
                         {% if user.is_authenticated %}
-                        <form action="{% url 'like_post' post.pk %}" method="POST" style="display:inline;">
+                        <form action="{% url 'like_post' post.pk %}" method="POST" style="display:inline;"
+                            class="like-form">
                             {% csrf_token %}
                             <button type="submit" class="like-btn">
                                 {% if user in post.likes.all %}
@@ -817,10 +892,11 @@
                             <div class="comment-actions">
                                 <span class="comment-date">{{ comment.created_at|timesince }} ago</span>
                                 {% if comment.author == user %}
-                                <form method="POST" action="{% url 'delete_comment' comment.pk %}" style="display:inline;">
+                                <form method="POST" action="{% url 'delete_comment' comment.pk %}"
+                                    style="display:inline;">
                                     {% csrf_token %}
-                                    <button type="submit" class="delete-comment-btn" 
-                                            onclick="return confirm('Delete this comment?')">
+                                    <button type="submit" class="delete-comment-btn"
+                                        onclick="return confirm('Delete this comment?')">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>
@@ -871,7 +947,7 @@
             }
         }
 
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             if (!event.target.closest('.post-actions')) {
                 document.querySelectorAll('.dropdown-menu.show').forEach(m => {
                     m.classList.remove('show');
@@ -879,13 +955,49 @@
             }
         });
 
-        document.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape') {
                 closeImageModal();
                 document.querySelectorAll('.dropdown-menu.show').forEach(m => {
                     m.classList.remove('show');
                 });
             }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const likeForms = document.querySelectorAll('.like-form');
+            likeForms.forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const btn = this.querySelector('button');
+                    const icon = btn.querySelector('i');
+                    const url = this.action;
+                    const csrfToken = this.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrfToken,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.liked) {
+                                icon.classList.remove('far');
+                                icon.classList.add('fas');
+                            } else {
+                                icon.classList.remove('fas');
+                                icon.classList.add('far');
+                            }
+                            const countSpan = this.closest('.engagement-item').querySelector('.engagement-count');
+                            if (countSpan) {
+                                countSpan.textContent = data.total_likes;
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
+            });
         });
     </script>
 </body>

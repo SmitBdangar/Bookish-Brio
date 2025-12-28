@@ -28,7 +28,7 @@
             --border-light: #e5e7eb;
             --success: #10b981;
             --danger: #ef4444;
-            
+
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -82,6 +82,51 @@
             font-weight: 700;
             color: var(--primary);
             letter-spacing: -0.5px;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 2rem;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            background: var(--bg-light);
+            border: 1.5px solid var(--border-light);
+            border-radius: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            transition: var(--transition);
+        }
+
+        .search-form:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .search-form input {
+            border: none;
+            background: transparent;
+            padding: 0.5rem;
+            font-size: 0.95rem;
+            width: 100%;
+            outline: none;
+            color: var(--text-dark);
+        }
+
+        .search-form button {
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .search-form button:hover {
+            color: var(--primary);
         }
 
         .nav-links {
@@ -809,6 +854,16 @@
                 <i class="fas fa-book"></i>
                 <h1>Bookish Brio</h1>
             </div>
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <form action="{% url 'index' %}" method="get" class="search-form">
+                    <input type="text" name="q" placeholder="Search posts..." value="{{ request.GET.q|default:'' }}">
+                    <button type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+
             <div class="nav-links">
                 {% if user.is_authenticated %}
                 <a href="{% url 'add_post' %}" class="btn write-btn">
@@ -842,7 +897,8 @@
                 <div class="messages">
                     {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}">
-                        <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% else %}check-circle{% endif %}"></i>
+                        <i
+                            class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% else %}check-circle{% endif %}"></i>
                         {{ message }}
                     </div>
                     {% endfor %}
@@ -868,18 +924,28 @@
                         <div class="post-meta">
                             <span class="meta-item">
                                 <i class="fas fa-user"></i>
-                                <span class="post-author">{{ post.author }}</span>
+                                <span class="post-author">
+                                    <a href="{% url 'public_profile' post.author.username %}"
+                                        style="color: inherit; text-decoration: none;">
+                                        {{ post.author.username }}
+                                    </a>
+                                </span>
                             </span>
                             <span class="meta-item">
                                 <i class="fas fa-clock"></i>
                                 {{ post.created_at|timesince }} ago
+                            </span>
+                            <span class="meta-item">
+                                <i class="fas fa-book-open"></i>
+                                {{ post.reading_time }}
                             </span>
                         </div>
                     </div>
 
                     {% if post.image %}
                     <div class="post-image">
-                        <img src="{{ post.image.url }}" alt="{{ post.title }}" onclick="openImageModal('{{ post.image.url }}')">
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}"
+                            onclick="openImageModal('{{ post.image.url }}')">
                     </div>
                     {% endif %}
 
@@ -897,7 +963,8 @@
                     <div class="post-gallery">
                         {% for img in post_images|slice:":4" %}
                         <div class="gallery-item">
-                            <img src="{{ img.image.url }}" alt="Gallery" onclick="openImageModal('{{ img.image.url }}')">
+                            <img src="{{ img.image.url }}" alt="Gallery"
+                                onclick="openImageModal('{{ img.image.url }}')">
                         </div>
                         {% endfor %}
                     </div>
@@ -908,7 +975,8 @@
                         <div class="engagement-actions">
                             <div class="engagement-item">
                                 {% if user.is_authenticated %}
-                                <form action="{% url 'like_post' post.pk %}" method="POST" style="display:inline;">
+                                <form action="{% url 'like_post' post.pk %}" method="POST" style="display:inline;"
+                                    class="like-form">
                                     {% csrf_token %}
                                     <button type="submit" class="like-btn">
                                         {% if user in post.likes.all %}
@@ -949,23 +1017,24 @@
                         {% endif %}
                     </div>
                 </article>
-{% empty %}
-<div class="empty-state text-center p-4 border rounded shadow-sm" style="max-width: 500px; margin: 40px auto;">
-    <i class="fas fa-pen-nib fa-2x text-primary mb-3"></i>
-    <h3 class="mb-2">No posts yet</h3>
-    <p class="text-muted mb-4">Be the first to share your story with the community!</p>
+                {% empty %}
+                <div class="empty-state text-center p-4 border rounded shadow-sm"
+                    style="max-width: 500px; margin: 40px auto;">
+                    <i class="fas fa-pen-nib fa-2x text-primary mb-3"></i>
+                    <h3 class="mb-2">No posts yet</h3>
+                    <p class="text-muted mb-4">Be the first to share your story with the community!</p>
 
-    {% if user.is_authenticated %}
-    <a href="{% url 'add_post' %}" class="btn btn-sm btn-primary px-3 py-2">
-        Create Post
-    </a>
-    {% else %}
-    <a href="{% url 'signup' %}" class="btn btn-sm btn-primary px-3 py-2">
-        Join Now
-    </a>
-    {% endif %}
-</div>
-{% endfor %}
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'add_post' %}" class="btn btn-sm btn-primary px-3 py-2">
+                        Create Post
+                    </a>
+                    {% else %}
+                    <a href="{% url 'signup' %}" class="btn btn-sm btn-primary px-3 py-2">
+                        Join Now
+                    </a>
+                    {% endif %}
+                </div>
+                {% endfor %}
 
 
                 <div class="pagination">
@@ -1007,7 +1076,7 @@
         </div>
     </div>
     <script>
-        function toggleDropdown(button){
+        function toggleDropdown(button) {
             const dropdown = button.nextElementSibling;
             const isOpen = dropdown.classList.contains('show');
 
@@ -1020,5 +1089,41 @@
             }
 
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const likeForms = document.querySelectorAll('.like-form');
+            likeForms.forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const btn = this.querySelector('button');
+                    const icon = btn.querySelector('i');
+                    const url = this.action;
+                    const csrfToken = this.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrfToken,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.liked) {
+                                icon.classList.remove('far');
+                                icon.classList.add('fas');
+                            } else {
+                                icon.classList.remove('fas');
+                                icon.classList.add('far');
+                            }
+                            const countSpan = this.closest('.engagement-item').querySelector('.engagement-count');
+                            if (countSpan) {
+                                countSpan.textContent = data.total_likes;
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
+            });
+        });
     </script>
 </body>
