@@ -1,274 +1,109 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends "home/base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookmarks - Bookish Brio</title>
-    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+{% block title %}Saved Posts - Bookish Brio{% endblock %}
 
-        :root {
-            --primary: #ff6b35;
-            --primary-dark: #e55a24;
-            --bg-light: #f9fafb;
-            --bg-white: #ffffff;
-            --text-dark: #111827;
-            --text-gray: #6b7280;
-            --border-light: #e5e7eb;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-light);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-
-        .header {
-            background: var(--bg-white);
-            border-bottom: 1px solid var(--border-light);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo h1 {
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--text-dark);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            transition: all 0.3s;
-        }
-
-        .nav-links a:hover {
-            background: var(--bg-light);
-            color: var(--primary);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
-
-        .page-header {
-            margin-bottom: 2rem;
-        }
-
-        .page-header h2 {
-            font-size: 2rem;
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .page-header p {
-            color: var(--text-gray);
-        }
-
-        .bookmarks-grid {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .bookmark-card {
-            background: var(--bg-white);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            border: 1px solid var(--border-light);
-            transition: all 0.3s;
-        }
-
-        .bookmark-card:hover {
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .bookmark-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 1rem;
-        }
-
-        .bookmark-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            text-decoration: none;
-        }
-
-        .bookmark-title:hover {
-            color: var(--primary);
-        }
-
-        .bookmark-meta {
-            display: flex;
-            gap: 1rem;
-            color: var(--text-gray);
-            font-size: 0.875rem;
-            margin-bottom: 1rem;
-        }
-
-        .bookmark-content {
-            color: var(--text-gray);
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        .bookmark-actions {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn {
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            border: none;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-        }
-
-        .btn-secondary {
-            background: var(--bg-light);
-            color: var(--text-dark);
-        }
-
-        .btn-secondary:hover {
-            background: var(--border-light);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-
-        .empty-state i {
-            font-size: 4rem;
-            color: var(--text-gray);
-            margin-bottom: 1rem;
-        }
-
-        .empty-state h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .empty-state p {
-            color: var(--text-gray);
-        }
-    </style>
-</head>
-
-<body>
-    <div class="header">
-        <div class="header-content">
-            <div class="logo">
-                <h1><i class="fas fa-book"></i> Bookish Brio</h1>
-            </div>
-            <div class="nav-links">
-                <a href="{% url 'index' %}"><i class="fas fa-home"></i> Home</a>
-                <a href="{% url 'trending' %}"><i class="fas fa-fire"></i> Trending</a>
-                <a href="{% url 'notifications' %}"><i class="fas fa-bell"></i> Notifications</a>
-                <a href="{% url 'bookmarks' %}" style="color: var(--primary);"><i class="fas fa-bookmark"></i>
-                    Bookmarks</a>
-                <a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a>
-            </div>
-        </div>
+{% block content %}
+<div class="bookmarks-container">
+    <div
+        style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: var(--shadow-soft);">
+        <h1
+            style="font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 12px;">
+            <i class="fas fa-bookmark" style="color: var(--primary);"></i>
+            Saved Posts
+        </h1>
+        <p style="color: var(--text-meta); font-size: 0.95rem; margin-top: 4px;">Posts you've saved for later</p>
     </div>
 
-    <div class="container">
-        <div class="page-header">
-            <h2><i class="fas fa-bookmark"></i> Your Bookmarks</h2>
-            <p>Posts you've saved for later reading</p>
-        </div>
-
+    <div class="posts-feed">
         {% if bookmarks %}
-        <div class="bookmarks-grid">
-            {% for bookmark in bookmarks %}
-            <div class="bookmark-card">
-                <div class="bookmark-header">
-                    <a href="{% url 'post_detail' bookmark.post.pk %}" class="bookmark-title">
-                        {{ bookmark.post.title }}
+        {% for bookmark in bookmarks %}
+        <article class="post-card" onclick="window.location.href='{% url 'post_detail' bookmark.post.pk %}'">
+            <div class="post-main">
+                <div class="post-meta">
+                    <a href="{% url 'public_profile' bookmark.post.author.username %}" class="post-author"
+                        onclick="event.stopPropagation();">
+                        u/{{ bookmark.post.author.username }}
                     </a>
+                    <span>•</span>
+                    <span>{{ bookmark.post.created_at|timesince }} ago</span>
                 </div>
-                <div class="bookmark-meta">
-                    <span><i class="fas fa-user"></i> {{ bookmark.post.author.username }}</span>
-                    <span><i class="fas fa-clock"></i> {{ bookmark.post.created_at|timesince }} ago</span>
-                    <span><i class="fas fa-book-open"></i> {{ bookmark.post.reading_time }}</span>
-                </div>
-                <div class="bookmark-content">
-                    {{ bookmark.post.preview_content|truncatewords:30 }}
-                </div>
-                <div class="bookmark-actions">
-                    <a href="{% url 'post_detail' bookmark.post.pk %}" class="btn btn-primary">
-                        <i class="fas fa-eye"></i> Read Post
-                    </a>
-                    <form action="{% url 'bookmark_post' bookmark.post.pk %}" method="POST" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-secondary">
-                            <i class="fas fa-trash"></i> Remove
-                        </button>
-                    </form>
+
+                <h2 class="post-title">{{ bookmark.post.title }}</h2>
+
+                <div class="post-content-preview"
+                    style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 0.95rem; color: #4a4a4a;">
+                    {{ bookmark.post.preview_content }}
                 </div>
             </div>
-            {% endfor %}
-        </div>
+
+            <div class="post-actions">
+                <form action="{% url 'bookmark_post' bookmark.post.pk %}" method="POST" class="bookmark-form"
+                    onclick="event.stopPropagation();">
+                    {% csrf_token %}
+                    <button type="submit" class="action-btn active">
+                        <i class="fas fa-bookmark"></i>
+                        <span>Unsave</span>
+                    </button>
+                </form>
+                <a href="{% url 'post_detail' bookmark.post.pk %}" class="action-btn"
+                    onclick="event.stopPropagation();">
+                    <i class="far fa-eye"></i>
+                    <span>Read Full</span>
+                </a>
+            </div>
+        </article>
+        {% endfor %}
         {% else %}
-        <div class="empty-state">
-            <i class="fas fa-bookmark"></i>
-            <h3>No Bookmarks Yet</h3>
-            <p>Start bookmarking posts to read them later!</p>
-            <a href="{% url 'index' %}" class="btn btn-primary" style="margin-top: 1rem;">
-                <i class="fas fa-search"></i> Explore Posts
-            </a>
+        <div
+            style="background: white; padding: 80px 40px; text-align: center; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-soft);">
+            <div style="margin-bottom: 24px; opacity: 0.1;">
+                <i class="fas fa-bookmark fa-4x"></i>
+            </div>
+            <h3
+                style="font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px;">
+                Nothing saved yet</h3>
+            <p style="font-size: 1rem; color: var(--text-meta);">Posts you save will appear here for easy access later.
+            </p>
+            <a href="{% url 'index' %}" class="btn-orange" style="margin-top: 24px;">Explore Feed</a>
         </div>
         {% endif %}
     </div>
-</body>
+</div>
+{% endblock %}
 
-</html>
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.bookmark-form').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const btn = this.querySelector('button');
+                fetch(this.action, {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': window.csrfToken, 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data.bookmarked) {
+                            const card = this.closest('.post-card');
+                            card.style.opacity = '0.4';
+                            card.style.pointerEvents = 'none';
+                            card.style.transform = 'scale(0.98)';
+                            btn.innerHTML = '<i class="far fa-bookmark"></i><span>Removed</span>';
+                            btn.classList.remove('active');
+
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                                // Check if list is empty
+                                const feed = document.querySelector('.posts-feed');
+                                if (feed.querySelectorAll('.post-card[style*="display: none"]').length === feed.querySelectorAll('.post-card').length) {
+                                    window.location.reload(); // Quick way to show empty state
+                                }
+                            }, 300);
+                        }
+                    });
+            });
+        });
+    });
+</script>
+{% endblock %}

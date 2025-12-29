@@ -22,7 +22,7 @@ if os.path.exists(env_file):
 # SECURITY
 # -------------------------
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY") or "dev-secret-key"
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = os.environ.get("DEBUG", "True") == "True"
 
 # Allow Railway domains and custom domains
 ALLOWED_HOSTS = [

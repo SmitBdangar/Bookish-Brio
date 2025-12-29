@@ -1,1175 +1,184 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookish Brio - Share Your Stories</title>
-    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #ff6b35;
-            --primary-dark: #e55a24;
-            --primary-light: #ff8555;
-            --secondary: #1f2937;
-            --bg-light: #f9fafb;
-            --bg-white: #ffffff;
-            --text-dark: #111827;
-            --text-gray: #6b7280;
-            --border-light: #e5e7eb;
-            --success: #10b981;
-            --danger: #ef4444;
-
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-light);
-            color: var(--text-dark);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* Header */
-        .header {
-            background: var(--bg-white);
-            border-bottom: 1px solid var(--border-light);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .logo-section i {
-            color: var(--primary);
-            font-size: 1.75rem;
-        }
-
-        .logo-section h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            letter-spacing: -0.5px;
-        }
-
-        /* Search Bar */
-        .search-bar {
-            flex: 1;
-            max-width: 400px;
-            margin: 0 2rem;
-        }
-
-        .search-form {
-            display: flex;
-            align-items: center;
-            background: var(--bg-light);
-            border: 1.5px solid var(--border-light);
-            border-radius: 0.5rem;
-            padding: 0.25rem 0.5rem;
-            transition: var(--transition);
-        }
-
-        .search-form:focus-within {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
-        }
-
-        .search-form input {
-            border: none;
-            background: transparent;
-            padding: 0.5rem;
-            font-size: 0.95rem;
-            width: 100%;
-            outline: none;
-            color: var(--text-dark);
-        }
-
-        .search-form button {
-            background: none;
-            border: none;
-            color: var(--text-gray);
-            cursor: pointer;
-            padding: 0.5rem;
-            transition: var(--transition);
-        }
-
-        .search-form button:hover {
-            color: var(--primary);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-        }
-
-        .btn {
-            padding: 0.625rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            font-size: 0.9rem;
-            cursor: pointer;
-            border: none;
-            transition: var(--transition);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .btn-secondary {
-            background: var(--bg-light);
-            color: var(--text-dark);
-            border: 1.5px solid var(--border-light);
-        }
-
-        .btn-secondary:hover {
-            background: var(--bg-white);
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .write-btn {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            padding: 0.7rem 1.2rem;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
-        }
-
-        .write-btn:hover {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        /* Main Content */
-        .main-wrapper {
-            flex: 1;
-            padding: 2rem 1.5rem;
-        }
-
-        .content-layout {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 2rem;
-            align-items: start;
-        }
-
-        /* Posts Feed */
-        .posts-feed {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        /* Messages */
-        .messages {
-            margin-bottom: 1.5rem;
-        }
-
-        .alert {
-            padding: 1rem 1.25rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 0.95rem;
-        }
-
-        .alert-success {
-            background: #ecfdf5;
-            color: #047857;
-            border-left: 4px solid var(--success);
-        }
-
-        .alert-error {
-            background: #fef2f2;
-            color: #dc2626;
-            border-left: 4px solid var(--danger);
-        }
-
-        /* Welcome Banner */
-        .welcome-banner {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            padding: 2rem;
-            border-radius: 1rem;
-            color: white;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .welcome-banner h2 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-        }
-
-        .welcome-banner p {
-            font-size: 1rem;
-            opacity: 0.95;
-            margin-bottom: 1.25rem;
-        }
-
-        .welcome-banner .btn {
-            background: white;
-            color: var(--primary);
-        }
-
-        .welcome-banner .btn:hover {
-            background: var(--bg-light);
-            transform: translateY(-2px);
-        }
-
-        /* Post Card */
-        .post-card {
-            background: var(--bg-white);
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-light);
-            transition: var(--transition);
-        }
-
-        .post-card:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-2px);
-        }
-
-        .post-header {
-            margin-bottom: 1.25rem;
-        }
-
-        .post-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 1rem;
-            line-height: 1.4;
-        }
-
-        .post-title a {
-            color: var(--text-dark);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .post-title a:hover {
-            color: var(--primary);
-        }
-
-        .post-meta {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            color: var(--text-gray);
-            font-size: 0.9rem;
-            flex-wrap: wrap;
-        }
-
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .meta-item i {
-            color: var(--primary);
-        }
-
-        .post-author {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        /* Post Content */
-        .post-content {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: var(--text-gray);
-            margin-bottom: 1.25rem;
-        }
-
-        .post-image {
-            margin: 1.25rem 0;
-            border-radius: 0.75rem;
-            overflow: hidden;
-        }
-
-        .post-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .post-image img:hover {
-            transform: scale(1.02);
-        }
-
-        .post-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 0.75rem;
-            margin: 1.25rem 0;
-        }
-
-        .gallery-item {
-            border-radius: 0.5rem;
-            overflow: hidden;
-            aspect-ratio: 1;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .gallery-item img:hover {
-            transform: scale(1.05);
-        }
-
-        .read-more {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: var(--transition);
-        }
-
-        .read-more:hover {
-            gap: 0.75rem;
-        }
-
-        /* Post Footer */
-        .post-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 1.25rem;
-            border-top: 1px solid var(--border-light);
-            margin-top: 1.25rem;
-        }
-
-        .engagement-actions {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .engagement-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .like-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.25rem;
-            color: var(--text-gray);
-            transition: var(--transition);
-            padding: 0.375rem;
-            border-radius: 0.375rem;
-        }
-
-        .like-btn:hover {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-            transform: scale(1.1);
-        }
-
-        .like-btn .fa-heart.fas {
-            color: var(--danger);
-        }
-
-        .comment-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-gray);
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: var(--transition);
-            padding: 0.375rem 0.5rem;
-            border-radius: 0.375rem;
-        }
-
-        .comment-btn:hover {
-            color: var(--primary);
-            background: rgba(255, 107, 53, 0.1);
-        }
-
-        .bookmark-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.25rem;
-            color: var(--text-gray);
-            transition: var(--transition);
-            padding: 0.375rem;
-            border-radius: 0.375rem;
-        }
-
-        .bookmark-btn:hover {
-            background: rgba(255, 107, 53, 0.1);
-            color: var(--primary);
-            transform: scale(1.1);
-        }
-
-        .bookmark-btn .fa-bookmark.fas {
-            color: var(--primary);
-        }
-
-        .engagement-count {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        .post-actions {
-            position: relative;
-        }
-
-        .dropdown-toggle {
-            background: var(--bg-light);
-            border: 1.5px solid var(--border-light);
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            color: var(--text-gray);
-            transition: var(--transition);
-        }
-
-        .dropdown-toggle:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            bottom: 100%;
-            right: 0;
-            background: var(--bg-white);
-            border: 1px solid var(--border-light);
-            border-radius: 0.5rem;
-            box-shadow: var(--shadow-lg);
-            min-width: 150px;
-            margin-bottom: 0.5rem;
-            z-index: 100;
-        }
-
-        .dropdown-menu.show {
-            display: block;
-        }
-
-        .dropdown-item {
-            display: block;
-            padding: 0.75rem 1rem;
-            color: var(--text-dark);
-            text-decoration: none;
-            transition: var(--transition);
-            font-size: 0.9rem;
-        }
-
-        .dropdown-item:hover {
-            background: var(--bg-light);
-        }
-
-        .dropdown-item.danger {
-            color: var(--danger);
-        }
-
-        .dropdown-item.danger:hover {
-            background: #fef2f2;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            position: sticky;
-            top: calc(1rem + 60px);
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .sidebar-card {
-            background: var(--bg-white);
-            border-radius: 0.75rem;
-            padding: 1.75rem;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-light);
-        }
-
-        .sidebar-card h3 {
-            font-size: 1.125rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .sidebar-card h3 i {
-            color: var(--primary);
-        }
-
-        .trending-topics {
-            list-style: none;
-            padding: 0;
-        }
-
-        .trending-topics li {
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border-light);
-            color: var(--text-gray);
-            font-size: 0.9rem;
-        }
-
-        .trending-topics li:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-
-        .trending-topics li i {
-            color: var(--primary);
-            margin-right: 0.5rem;
-        }
-
-        .community-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .stat-box {
-            background: var(--bg-light);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--primary);
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 0.875rem;
-            color: var(--text-gray);
-            margin-top: 0.25rem;
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 3rem 2rem;
-            background: var(--bg-white);
-            border-radius: 1rem;
-            border: 2px dashed var(--border-light);
-            color: var(--text-gray);
-        }
-
-        .empty-state i {
-            font-size: 3rem;
-            color: var(--primary);
-            opacity: 0.5;
-            margin-bottom: 1rem;
-        }
-
-        .empty-state h3 {
-            font-size: 1.25rem;
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .empty-state p {
-            margin-bottom: 1.5rem;
-        }
-
-        /* Pagination */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 0.75rem;
-            margin-top: 2rem;
-        }
-
-        /* Image Modal */
-        .image-modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            cursor: pointer;
-        }
-
-        .modal-content {
-            display: block;
-            margin: auto;
-            max-width: 90%;
-            max-height: 90%;
-            margin-top: 5%;
-            border-radius: 0.5rem;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 32px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .close-modal:hover {
-            color: var(--primary-light);
-        }
-
-        /* Footer */
-        .footer {
-            background: var(--secondary);
-            color: var(--bg-light);
-            padding: 3rem 1.5rem 2rem;
-            margin-top: 4rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .footer-section p {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-section a {
-            display: block;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            margin-bottom: 0.75rem;
-            transition: var(--transition);
-        }
-
-        .footer-section a:hover {
-            color: var(--primary);
-        }
-
-        .footer-socials {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .footer-socials a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 107, 53, 0.2);
-            border-radius: 50%;
-            color: var(--primary);
-            font-size: 1.1rem;
-            margin-bottom: 0;
-        }
-
-        .footer-socials a:hover {
-            background: var(--primary);
-            color: var(--secondary);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 2rem;
-            text-align: center;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* Responsive */
-        @media (max-width: 968px) {
-            .content-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                position: static;
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .header-content {
-                padding: 0 1rem;
-            }
-
-            .logo-section h1 {
-                font-size: 1.25rem;
-            }
-
-            .logo-section i {
-                font-size: 1.5rem;
-            }
-
-            .nav-links {
-                gap: 0.5rem;
-            }
-
-            .nav-links .user-avatar {
-                display: none;
-            }
-
-            .btn {
-                padding: 0.5rem 0.75rem;
-                font-size: 0.85rem;
-            }
-
-            .main-wrapper {
-                padding: 1.5rem 1rem;
-            }
-
-            .post-card {
-                padding: 1.5rem;
-            }
-
-            .post-title {
-                font-size: 1.25rem;
-            }
-
-            .post-meta {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-
-            .post-gallery {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .post-footer {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
-
-            .sidebar {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .welcome-banner {
-                padding: 1.5rem;
-            }
-
-            .welcome-banner h2 {
-                font-size: 1.5rem;
-            }
-
-            .post-gallery {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <!-- Header -->
-    <div class="header">
-        <div class="header-content">
-            <div class="logo-section">
-                <i class="fas fa-book"></i>
-                <h1>Bookish Brio</h1>
+{% extends "home/base.html" %}
+
+{% block title %}Bookish Brio - Share Your Stories{% endblock %}
+
+{% block content %}
+<section class="posts-feed">
+    {% if page_obj %}
+    {% for post in page_obj %}
+    <article class="post-card" onclick="window.location.href='{% url 'post_detail' post.pk %}'">
+        <div class="post-main">
+            <div class="post-meta">
+                <a href="{% url 'public_profile' post.author.username %}" class="post-author"
+                    onclick="event.stopPropagation();">
+                    u/{{ post.author.username }}
+                </a>
+                <span>•</span>
+                <span>{{ post.created_at|timesince }} ago</span>
+                {% if post.reading_time %}
+                <span>•</span>
+                <span>{{ post.reading_time }}</span>
+                {% endif %}
             </div>
-            <!-- Search Bar -->
-            <div class="search-bar">
-                <form action="{% url 'index' %}" method="get" class="search-form">
-                    <input type="text" name="q" placeholder="Search posts..." value="{{ request.GET.q|default:'' }}">
-                    <button type="submit">
-                        <i class="fas fa-search"></i>
+
+            <h2 class="post-title">{{ post.title }}</h2>
+
+            {% if post.image %}
+            <div class="post-image"
+                style="margin: -12px -12px 12px -12px; max-height: 512px; overflow: hidden; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}"
+                    style="width: 100%; height: auto; display: block;">
+            </div>
+            {% endif %}
+
+            <div class="post-content-preview"
+                style="font-size: 0.95rem; color: #4a4a4a; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                {{ post.preview_content }}
+            </div>
+        </div>
+
+        <div class="post-actions">
+            <div class="engagement-item" style="display: flex; align-items: center; gap: 4px;">
+                <form action="{% url 'like_post' post.pk %}" method="POST" class="like-form"
+                    onclick="event.stopPropagation();">
+                    {% csrf_token %}
+                    <button type="submit" class="action-btn {% if user in post.likes.all %}active{% endif %}"
+                        title="Like">
+                        <i class="{% if user in post.likes.all %}fas{% else %}far{% endif %} fa-heart"></i>
+                        <span class="count">{{ post.total_likes }}</span>
                     </button>
                 </form>
             </div>
 
-            <div class="nav-links">
-                {% if user.is_authenticated %}
-                <a href="{% url 'trending' %}" class="btn btn-secondary">
-                    <i class="fas fa-fire"></i> Trending
+            <div class="engagement-item">
+                <a href="{% url 'post_detail' post.pk %}" class="action-btn" onclick="event.stopPropagation();">
+                    <i class="far fa-comment"></i>
+                    <span>{{ post.comment_count }}</span>
                 </a>
-                <a href="{% url 'notifications' %}" class="btn btn-secondary">
-                    <i class="fas fa-bell"></i> Notifications
-                </a>
-                <a href="{% url 'bookmarks' %}" class="btn btn-secondary">
-                    <i class="fas fa-bookmark"></i> Bookmarks
-                </a>
-                <a href="{% url 'add_post' %}" class="btn write-btn">
-                    <i class="fas fa-pen"></i> Write
-                </a>
-                <div class="user-avatar">{{ user.username|first|upper }}</div>
-                <a href="{% url 'profile' %}" class="btn btn-secondary">
-                    Profile
-                </a>
-                <a href="{% url 'logout' %}" class="btn btn-secondary">
-                    Logout
-                </a>
-                {% else %}
-                <a href="{% url 'login' %}" class="btn btn-secondary">
-                    Login
-                </a>
-                <a href="{% url 'signup' %}" class="btn btn-primary">
-                    Sign up
-                </a>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-wrapper">
-        <div class="content-layout">
-            <!-- Posts Feed -->
-            <div class="posts-feed">
-                {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        <i
-                            class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% else %}check-circle{% endif %}"></i>
-                        {{ message }}
-                    </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
-
-                {% if not user.is_authenticated %}
-                <div class="welcome-banner">
-                    <h2>Welcome to Bookish Brio</h2>
-                    <p>Join our community of writers and readers sharing stories</p>
-                    <a href="{% url 'signup' %}" class="btn">
-                        <i class="fas fa-user-plus"></i> Join Now
-                    </a>
-                </div>
-                {% endif %}
-
-                {% for post in page_obj %}
-                <article class="post-card">
-                    <div class="post-header">
-                        <h2 class="post-title">
-                            <a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
-                        </h2>
-                        <div class="post-meta">
-                            <span class="meta-item">
-                                <i class="fas fa-user"></i>
-                                <span class="post-author">
-                                    <a href="{% url 'public_profile' post.author.username %}"
-                                        style="color: inherit; text-decoration: none;">
-                                        {{ post.author.username }}
-                                    </a>
-                                </span>
-                            </span>
-                            <span class="meta-item">
-                                <i class="fas fa-clock"></i>
-                                {{ post.created_at|timesince }} ago
-                            </span>
-                            <span class="meta-item">
-                                <i class="fas fa-book-open"></i>
-                                {{ post.reading_time }}
-                            </span>
-                        </div>
-                    </div>
-
-                    {% if post.image %}
-                    <div class="post-image">
-                        <img src="{{ post.image.url }}" alt="{{ post.title }}"
-                            onclick="openImageModal('{{ post.image.url }}')">
-                    </div>
-                    {% endif %}
-
-                    <div class="post-content">
-                        {{ post.preview_content|truncatechars:300|linebreaks }}
-                        {% if post.show_read_more %}
-                        <a href="{% url 'post_detail' post.pk %}" class="read-more">
-                            Read full story <i class="fas fa-arrow-right"></i>
-                        </a>
-                        {% endif %}
-                    </div>
-
-                    {% with post_images=post.images.all %}
-                    {% if post_images %}
-                    <div class="post-gallery">
-                        {% for img in post_images|slice:":4" %}
-                        <div class="gallery-item">
-                            <img src="{{ img.image.url }}" alt="Gallery"
-                                onclick="openImageModal('{{ img.image.url }}')">
-                        </div>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                    {% endwith %}
-
-                    <div class="post-footer">
-                        <div class="engagement-actions">
-                            <div class="engagement-item">
-                                {% if user.is_authenticated %}
-                                <form action="{% url 'like_post' post.pk %}" method="POST" style="display:inline;"
-                                    class="like-form">
-                                    {% csrf_token %}
-                                    <button type="submit" class="like-btn">
-                                        {% if user in post.likes.all %}
-                                        <i class="fas fa-heart"></i>
-                                        {% else %}
-                                        <i class="far fa-heart"></i>
-                                        {% endif %}
-                                    </button>
-                                </form>
-                                {% else %}
-                                <button class="like-btn" onclick="window.location.href='{% url 'login' %}'">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                                {% endif %}
-                                <span class="engagement-count">{{ post.total_likes }}</span>
-                            </div>
-
-                            <div class="engagement-item">
-                                <a href="{% url 'post_detail' post.pk %}" class="comment-btn">
-                                    <i class="fas fa-comments"></i>
-                                </a>
-                                <span class="engagement-count">{{ post.comment_count }}</span>
-                            </div>
-
-                            {% if user.is_authenticated %}
-                            <div class="engagement-item">
-                                <form action="{% url 'bookmark_post' post.pk %}" method="POST" style="display:inline;"
-                                    class="bookmark-form">
-                                    {% csrf_token %}
-                                    <button type="submit" class="bookmark-btn" title="Bookmark">
-                                        {% if post.is_bookmarked %}
-                                        <i class="fas fa-bookmark"></i>
-                                        {% else %}
-                                        <i class="far fa-bookmark"></i>
-                                        {% endif %}
-                                    </button>
-                                </form>
-                            </div>
-                            {% endif %}
-                        </div>
-
-                        {% if post.author == user %}
-                        <div class="post-actions">
-                            <button class="dropdown-toggle" onclick="toggleDropdown(this)">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </button>
-                            <div class="dropdown-menu">
-                                <a href="{% url 'delete_post' post.pk %}" class="dropdown-item danger"
-                                    onclick="return confirm('Delete this post?')">
-                                    <i class="fas fa-trash-alt"></i> Delete
-                                </a>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-                </article>
-                {% empty %}
-                <div class="empty-state text-center p-4 border rounded shadow-sm"
-                    style="max-width: 500px; margin: 40px auto;">
-                    <i class="fas fa-pen-nib fa-2x text-primary mb-3"></i>
-                    <h3 class="mb-2">No posts yet</h3>
-                    <p class="text-muted mb-4">Be the first to share your story with the community!</p>
-
-                    {% if user.is_authenticated %}
-                    <a href="{% url 'add_post' %}" class="btn btn-sm btn-primary px-3 py-2">
-                        Create Post
-                    </a>
-                    {% else %}
-                    <a href="{% url 'signup' %}" class="btn btn-sm btn-primary px-3 py-2">
-                        Join Now
-                    </a>
-                    {% endif %}
-                </div>
-                {% endfor %}
-
-
-                <div class="pagination">
-                    {% if page_obj.has_previous %}
-                    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-secondary">
-                        <i class="fas fa-chevron-left"></i> Previous
-                    </a>
-                    {% endif %}
-                    {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-secondary">
-                        Next <i class="fas fa-chevron-right"></i>
-                    </a>
-                    {% endif %}
-                </div>
             </div>
 
-            <!-- Sidebar -->
-            <aside class="sidebar">
-                <div class="sidebar-card">
-                    <h3>
-                        <i class="fas fa-fire"></i>
-                        Trending Topics
-                    </h3>
-                    <ul class="trending-topics">
-                        <li><i class="fas fa-hashtag"></i> Creative Writing</li>
-                        <li><i class="fas fa-hashtag"></i> Book Reviews</li>
-                        <li><i class="fas fa-hashtag"></i> Poetry</li>
-                        <li><i class="fas fa-hashtag"></i> Short Stories</li>
-                    </ul>
-                </div>
-
-                <div class="sidebar-card">
-                    <h3>
-                        <i class="fas fa-users"></i>
-                        Community Stats
-                    </h3>
-                </div>
-            </aside>
+            {% if user.is_authenticated %}
+            <div class="engagement-item">
+                <form action="{% url 'bookmark_post' post.pk %}" method="POST" class="bookmark-form"
+                    onclick="event.stopPropagation();">
+                    {% csrf_token %}
+                    <button type="submit" class="action-btn {% if post.is_bookmarked %}active{% endif %}" title="Save">
+                        <i class="{% if post.is_bookmarked %}fas{% else %}far{% endif %} fa-bookmark"></i>
+                    </button>
+                </form>
+            </div>
+            {% endif %}
         </div>
+    </article>
+    {% endfor %}
+    {% else %}
+    <div
+        style="background: white; padding: 60px; text-align: center; border-radius: 4px; border: 1px solid var(--border);">
+        <i class="fas fa-feather fa-3x" style="margin-bottom: 16px; opacity: 0.1;"></i>
+        <h3>No posts yet</h3>
+        <p>Be the first to share a story!</p>
+        <a href="{% url 'add_post' %}" class="btn-orange" style="margin-top: 20px;">Create Post</a>
     </div>
-    <script>
-        function toggleDropdown(button) {
-            const dropdown = button.nextElementSibling;
-            const isOpen = dropdown.classList.contains('show');
+    {% endif %}
 
-            document.querySelectorAll('.dropdown-menu.show').forEach(m => {
-                m.classList.remove('show');
-            });
+    {% if page_obj.has_other_pages %}
+    <div class="pagination" style="display: flex; justify-content: center; gap: 8px; margin-top: 24px;">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn-orange"
+            style="background: #f6f7f8; color: var(--text-main); font-size: 0.85rem;">Previous</a>
+        {% endif %}
+        <span
+            style="padding: 8px 16px; background: white; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem;">Page
+            {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn-orange"
+            style="background: #f6f7f8; color: var(--text-main); font-size: 0.85rem;">Next</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
 
-            if (!isOpen) {
-                dropdown.classList.add('show');
-            }
+{% block sidebar %}
+<div class="sidebar-widget"
+    style="background: white; border: 1px solid var(--border); border-radius: 4px; margin-bottom: 16px; overflow: hidden;">
+    <div style="background: var(--primary); color: white; padding: 12px; font-weight: 700; font-size: 0.9rem;">
+        Trending Topics
+    </div>
+    <div style="padding: 12px;">
+        {% if trending_tags %}
+        <ul style="list-style: none;">
+            {% for tag in trending_tags %}
+            <li style="margin-bottom: 12px;">
+                <a href="?q={{ tag.name }}"
+                    style="text-decoration: none; color: var(--text-main); display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;">
+                    <span><i class="fas fa-hashtag" style="color: var(--primary); margin-right: 6px;"></i>{{ tag.name
+                        }}</span>
+                    <span style="color: var(--text-meta);">{{ tag.post_count }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p style="font-size: 0.85rem; color: var(--text-meta);">No tags found</p>
+        {% endif %}
+    </div>
+</div>
+{{ block.super }}
+{% endblock %}
 
-        }
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Handle Like AJAX
+        document.querySelectorAll('.like-form').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const btn = this.querySelector('button');
+                const icon = btn.querySelector('i');
+                const countSpan = btn.querySelector('.count');
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const likeForms = document.querySelectorAll('.like-form');
-            likeForms.forEach(form => {
-                form.addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    const btn = this.querySelector('button');
-                    const icon = btn.querySelector('i');
-                    const url = this.action;
-                    const csrfToken = this.querySelector('input[name="csrfmiddlewaretoken"]').value;
-
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRFToken': csrfToken,
-                            'X-Requested-With': 'XMLHttpRequest'
+                fetch(this.action, {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': window.csrfToken, 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.liked) {
+                            icon.className = 'fas fa-heart';
+                            btn.classList.add('active');
+                        } else {
+                            icon.className = 'far fa-heart';
+                            btn.classList.remove('active');
                         }
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.liked) {
-                                icon.classList.remove('far');
-                                icon.classList.add('fas');
-                            } else {
-                                icon.classList.remove('fas');
-                                icon.classList.add('far');
-                            }
-                            const countSpan = this.closest('.engagement-item').querySelector('.engagement-count');
-                            if (countSpan) {
-                                countSpan.textContent = data.total_likes;
-                            }
-                        })
-                        .catch(error => console.error('Error:', error));
-                });
+                        countSpan.textContent = data.total_likes;
+                    });
             });
         });
-    </script>
-</body>
+
+        // Handle Bookmark AJAX
+        document.querySelectorAll('.bookmark-form').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const btn = this.querySelector('button');
+                const icon = btn.querySelector('i');
+
+                fetch(this.action, {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': window.csrfToken, 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.bookmarked) {
+                            icon.className = 'fas fa-bookmark';
+                            btn.classList.add('active');
+                        } else {
+                            icon.className = 'far fa-bookmark';
+                            btn.classList.remove('active');
+                        }
+                    });
+            });
+        });
+    });
+</script>
+{% endblock %}

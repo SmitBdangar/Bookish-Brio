@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bookish Brio{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'home/css/main.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="{% url 'index' %}" class="logo-link">
+                <i class="fas fa-book-reader fa-lg"></i>
+                <h1>Bookish Brio</h1>
+            </a>
+            <div class="search-container">
+                <form action="{% url 'search_enhanced' %}" method="get" class="search-form">
+                    <i class="fas fa-search" style="color: #878a8c; margin-left: 10px;"></i>
+                    <input type="text" name="q" placeholder="Search" value="{{ request.GET.q|default:'' }}">
+                </form>
+            </div>
+            <div class="header-actions">
+                {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}" class="user-avatar-link" style="text-decoration: none;">
+                    <div class="user-avatar"
+                        style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600;">
+                        {{ user.username|first|upper }}
+                    </div>
+                </a>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn-orange">Log In</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="content-feed">
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert"
+                    style="background: white; border: 1px solid var(--border); padding: 12px; margin-bottom: 10px; border-radius: 4px; box-shadow: var(--shadow-sm); border-left: 4px solid var(--primary);">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% block content %}{% endblock %}
+        </section>
+        <aside class="sidebar">
+            {% block sidebar %}
+            <div
+                style="background: white; border: 1px solid var(--border); border-radius: 4px; padding: 12px; box-shadow: var(--shadow-sm);">
+                <p style="font-size: 0.8rem; color: var(--text-meta);">© 2025 Bookish Brio Inc. All rights reserved.</p>
+            </div>
+            {% endblock %}
+        </aside>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="{% url 'index' %}" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{% url 'trending' %}" class="nav-item">
+            <i class="fas fa-fire"></i>
+            <span>Trending</span>
+        </a>
+        <a href="{% url 'add_post' %}" class="nav-item">
+            <i class="fas fa-plus-circle" style="font-size: 1.5rem; color: var(--primary);"></i>
+        </a>
+        <a href="{% url 'bookmarks' %}" class="nav-item">
+            <i class="fas fa-bookmark"></i>
+            <span>Saved</span>
+        </a>
+        <a href="{% url 'profile' %}" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // General AJAX setup
+            const getCookie = (name) => {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            };
+            window.csrfToken = getCookie('csrftoken');
+
+            // Handle active nav state
+            const currentPath = window.location.pathname;
+            document.querySelectorAll('.nav-item').forEach(item => {
+                if (item.getAttribute('href') === currentPath) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

@@ -34,11 +34,18 @@ def index(request):
         for post in post_list:
             post.is_bookmarked = post.id in user_bookmarks
 
-    paginator = Paginator(post_list, 20)  # 50 posts per page
+    paginator = Paginator(post_list, 20)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    return render(request, "home/index.html", {"page_obj": page_obj})
+    # Get trending tags for sidebar
+    from .models import Tag
+    trending_tags = Tag.objects.annotate(post_count=Count('posts')).order_by('-post_count')[:10]
+
+    return render(request, "home/index.html", {
+        "page_obj": page_obj,
+        "trending_tags": trending_tags
+    })
 
 
 @login_required
@@ -309,6 +316,13 @@ def follow_user(request, username):
             )
             messages.success(request, f"You are now following {user_to_follow.username}!")
             
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        is_following = Follow.objects.filter(follower=request.user, following=user_to_follow).exists()
+        return JsonResponse({
+            'is_following': is_following,
+            'followers_count': user_to_follow.followers.count()
+        })
+
     return redirect('public_profile', username=username)
 
 

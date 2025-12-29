@@ -1,325 +1,153 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends "home/base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notifications - Bookish Brio</title>
-    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+{% block title %}Notifications - Bookish Brio{% endblock %}
 
-        :root {
-            --primary: #ff6b35;
-            --primary-dark: #e55a24;
-            --bg-light: #f9fafb;
-            --bg-white: #ffffff;
-            --text-dark: #111827;
-            --text-gray: #6b7280;
-            --border-light: #e5e7eb;
-            --success: #10b981;
-            --info: #3b82f6;
-        }
+{% block extra_css %}
+<style>
+    .notifications-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: var(--shadow-soft);
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-light);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
+    .notification-item {
+        padding: 20px;
+        border-bottom: 1px solid var(--border-light);
+        display: flex;
+        gap: 16px;
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+        color: inherit;
+        align-items: center;
+    }
 
-        .header {
-            background: var(--bg-white);
-            border-bottom: 1px solid var(--border-light);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
+    .notification-item:hover {
+        background: hsl(210, 15%, 98%);
+    }
 
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .notification-item.unread {
+        background: hsla(16, 100%, 50%, 0.03);
+        border-left: 4px solid var(--primary);
+    }
 
-        .logo h1 {
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
+    .notif-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+        box-shadow: var(--shadow-soft);
+    }
 
-        .nav-links {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
+    .notif-follow {
+        background: linear-gradient(135deg, #0079d3, #00b2ff);
+    }
 
-        .nav-links a {
-            color: var(--text-dark);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            transition: all 0.3s;
-            position: relative;
-        }
+    .notif-like {
+        background: linear-gradient(135deg, #ff4500, #ff8c00);
+    }
 
-        .nav-links a:hover {
-            background: var(--bg-light);
-            color: var(--primary);
-        }
+    .notif-comment {
+        background: linear-gradient(135deg, #10b981, #34d399);
+    }
 
-        .notification-badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: var(--primary);
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 0.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .notif-text {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: var(--text-main);
+    }
 
-        .container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
+    .notif-text strong {
+        font-weight: 700;
+        color: var(--text-main);
+    }
 
-        .page-header {
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .notif-meta {
+        font-size: 0.8rem;
+        color: var(--text-meta);
+        margin-top: 4px;
+    }
 
-        .page-header h2 {
-            font-size: 2rem;
-            color: var(--text-dark);
-        }
+    .status-badge {
+        background: var(--primary);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        font-family: 'Outfit', sans-serif;
+    }
+</style>
+{% endblock %}
 
-        .unread-count {
-            background: var(--primary);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 1rem;
-            font-size: 0.875rem;
-        }
-
-        .notifications-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .notification-item {
-            background: var(--bg-white);
-            border-radius: 0.75rem;
-            padding: 1.25rem;
-            border: 1px solid var(--border-light);
-            display: flex;
-            gap: 1rem;
-            align-items: start;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .notification-item:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .notification-item.unread {
-            background: linear-gradient(to right, rgba(255, 107, 53, 0.05), var(--bg-white));
-            border-left: 3px solid var(--primary);
-        }
-
-        .notification-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .notification-icon.follow {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-        }
-
-        .notification-icon.like {
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-        }
-
-        .notification-icon.comment {
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-        }
-
-        .notification-icon i {
-            color: white;
-            font-size: 1.25rem;
-        }
-
-        .notification-content {
-            flex: 1;
-        }
-
-        .notification-text {
-            margin-bottom: 0.5rem;
-        }
-
-        .notification-text strong {
-            color: var(--text-dark);
-        }
-
-        .notification-meta {
-            display: flex;
-            gap: 1rem;
-            color: var(--text-gray);
-            font-size: 0.875rem;
-        }
-
-        .notification-post {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .notification-post:hover {
-            text-decoration: underline;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-
-        .empty-state i {
-            font-size: 4rem;
-            color: var(--text-gray);
-            margin-bottom: 1rem;
-        }
-
-        .empty-state h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .empty-state p {
-            color: var(--text-gray);
-        }
-    </style>
-</head>
-
-<body>
-    <div class="header">
-        <div class="header-content">
-            <div class="logo">
-                <h1><i class="fas fa-book"></i> Bookish Brio</h1>
-            </div>
-            <div class="nav-links">
-                <a href="{% url 'index' %}"><i class="fas fa-home"></i> Home</a>
-                <a href="{% url 'trending' %}"><i class="fas fa-fire"></i> Trending</a>
-                <a href="{% url 'notifications' %}" style="color: var(--primary);">
-                    <i class="fas fa-bell"></i> Notifications
-                    {% if unread_count > 0 %}
-                    <span class="notification-badge">{{ unread_count }}</span>
-                    {% endif %}
-                </a>
-                <a href="{% url 'bookmarks' %}"><i class="fas fa-bookmark"></i> Bookmarks</a>
-                <a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="page-header">
-            <h2><i class="fas fa-bell"></i> Notifications</h2>
-            {% if unread_count > 0 %}
-            <span class="unread-count">{{ unread_count }} unread</span>
-            {% endif %}
-        </div>
-
-        {% if notifications %}
-        <div class="notifications-list">
-            {% for notification in notifications %}
-            <div class="notification-item {% if not notification.is_read %}unread{% endif %}"
-                onclick="markAsRead({{ notification.pk }}, '{% if notification.post %}{% url 'post_detail' notification.post.pk %}{% else %}{% url 'public_profile' notification.sender.username %}{% endif %}')">
-                <div class="notification-icon {{ notification.notification_type }}">
-                    {% if notification.notification_type == 'follow' %}
-                    <i class="fas fa-user-plus"></i>
-                    {% elif notification.notification_type == 'like' %}
-                    <i class="fas fa-heart"></i>
-                    {% elif notification.notification_type == 'comment' %}
-                    <i class="fas fa-comment"></i>
-                    {% elif notification.notification_type == 'mention' %}
-                    <i class="fas fa-at"></i>
-                    {% endif %}
-                </div>
-                <div class="notification-content">
-                    <div class="notification-text">
-                        <strong>{{ notification.sender.username }}</strong>
-                        {% if notification.notification_type == 'follow' %}
-                        started following you
-                        {% elif notification.notification_type == 'like' %}
-                        liked your post
-                        {% if notification.post %}
-                        <a href="{% url 'post_detail' notification.post.pk %}" class="notification-post">"{{
-                            notification.post.title|truncatewords:5 }}"</a>
-                        {% endif %}
-                        {% elif notification.notification_type == 'comment' %}
-                        commented on your post
-                        {% if notification.post %}
-                        <a href="{% url 'post_detail' notification.post.pk %}" class="notification-post">"{{
-                            notification.post.title|truncatewords:5 }}"</a>
-                        {% endif %}
-                        {% elif notification.notification_type == 'mention' %}
-                        mentioned you in a post
-                        {% endif %}
-                    </div>
-                    <div class="notification-meta">
-                        <span><i class="fas fa-clock"></i> {{ notification.created_at|timesince }} ago</span>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <div class="empty-state">
-            <i class="fas fa-bell-slash"></i>
-            <h3>No Notifications Yet</h3>
-            <p>You'll see notifications here when people interact with your posts</p>
-        </div>
+{% block content %}
+<div class="notifications-card">
+    <div
+        style="padding: 20px 24px; border-bottom: 1.5px solid var(--border-light); display: flex; justify-content: space-between; align-items: center;">
+        <h1 style="font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 800;">Notifications</h1>
+        {% if unread_count > 0 %}
+        <span class="status-badge">{{ unread_count }} New</span>
         {% endif %}
     </div>
 
-    <script>
-        function markAsRead(notificationId, redirectUrl) {
-            fetch(`/notifications/${notificationId}/read/`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}',
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            }).then(() => {
-                window.location.href = redirectUrl;
-            });
-        }
-    </script>
-</body>
+    <div class="notifications-list">
+        {% if notifications %}
+        {% for notification in notifications %}
+        <a href="#" class="notification-item {% if not notification.is_read %}unread{% endif %}"
+            onclick="handleNotifClick(event, {{ notification.pk }}, '{% if notification.post %}{% url 'post_detail' notification.post.pk %}{% else %}{% url 'public_profile' notification.sender.username %}{% endif %}')">
+            <div class="notif-icon notif-{{ notification.notification_type }}">
+                {% if notification.notification_type == 'follow' %}<i class="fas fa-user-plus"></i>
+                {% elif notification.notification_type == 'like' %}<i class="fas fa-heart"></i>
+                {% elif notification.notification_type == 'comment' %}<i class="fas fa-comment"></i>
+                {% endif %}
+            </div>
+            <div class="notif-content">
+                <div class="notif-text">
+                    <strong>{{ notification.sender.username }}</strong>
+                    {% if notification.notification_type == 'follow' %} started following you
+                    {% elif notification.notification_type == 'like' %} liked your post
+                    {% elif notification.notification_type == 'comment' %} commented on your post
+                    {% endif %}
+                </div>
+                <div class="notif-meta">
+                    <i class="far fa-clock" style="font-size: 0.75rem; margin-right: 2px;"></i>
+                    {{ notification.created_at|timesince }} ago
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+        {% else %}
+        <div style="padding: 80px 20px; text-align: center; color: var(--text-meta);">
+            <div style="margin-bottom: 24px; opacity: 0.1;">
+                <i class="fas fa-bell fa-4x"></i>
+            </div>
+            <h3
+                style="font-family: 'Outfit', sans-serif; color: var(--text-main); font-weight: 800; margin-bottom: 8px;">
+                All caught up!</h3>
+            <p style="font-size: 0.95rem;">You don't have any notifications right now.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
 
-</html>
+{% block extra_js %}
+<script>
+    function handleNotifClick(e, id, url) {
+        e.preventDefault();
+        fetch(`/notifications/${id}/read/`, {
+            method: 'POST',
+            headers: { 'X-CSRFToken': window.csrfToken, 'X-Requested-With': 'XMLHttpRequest' }
+        }).then(() => {
+            window.location.href = url;
+        });
+    }
+</script>
+{% endblock %}
