@@ -24,4 +24,16 @@ urlpatterns = [
     path('profile/', views.profile_view, name='profile'),
     path('profile/<str:username>/', views.public_profile, name='public_profile'),
     path('profile/<str:username>/follow/', views.follow_user, name='follow_user'),
+    
+    # Bookmarks
+    path('post/<int:pk>/bookmark/', views.bookmark_post, name='bookmark_post'),
+    path('bookmarks/', views.bookmarks_list, name='bookmarks'),
+    
+    # Notifications
+    path('notifications/', views.notifications_list, name='notifications'),
+    path('notifications/<int:pk>/read/', views.mark_notification_read, name='mark_notification_read'),
+    
+    # Discovery
+    path('trending/', views.trending_posts, name='trending'),
+    path('search/', views.search_enhanced, name='search_enhanced'),
 ]

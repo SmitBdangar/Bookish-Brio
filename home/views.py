@@ -8,7 +8,7 @@ from django.db.models import Count, Q
 from django.utils.text import Truncator
 from django.core.paginator import Paginator
 
-from .models import Post, Comment, PostImage, Follow
+from .models import Post, Comment, PostImage, Follow, Bookmark, Notification
 from .forms import PostForm, CommentForm, SignUpForm, ProfileForm, UserUpdateForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
@@ -28,6 +28,11 @@ def index(request):
     else:
         post_list = Post.objects.annotate(comment_count=Count('comments')).order_by('-created_at')
 
+    # Add bookmark status for authenticated users
+    if request.user.is_authenticated:
+        user_bookmarks = set(Bookmark.objects.filter(user=request.user).values_list('post_id', flat=True))
+        for post in post_list:
+            post.is_bookmarked = post.id in user_bookmarks
 
     paginator = Paginator(post_list, 20)  # 50 posts per page
     page_number = request.GET.get("page")
@@ -168,6 +173,14 @@ def like_post(request, pk):
     else:
         post.likes.add(request.user)
         liked = True
+        # Create notification for post author
+        if post.author != request.user:
+            Notification.objects.create(
+                recipient=post.author,
+                sender=request.user,
+                notification_type='like',
+                post=post
+            )
         # messages.success(request, 'Post liked!')
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -197,11 +210,17 @@ def post_detail(request, pk):
     else:
         comment_form = CommentForm()
 
+    # Check if post is bookmarked by current user
+    is_bookmarked = False
+    if request.user.is_authenticated:
+        is_bookmarked = Bookmark.objects.filter(user=request.user, post=post).exists()
+
     return render(request, 'home/post_detail.html', {
         'post': post,
         'comments': comments,
         'comment_form': comment_form,
-        'images': images
+        'images': images,
+        'is_bookmarked': is_bookmarked
     })
 
 
@@ -218,6 +237,15 @@ def add_comment(request, pk):
             comment.post = post
             comment.author = request.user
             comment.save()
+            # Create notification for post author
+            if post.author != request.user:
+                Notification.objects.create(
+                    recipient=post.author,
+                    sender=request.user,
+                    notification_type='comment',
+                    post=post,
+                    comment=comment
+                )
             messages.success(request, 'Comment added successfully!')
         else:
             messages.error(request, 'Invalid comment submission.')
@@ -273,6 +301,129 @@ def follow_user(request, username):
             follow.delete()
             messages.success(request, f"Unfollowed {user_to_follow.username}.")
         else:
+            # Create notification for new follower
+            Notification.objects.create(
+                recipient=user_to_follow,
+                sender=request.user,
+                notification_type='follow'
+            )
             messages.success(request, f"You are now following {user_to_follow.username}!")
             
     return redirect('public_profile', username=username)
+
+
+@login_required
+def bookmark_post(request, pk):
+    """
+    Toggle bookmark status for a post.
+    """
+    post = get_object_or_404(Post, pk=pk)
+    bookmark, created = Bookmark.objects.get_or_create(user=request.user, post=post)
+    
+    if not created:
+        bookmark.delete()
+        bookmarked = False
+        messages.success(request, 'Bookmark removed.')
+    else:
+        bookmarked = True
+        messages.success(request, 'Post bookmarked!')
+    
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({'bookmarked': bookmarked})
+    
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required
+def bookmarks_list(request):
+    """
+    Display all bookmarked posts for the current user.
+    """
+    bookmarks = Bookmark.objects.filter(user=request.user).select_related('post', 'post__author')
+    return render(request, 'home/bookmarks.html', {'bookmarks': bookmarks})
+
+
+@login_required
+def notifications_list(request):
+    """
+    Display all notifications for the current user.
+    """
+    notifications = request.user.notifications.select_related('sender', 'post')[:50]
+    unread_count = request.user.notifications.filter(is_read=False).count()
+    
+    return render(request, 'home/notifications.html', {
+        'notifications': notifications,
+        'unread_count': unread_count
+    })
+
+
+@login_required
+def mark_notification_read(request, pk):
+    """
+    Mark a notification as read.
+    """
+    notification = get_object_or_404(Notification, pk=pk, recipient=request.user)
+    notification.is_read = True
+    notification.save()
+    
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({'success': True})
+    
+    return redirect('notifications')
+
+
+def trending_posts(request):
+    """
+    Display trending posts based on recent activity (likes + comments).
+    """
+    from datetime import timedelta
+    from django.utils import timezone
+    
+    # Posts from last 7 days with most engagement
+    week_ago = timezone.now() - timedelta(days=7)
+    posts = Post.objects.filter(created_at__gte=week_ago).annotate(
+        like_count=Count('likes'),
+        comment_count=Count('comments')
+    ).order_by('-like_count', '-comment_count')[:20]
+    
+    return render(request, 'home/trending.html', {'posts': posts})
+
+
+def search_enhanced(request):
+    """
+    Enhanced search with filters for tags, authors, and content.
+    """
+    query = request.GET.get('q', '')
+    search_type = request.GET.get('type', 'all')  # all, tags, authors, posts
+    
+    results = []
+    
+    if query:
+        if search_type == 'all' or search_type == 'posts':
+            posts = Post.objects.filter(
+                Q(title__icontains=query) | Q(content__icontains=query)
+            ).select_related('author')
+            results.extend(posts)
+        
+        if search_type == 'all' or search_type == 'tags':
+            from .models import Tag
+            tags = Tag.objects.filter(name__icontains=query)
+            for tag in tags:
+                results.extend(tag.posts.all())
+        
+        if search_type == 'all' or search_type == 'authors':
+            authors = User.objects.filter(username__icontains=query)
+            for author in authors:
+                results.extend(author.posts.all())
+    
+    # Remove duplicates and paginate
+    unique_posts = list(set(results))
+    paginator = Paginator(unique_posts, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'home/search_results.html', {
+        'page_obj': page_obj,
+        'query': query,
+        'search_type': search_type
+    })

@@ -1,0 +1,289 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending Posts - Bookish Brio</title>
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ff6b35;
+            --primary-dark: #e55a24;
+            --bg-light: #f9fafb;
+            --bg-white: #ffffff;
+            --text-dark: #111827;
+            --text-gray: #6b7280;
+            --border-light: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border-light);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: var(--bg-light);
+            color: var(--primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .page-header h2 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--text-gray);
+            font-size: 1.125rem;
+        }
+
+        .trending-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .trending-card {
+            background: var(--bg-white);
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .trending-card:hover {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .trending-rank {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: linear-gradient(135deg, var(--primary), #f5576c);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.125rem;
+            z-index: 10;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            display: block;
+        }
+
+        .card-title:hover {
+            color: var(--primary);
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-gray);
+            font-size: 0.875rem;
+        }
+
+        .card-excerpt {
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .card-stats {
+            display: flex;
+            gap: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-gray);
+            font-size: 0.875rem;
+        }
+
+        .stat-item i {
+            color: var(--primary);
+        }
+
+        .stat-item.hot {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: var(--text-gray);
+        }
+
+        @media (max-width: 768px) {
+            .trending-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">
+                <h1><i class="fas fa-book"></i> Bookish Brio</h1>
+            </div>
+            <div class="nav-links">
+                <a href="{% url 'index' %}"><i class="fas fa-home"></i> Home</a>
+                <a href="{% url 'trending' %}" style="color: var(--primary);"><i class="fas fa-fire"></i> Trending</a>
+                <a href="{% url 'notifications' %}"><i class="fas fa-bell"></i> Notifications</a>
+                <a href="{% url 'bookmarks' %}"><i class="fas fa-bookmark"></i> Bookmarks</a>
+                <a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="page-header">
+            <h2><i class="fas fa-fire"></i> Trending Posts</h2>
+            <p>Most popular posts from the last 7 days</p>
+        </div>
+
+        {% if posts %}
+        <div class="trending-grid">
+            {% for post in posts %}
+            <div class="trending-card">
+                <div class="trending-rank">{{ forloop.counter }}</div>
+                <div class="card-content">
+                    <a href="{% url 'post_detail' post.pk %}" class="card-title">
+                        {{ post.title }}
+                    </a>
+                    <div class="card-meta">
+                        <span><i class="fas fa-user"></i> {{ post.author.username }}</span>
+                        <span><i class="fas fa-clock"></i> {{ post.created_at|timesince }} ago</span>
+                    </div>
+                    <div class="card-excerpt">
+                        {{ post.preview_content|truncatewords:25 }}
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat-item hot">
+                            <i class="fas fa-fire"></i>
+                            <span>{{ post.like_count|add:post.comment_count }} engagements</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-heart"></i>
+                            <span>{{ post.like_count }}</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-comment"></i>
+                            <span>{{ post.comment_count }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-fire-alt"></i>
+            <h3>No Trending Posts Yet</h3>
+            <p>Check back later to see what's hot!</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+</html>

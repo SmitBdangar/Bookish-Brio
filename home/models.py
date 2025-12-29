@@ -48,6 +48,7 @@ class Post(models.Model):
             self.content = bleach.clean(self.content, tags=allowed_tags, attributes=allowed_attrs, strip=True)
         super().save(*args, **kwargs)
 
+
     @property
     def preview_content(self):
         return strip_tags(self.content)
@@ -57,6 +58,48 @@ class Post(models.Model):
         words = len(strip_tags(self.content).split())
         minutes = math.ceil(words / 200)
         return f"{minutes} min read"
+
+
+class Bookmark(models.Model):
+    """
+    Model for users to bookmark/save posts for later reading.
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bookmarks')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='bookmarked_by')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'post')
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.user.username} bookmarked {self.post.title}"
+
+
+class Notification(models.Model):
+    """
+    Model for user notifications (follows, likes, comments).
+    """
+    NOTIFICATION_TYPES = (
+        ('follow', 'New Follower'),
+        ('like', 'Post Liked'),
+        ('comment', 'New Comment'),
+        ('mention', 'Mentioned in Post'),
+    )
+    
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_notifications')
+    notification_type = models.CharField(max_length=20, choices=NOTIFICATION_TYPES)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True)
+    comment = models.ForeignKey('Comment', on_delete=models.CASCADE, null=True, blank=True)
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.notification_type} notification for {self.recipient.username}"
 
 
 class PostImage(models.Model):

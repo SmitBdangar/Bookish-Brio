@@ -339,6 +339,27 @@
             color: var(--danger);
         }
 
+        .bookmark-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-gray);
+            transition: var(--transition);
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+        }
+
+        .bookmark-btn:hover {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .bookmark-btn .fa-bookmark.fas {
+            color: var(--primary);
+        }
+
         .engagement-count {
             font-size: 1.125rem;
             font-weight: 600;
@@ -841,6 +862,22 @@
                         {% endif %}
                         <span class="engagement-count">{{ post.total_likes }}</span>
                     </div>
+
+                    {% if user.is_authenticated %}
+                    <div class="engagement-item">
+                        <form action="{% url 'bookmark_post' post.pk %}" method="POST" style="display:inline;"
+                            class="bookmark-form">
+                            {% csrf_token %}
+                            <button type="submit" class="bookmark-btn" title="Bookmark this post">
+                                {% if is_bookmarked %}
+                                <i class="fas fa-bookmark"></i>
+                                {% else %}
+                                <i class="far fa-bookmark"></i>
+                                {% endif %}
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
 
                     {% if post.author == user %}
                     <div class="post-actions" style="position: relative;">
